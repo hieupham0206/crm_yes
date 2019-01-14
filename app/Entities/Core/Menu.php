@@ -26,6 +26,10 @@ class Menu
 
         $menus       = [];
         foreach ($menuModules as $moduleKey => $menuModule) {
+            if (isset($menuModule['hide'])) {
+                continue;
+            }
+
             if (isset($menuModule['modules'])) {
                 $modules = self::getMenu($menuModule['modules']);
 

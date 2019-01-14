@@ -1,122 +1,124 @@
 {
-    "admin": {
-        "modules": {
-            "users": {
-                "icon": "fa fa-users",
-                "parent": "system"
-            },
-            "activity_logs": {
-                "icon": "fa fa-file",
-                "parent": "system"
-            },
-            "roles": {
-                "icon": "fa fa-cogs",
-                "parent": "system"
-            },
-            "system_logs": {
-                "icon": "fa fa-file-o",
-                "parent": "system",
-                "hide": true
-            },
-            "translation_managers": {
-                "icon": "fa fa-globe",
-                "parent": "system",
-                "hide": true
-            },
-            "departments": {
-                "icon": "",
-                "parent": "",
-                "hide": true
-            }
-        },
-        "icon": "flaticon-cogwheel"
+  "admin": {
+    "modules": {
+      "users": {
+        "icon": "fa fa-users",
+        "parent": "system"
+      },
+      "activity_logs": {
+        "icon": "fa fa-file",
+        "parent": "system"
+      },
+      "roles": {
+        "icon": "fa fa-cogs",
+        "parent": "system"
+      },
+      "system_logs": {
+        "icon": "fa fa-file-o",
+        "parent": "system",
+        "hide": true
+      },
+      "translation_managers": {
+        "icon": "fa fa-globe",
+        "parent": "system",
+        "hide": true
+      },
+      "departments": {
+        "icon": "",
+        "parent": "",
+        "hide": true
+      }
     },
-    "leads": {
+    "icon": "flaticon-cogwheel"
+  },
+  "leads": {
+    "icon": "fa fa-user",
+    "parent": "",
+    "route": "leads.index"
+  },
+  "departments": {
+    "icon": "fa fa-building",
+    "route": "departments.index"
+  },
+  "dashboard_tele": {
+    "icon": "fa fa-chart-bar",
+    "route": "monitor_sale"
+  },
+  "report": {
+    "modules": {
+      "daily_teles": {
+        "icon": "fa fa-chart-bar",
+        "parent": "",
+        "route": "daily_teles.index"
+      }
+    },
+    "icon": "fa fa-chart-area"
+  },
+  "management_report": {
+    "modules": {
+      "callbacks": {
+        "icon": "fa fa-phone-volume",
+        "parent": "",
+        "hide": false
+      },
+      "history_calls": {
+        "icon": "fa fa-phone",
+        "parent": "",
+        "route": "history_calls.index"
+      },
+      "appointments": {
+        "icon": "fa fa-calendar",
+        "parent": "",
+        "route": "appointments.index"
+      },
+      "event_data_recep": {
         "icon": "fa fa-user",
         "parent": "",
-        "route": "leads.index"
+        "route": "event_data_receps.index",
+        "hide": true
+      }
     },
-    "departments": {
-        "icon": "fa fa-building",
-        "route": "departments.index"
+    "icon": "fa fa-user-cog"
+  },
+  "window": {
+    "modules": {
+      "tele_marketer_console": {
+        "icon": "fa fa-user",
+        "parent": "",
+        "route": "tele_console"
+      },
+      "reception": {
+        "icon": "fa fa-user",
+        "parent": "",
+        "route": "reception"
+      }
     },
-    "dashboard_tele": {
-        "icon": "fa fa-chart-bar",
-        "route": "monitor_sale"
+    "icon": "fa fa-window-maximize"
+  },
+  "cs": {
+    "modules": {
+      "event_data_cs": {
+        "icon": "fa fa-user",
+        "parent": "",
+        "route": "event_data_cs.index"
+      },
+      "contract": {
+        "icon": "fa fa-user",
+        "parent": "",
+        "route": "contracts.index"
+      },
+      "payment_detail": {
+        "icon": "fa fa-user",
+        "parent": "",
+        "route": "payment_details.index"
+      },
+      "payment_cost": {
+        "icon": "fa fa-user",
+        "parent": "",
+        "route": "payment_costs.index"
+      }
     },
-    "report": {
-        "modules": {
-            "daily_teles": {
-                "icon": "fa fa-chart-bar",
-                "parent": "",
-                "route": "daily_teles.index"
-            }
-        },
-        "icon": "fa fa-chart-area"
-    },
-    "management_report": {
-        "modules": {
-            "callbacks": {
-                "icon": "fa fa-phone-volume",
-                "parent": "",
-                "hide": false
-            },
-            "history_calls": {
-                "icon": "fa fa-phone",
-                "parent": "",
-                "route": "history_calls.index"
-            },
-            "appointments": {
-                "icon": "fa fa-calendar",
-                "parent": "",
-                "route": "appointments.index"
-            },
-            "event_data_recep": {
-                "icon": "fa fa-user",
-                "parent": "",
-                "route": "event_data_receps.index"
-            }
-        },
-        "icon": "fa fa-user-cog"
-    },
-    "window": {
-        "modules": {
-            "tele_marketer_console": {
-                "icon": "fa fa-user",
-                "parent": "",
-                "route": "tele_console"
-            },
-            "reception": {
-                "icon": "fa fa-user",
-                "parent": "",
-                "route": "reception"
-            }
-        },
-        "icon": "fa fa-window-maximize"
-    },
-    "cs": {
-        "modules": {
-            "event_data_cs": {
-                "icon": "fa fa-user",
-                "parent": "",
-                "route": "event_data_cs.index"
-            },
-            "contract": {
-                "icon": "fa fa-user",
-                "parent": "",
-                "route": "contracts.index"
-            },
-            "payment_detail": {
-                "icon": "fa fa-user",
-                "parent": "",
-                "route": "payment_details.index"
-            },
-            "payment_cost": {
-                "icon": "fa fa-user",
-                "parent": "",
-                "route": "payment_costs.index"
-            }
-        },
-      "icon": "fa fa-window-maximize"
-    }
+    "icon": "fa fa-window-maximize",
+    "hide": true
+  }
 }
