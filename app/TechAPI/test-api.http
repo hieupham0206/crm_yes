@@ -1,0 +1,28 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+POST  http://sandbox.sms.fpt.net/oauth2/token
+#POST  http://service.sms.fpt.net/oauth2/token
+Content-Type: application/json
+
+{
+  "grant_type": "client_credentials",
+  "client_id": "99627eFf03c74d5bD3c80288Df1701da6d786c19",
+  "client_secret": "46B5c0237e1ca7105f28ee03Fdb1a4c61436a43a02d4b974e47d57e8fBd118440fb64D4e",
+  "scope": "send_brandname_otp send_brandname send_mt_active",
+  "session_id": "789dC48b88e54f58ece5939f14a"
+}
+
+//{
+//  "grant_type": "client_credentials",
+//  "client_id": "05E6d049155eCf708dd8513Ca0b2Ce135a637Ad3",
+//  "client_secret": "40bd3C26b7498f95cd77dab77978882fb35114e6f32f94c47be67a40d54fab85594d32F5",
+//  "scope": "send_brandname_otp",
+//  "session_id": "789dC48b88e54f58ece5939f14a"
+//}
+
+###

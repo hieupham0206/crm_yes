@@ -1,0 +1,152 @@
+{
+    "admin": {
+        "modules": {
+            "user": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete"
+                ]
+            },
+            "role": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete"
+                ]
+            },
+            "permission": {
+                "actions": [
+                    "view",
+                    "update"
+                ],
+                "hide": "true"
+            },
+            "log": {
+                "actions": [
+                    "view"
+                ]
+            },
+            "event": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete"
+                ],
+                "hide": "true"
+            },
+            "department": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete"
+                ]
+            },
+            "lead": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete",
+                    "export"
+                ]
+            }
+        },
+        "icon": "flaticon-cogwheel"
+    },
+    "management report": {
+        "modules": {
+            "history-call": {
+                "actions": [
+                    "view",
+                    "export"
+                ]
+            },
+            "appointment": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete",
+                    "export"
+                ]
+            },
+            "callback": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete",
+                    "export"
+                ]
+            },
+            "eventData": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete",
+                    "export"
+                ]
+            }
+        },
+        "icon": "fa fa-user-cog"
+    },
+    "report": {
+        "modules": {
+            "daily-tele-report": {
+                "actions": [
+                    "view"
+                ]
+            }
+        },
+        "icon": "fa fa-chart-bar"
+    },
+    "window": {
+        "modules": {
+            "tele-marketer-console": {
+                "actions": [
+                    "view"
+                ]
+            },
+            "reception": {
+                "actions": [
+                    "view"
+                ]
+            }
+        },
+        "icon": "fa fa-window-maximize"
+    },
+    "cs": {
+        "modules": {
+            "contract": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete"
+                ]
+            },
+            "paymentDetail": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete"
+                ]
+            },
+            "paymentCost": {
+                "actions": [
+                    "view",
+                    "create",
+                    "update",
+                    "delete"
+                ]
+            }
+        }
+    }
+}

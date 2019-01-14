@@ -1,0 +1,85 @@
+@import "components/layout";
+@import "components/table";
+@import "components/topbar";
+@import "components/portlet";
+@import "components/form";
+@import "components/button";
+@import "components/modal";
+@import "components/widget";
+
+:root {
+  --brand: #{$company-color};
+  --metal: #c4c5d6
+}
+
+/** PLUGINS **/
+//@import "../../plugins/highcharts";
+@import "../../plugins/bootstrap-fileinput";
+
+.span-time, .label-span-time {
+  width: 140px;
+}
+
+.span-auto-call-time {
+  width: 140px;
+  margin-right: -50px;
+}
+
+.break-state {
+  background-color: var(--danger);
+  color: white;
+
+  h3 {
+    color: white !important
+  }
+}
+
+#leads_form {
+  font-size: 16px;
+
+  label {
+    font-size: 16px;
+  }
+}
+
+.form-lead-reception {
+  font-size: 14px !important;
+
+  label {
+    font-size: 14px !important;
+  }
+}
+
+.m-widget24 {
+  padding: 1.2rem;
+
+  .m-widget24__title {
+    margin-top: 1.2rem !important
+  }
+}
+
+@media (max-width: 576px) {
+  //.m-widget24__item .m-widget24__title
+  .appointment-count {
+    display: none !important;
+  }
+  .m-widget24 {
+    span, a, h5 {
+      padding: 0;
+      font-size: 8px !important;
+    }
+    .m-widget24__item .m-widget24__title {
+      margin-left: 0 !important;
+      float: none !important;
+    }
+    padding: 0 !important;
+  }
+}
+
+@media (min-width: 577px) {
+  #section_monitor_sale {
+    .col-md-1 {
+      margin: 0 .1rem .1rem 0;
+    }
+  }
+}

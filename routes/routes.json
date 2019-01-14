@@ -1,0 +1,33 @@
+{
+  "admin": [
+    "users",
+    "activity_logs",
+    "roles",
+    "system_logs",
+    "translation_managers",
+    "history_calls",
+    "callbacks",
+    "appointments",
+    "departments",
+    "event_datas"
+  ],
+  "department": [
+    "events"
+  ],
+  "cs": [
+    "contracts",
+    "payment_details",
+    "payment_costs",
+    "event_data_cs"
+  ],
+  "report": [
+    "daily_teles"
+  ],
+  "business": [
+    "event_data_receps",
+    "leads",
+    "history_calls",
+    "appointments",
+    "callbacks"
+  ]
+}
