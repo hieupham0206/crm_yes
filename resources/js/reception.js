@@ -58,9 +58,11 @@ $(function() {
 
 			if (appointmentId !== '') {
 				appointment = items[0]
-				lead = appointment.lead
-				user = appointment.user
-				appointmentDatetime = appointment.appointment_datetime
+				if (appointment) {
+					lead = appointment.lead
+					user = appointment.user
+					appointmentDatetime = appointment.appointment_datetime
+				}
 			} else {
 				lead = items[0]
 				user = lead.user
@@ -217,6 +219,7 @@ $(function() {
 
 	$body.on('click', '.link-event-data', function() {
 		let eventDataId = $(this).data('event-id')
+		let appointmentId = $(this).data('appointment-id')
 		let $tr = $(this).parents('tr')
 		let leadName = $tr.find('.txt-lead-name').val()
 		let leadId = $tr.find('.txt-lead-id').val()
@@ -227,7 +230,7 @@ $(function() {
 
 		console.log(leadName, leadId)
 
-		fetchLead(leadId, 0, '').then(() => {
+		fetchLead('', 0, appointmentId).then(() => {
 			// toggleShowUpSection(true)
 		})
 		$('#span_event_data_status').text(eventStateName)

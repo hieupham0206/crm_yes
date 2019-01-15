@@ -160,4 +160,11 @@ class Appointment extends \App\Models\Base\Appointment
     {
         return $this->morphMany(HistoryCall::class, 'call');
     }
+
+    public static function checkPhoneIsShowUp($phone)
+    {
+        return self::whereHas('lead', function($q) use ($phone) {
+            $q->where('phone', $phone);
+        })->where('is_show_up', -1)->exists();
+    }
 }

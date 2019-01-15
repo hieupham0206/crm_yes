@@ -53,4 +53,24 @@ $(function() {
 			$('#txt_cost').val('')
 		}
 	})
+
+	let tablePaymentDetail = $('#table_payment_detail').DataTable({
+		paging: false,
+		'columnDefs': [
+			{'targets': [-1], 'orderable': false, 'width': '5%'},
+		],
+	})
+
+	$('#btn_add_payment_detail').on('click', function() {
+		let paymentTime = parseInt($('#txt_payment_time').val())
+		let rows = []
+
+		for (let i = 0; i < paymentTime; i++) {
+			rows.push([
+				`<input class="form-control txt-payment-date" name="payment_date[]" type="text" autocomplete="off">`,
+				`<input class="form-control txt-total-paid-deal" name="total_paid_deal[]" type="text" autocomplete="off">`,
+			])
+		}
+		tablePaymentDetail.rows.add(rows).draw(false)
+	})
 })

@@ -647,7 +647,9 @@ class LeadsController extends Controller
                 if ($dateTime) {
                     $appointmentDatas['appointment_datetime'] = $dateTime;
                 }
-                $appointment = Appointment::create($appointmentDatas);
+                if (! Appointment::checkPhoneIsShowUp($leadPhone)) {
+                    $appointment = Appointment::create($appointmentDatas);
+                }
 
                 if ($lead->email) {
                     $message = (new AppointmentConfirmation(compact('lead', 'appointment')))->onConnection('database')->onQueue('notification');

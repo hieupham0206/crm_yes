@@ -13,17 +13,17 @@ class EventDataTable extends DataTable
         $column = $this->column;
 
         switch ($column) {
-            case '1':
-                $column = 'event_datas.created_at';
-                break;
-            case '2':
-                $column = 'event_datas.to';
-                break;
-            case '3':
-                $column = 'event_datas.rep';
-                break;
+//            case '1':
+//                $column = 'event_datas.created_at';
+//                break;
+//            case '2':
+//                $column = 'event_datas.to';
+//                break;
+//            case '3':
+//                $column = 'event_datas.rep';
+//                break;
             default:
-                $column = 'event_datas.id';
+                $column = 'event_datas.created_at';
                 break;
         }
 
@@ -87,13 +87,14 @@ class EventDataTable extends DataTable
 
             $leadName       = $eventData->lead->name;
             $leadId         = $eventData->lead_id;
+            $appointmentId  = $eventData->appointment_id;
             $appIsQueueText = $eventData->appointment->is_queue === 1 ? 'Queue' : 'Not queue';
             $dataArray[]    = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $eventData->id . '"><span></span></label>',
 //                "<a class='m-link m--font-brand' href='javascript:void(0)'>{$eventData->created_at->format('d-m-Y H:i:s')}</a>",
                 $eventData->created_at->format('d-m-Y H:i:s'),
                 $eventData->lead->title,
-                "<a class='link-event-data m-link m--font-brand' href='javascript:void(0)' data-event-id='{$eventData->id}' data-lead-id='{$eventData->lead_id}'>$leadName</a>" .
+                "<a class='link-event-data m-link m--font-brand' href='javascript:void(0)' data-appointment-id='{$appointmentId}' data-event-id='{$eventData->id}' data-lead-id='{$eventData->lead_id}'>$leadName</a>" .
                 "<input value='$leadName' class='txt-lead-name' type='hidden'/>" .
                 "<input value='$leadId' class='txt-lead-id' type='hidden'/>" .
                 "<input value='{$eventData->note}' class='txt-event-data-note' type='hidden'/>" .
@@ -117,9 +118,10 @@ class EventDataTable extends DataTable
      */
     public function getModels()
     {
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'appointment'])->where(function ($q) {
-            return $q->where('state', '!=', EventDataState::NOT_DEAL)->orWhere('state', '=', null);
-        });
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'appointment']);
+//                               ->where(function ($q) {
+//                                   return $q->where('state', '!=', EventDataState::NOT_DEAL)->orWhere('state', '=', null);
+//                               });
 
         $this->totalFilteredRecords = $this->totalRecords = $eventDatas->count();
 

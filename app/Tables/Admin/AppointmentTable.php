@@ -56,7 +56,7 @@ class AppointmentTable extends DataTable
      */
     public function getModels()
     {
-        $appointments = Appointment::query()->with(['lead'])
+        $appointments = Appointment::query()->with(['lead', 'user'])
                                    ->where('state', Confirmation::YES)
                                    ->where('is_queue', '>', 1);
 

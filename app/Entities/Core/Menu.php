@@ -27,7 +27,7 @@ class Menu
         $menus       = [];
         foreach ($menuModules as $moduleKey => $menuModule) {
             if (isset($menuModule['hide'])) {
-                continue;
+//                continue;
             }
 
             if (isset($menuModule['modules'])) {

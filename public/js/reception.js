@@ -146,9 +146,11 @@ $(function () {
 
 			if (appointmentId !== '') {
 				appointment = items[0];
-				lead = appointment.lead;
-				user = appointment.user;
-				appointmentDatetime = appointment.appointment_datetime;
+				if (appointment) {
+					lead = appointment.lead;
+					user = appointment.user;
+					appointmentDatetime = appointment.appointment_datetime;
+				}
 			} else {
 				lead = items[0];
 				user = lead.user;
@@ -310,6 +312,7 @@ $(function () {
 
 	$body.on('click', '.link-event-data', function () {
 		var eventDataId = $(this).data('event-id');
+		var appointmentId = $(this).data('appointment-id');
 		var $tr = $(this).parents('tr');
 		var leadName = $tr.find('.txt-lead-name').val();
 		var leadId = $tr.find('.txt-lead-id').val();
@@ -320,7 +323,7 @@ $(function () {
 
 		console.log(leadName, leadId);
 
-		fetchLead(leadId, 0, '').then(function () {
+		fetchLead('', 0, appointmentId).then(function () {
 			// toggleShowUpSection(true)
 		});
 		$('#span_event_data_status').text(eventStateName);

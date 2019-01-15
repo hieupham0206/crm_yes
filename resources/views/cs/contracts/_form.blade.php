@@ -224,7 +224,31 @@
                 {!! $errors->first('bank_no', '<div class="form-control-feedback">:message</div>') !!}
             </div>
         </div>
+
         <div class="form-group m-form__group row">
+            <div class="col-lg-3">
+                <label for="txt_payment_time">Số lần thanh toán</label>
+                <input class="form-control" name="payment_time" type="text" id="txt_payment_time" value="" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="btn btn-accent m-btn m-btn--custom mt-6" id="btn_add_payment_detail">{{ __('Add') }}</button>
+            </div>
+        </div>
+
+        <div class="form-group m-form__group row">
+            <div class="col-lg-4">
+                <table class="table table-hover table-bordered nowrap" id="table_payment_detail">
+                    <thead class="">
+                    <tr>
+                        <th>Ngày thanh toán</th>
+                        <th>Số tiền thanh toán</th>
+                        {{--<th>@lang('Actions')</th>--}}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="form-group m-form__group row">
             <div class="col-12 m-form__group-sub {{ $errors->has('note') ? 'has-danger' : ''}}">
