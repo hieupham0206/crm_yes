@@ -43,7 +43,9 @@ class FptSms
 
     public function sendBrandnameOtp(Lead $lead, Appointment $appointment, $phone = '')
     {
-        if ( ! $phone || $lead->state == LeadState::MEMBER || $lead->state == LeadState::DEAD_NUMBER || $lead->state == LeadState::WRONG_NUMBER) {
+        $env = \App::environment();
+
+        if ( ! $phone || $lead->state == LeadState::MEMBER || $lead->state == LeadState::DEAD_NUMBER || $lead->state == LeadState::WRONG_NUMBER || $env != 'production') {
             return false;
         }
 //        $phone = '0382405889';

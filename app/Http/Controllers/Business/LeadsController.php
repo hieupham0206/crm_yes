@@ -660,7 +660,7 @@ class LeadsController extends Controller
                 if ($lead->phone && (
                         $lead->state != LeadState::DEAD_NUMBER &&
                         $lead->state != LeadState::WRONG_NUMBER &&
-                        $lead->state != LeadState::MEMBER)
+                        $lead->state != LeadState::MEMBER) && isset($appointment)
                 ) {
                     $fptSms = new FptSms();
                     $fptSms->sendBrandnameOtp($lead, $appointment, $lead->phone);
