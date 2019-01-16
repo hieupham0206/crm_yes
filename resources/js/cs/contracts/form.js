@@ -1,42 +1,42 @@
 $(function() {
 	let isConfirm = $('#contracts_form').data('confirm')
 
-    $('#contracts_form').validate({
-        submitHandler: isConfirm ? function(form, e) {
-            window.blockPage()
-            e.preventDefault()
+	$('#contracts_form').validate({
+		submitHandler: isConfirm ? function(form, e) {
+			window.blockPage()
+			e.preventDefault()
 
-            $(form).confirmation(result => {
-                if (result && (typeof result === 'object' && result.value)) {
-                    $(form).submitForm().then(() => {
-                        location.href = route('contracts.index')
-                    })
-                } else {
-                    window.unblock()
-                }
-            })
-        } : false,
-    })
+			$(form).confirmation(result => {
+				if (result && (typeof result === 'object' && result.value)) {
+					$(form).submitForm().then(() => {
+						location.href = route('contracts.index')
+					})
+				} else {
+					window.unblock()
+				}
+			})
+		} : false,
+	})
 
 	$('#select_province').select2Ajax({
 		data(q) {
 			q.provinceIds = [24, 28, 30]
-		}
+		},
 	})
 
 	$('#select_payment_method').on('change', function() {
 		if ($(this).val() !== '') {
-			$('#select_bank').prop('disabled', false).empty().trigger('change');
+			$('#select_bank').prop('disabled', false).empty().trigger('change')
 			axios.get(route('payment_costs.get_bank'), {
 				params: {
-					method: $(this).val()
+					method: $(this).val(),
 				},
 			}).then(result => {
 				let items = result['data']['items']
 
 				for (const item of items) {
-					let option = new Option(item.bank_name, item.cost, false, false);
-					$('#select_bank').append(option).trigger('change');
+					let option = new Option(item.bank_name, item.cost, false, false)
+					$('#select_bank').append(option).trigger('change')
 				}
 			}).catch(e => console.log(e)).finally(() => {
 				window.unblock()
@@ -63,15 +63,29 @@ $(function() {
 
 	$('#btn_add_payment_detail').on('click', function() {
 		let paymentTime = parseInt($('#txt_payment_time').val())
-		let rows = []
+		let rows = [], $leftAmount = 0
+		let totalAmount = $('#txt_amount').val()
+		let firstPaid = $('#txt_total_paid_deal').val()
+
+		if (totalAmount !== '') {
+			$leftAmount = numeral((numeral(totalAmount).value() - numeral(firstPaid).value()) / numeral(paymentTime).value()).format('0,00')
+		}
 
 		for (let i = 0; i < paymentTime; i++) {
 			rows.push([
 				`<input class="form-control txt-payment-date" name="PaymentDetail[payment_date][${i}][]" type="text" autocomplete="off">`,
-				`<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][${i}][]" type="text" autocomplete="off">`,
+				`<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][${i}][]" value="${$leftAmount}" type="text" autocomplete="off">`,
 			])
 		}
+		tablePaymentDetail.rows().remove()
 		tablePaymentDetail.rows.add(rows).draw(false)
 		$('.txt-payment-date').datepicker()
+		$('.txt-total-paid-deal').numeric()
+	})
+
+	$('.identity-number').numeric({
+		allowDecimal: false,
+		allowMinus: false,  // Allow the - sign
+		allowThouSep: false,  // Allow the thousands separator, default is the comma eg 12,000
 	})
 })

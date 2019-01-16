@@ -34,14 +34,6 @@ class CreateMembersTable extends Migration
             $table->string('product_type')->nullable();
             $table->string('membership_type')->nullable();
 
-            $table->string('husband_identity');
-            $table->string('husband_identity_address');
-            $table->date('husband_identity_date');
-
-            $table->string('wife_identity');
-            $table->string('wife_identity_address');
-            $table->date('wife_identity_date');
-
             $table->timestamps();
             $table->softDeletes();
         });

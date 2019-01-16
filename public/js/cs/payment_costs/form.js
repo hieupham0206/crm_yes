@@ -97,6 +97,10 @@ $(function () {
             });
         } : false
     });
+
+    $('#txt_cost').numeric({
+        max: 50
+    });
 });
 
 /***/ })

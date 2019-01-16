@@ -2,7 +2,7 @@
 
 /**
  * Created by hieu.pham.
- * Date: Sun, 06 Jan 2019 15:56:55 +0700.
+ * Date: Wed, 16 Jan 2019 13:38:14 +0700.
  */
 
 namespace App\Models\Base;
@@ -18,24 +18,23 @@ use App\Models\BaseModel as Eloquent;
  * @property int $gender
  * @property \Carbon\Carbon $birthday
  * @property string $address
- * @property string $city
+ * @property int $city
  * @property string $phone
  * @property string $email
- * @property string $spouce_name
- * @property string $spouce_phone
- * @property \Carbon\Carbon $spouce_birthday
- * @property string $spouce_email
- * @property string $product_type
- * @property string $membership_type
- * @property string $husband_identity
- * @property string $husband_identity_address
- * @property \Carbon\Carbon $husband_identity_date
- * @property string $wife_identity
- * @property string $wife_identity_address
- * @property \Carbon\Carbon $wife_identity_date
+ * @property string $spouse_name
+ * @property string $spouse_phone
+ * @property \Carbon\Carbon $spouse_birthday
+ * @property string $spouse_email
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
+ * @property string $spouse_title
+ * @property string $identity
+ * @property int $identity_address
+ * @property \Carbon\Carbon $identity_date
+ * @property string $spouse_identity
+ * @property int $spouse_identity_address
+ * @property \Carbon\Carbon $spouse_identity_date
  * 
  * @property \Illuminate\Database\Eloquent\Collection $contracts
  * @property \Illuminate\Database\Eloquent\Collection $history_calls
@@ -48,14 +47,17 @@ class Member extends Eloquent
 	use \Spatie\Activitylog\Traits\LogsActivity;
 
 	protected $casts = [
-		'gender' => 'int'
+		'gender' => 'int',
+		'city' => 'int',
+		'identity_address' => 'int',
+		'spouse_identity_address' => 'int'
 	];
 
 	protected $dates = [
 		'birthday',
-		'spouce_birthday',
-		'husband_identity_date',
-		'wife_identity_date'
+		'spouse_birthday',
+		'identity_date',
+		'spouse_identity_date'
 	];
 
 	public function contracts()

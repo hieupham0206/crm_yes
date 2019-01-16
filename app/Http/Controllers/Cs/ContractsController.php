@@ -57,6 +57,7 @@ class ContractsController extends Controller
             'contract'    => new Contract,
             'eventData'   => EventData::find($eventDataId),
             'lead'        => new Lead,
+            'member'      => new Member,
             'paymentCost' => new PaymentCost,
             'action'      => route('contracts.store'),
         ]);
@@ -89,8 +90,9 @@ class ContractsController extends Controller
 
             throw new ValidationException($validator);
         }
-        $requestData['member_id'] = $member->id;
-        $contract    = Contract::create($requestData);
+        $requestData['member_id']   = $member->id;
+        $requestData['contract_no'] = Contract::createContractNo($requestData['contract_no'], $member->province_id);
+        $contract                   = Contract::create($requestData);
 
         //note: cập nhật state của lead thành member
         $lead = $member->lead;

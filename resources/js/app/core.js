@@ -135,7 +135,7 @@ let cloudTeamCore = (function($, lang) {
 			$('.email, .username').alphanum({
 				allow: '@.-_',
 			})
-			$('.numeric').numeric({
+			$('.numeric, .numeral').numeric({
 				allow: '.',
 				allowMinus: false,
 			})

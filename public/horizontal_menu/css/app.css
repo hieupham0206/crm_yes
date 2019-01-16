@@ -317,11 +317,6 @@ input {
   font-family: Montserrat, sans-serif;
 }
 
-.numeric,
-.number {
-  text-align: right;
-}
-
 @media (min-width: 1025px) {
   .m-form .m-form__group:last-child {
     padding-bottom: 15px;
