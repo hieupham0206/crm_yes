@@ -20,10 +20,10 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_method') ? 'has-danger' : ''}}">
                 <label for="select_payment_method">{{ $paymentCost->label('payment_method') }}</label>
-                <select name="payment_method" id="select_payment_method">
+                <select name="payment_method" id="select_payment_method" class="select">
                     <option></option>
                     @foreach ($paymentCost->payment_methods as $key => $payment_method)
-                        <option value="{{ $key }}" {{ $paymentCost->payment_method == $key ? 'checked' : '' }}>{{ $payment_method }}</option>
+                        <option value="{{ $key }}" {{ $paymentCost->payment_method == $key ? 'selected' : '' }}>{{ $payment_method }}</option>
                     @endforeach
                 </select>
                 <span class="m-form__help"></span>

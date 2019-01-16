@@ -313,6 +313,7 @@ $(function () {
 	$body.on('click', '.link-event-data', function () {
 		var eventDataId = $(this).data('event-id');
 		var appointmentId = $(this).data('appointment-id');
+		var hasBonus = $(this).data('has-bonus');
 		var $tr = $(this).parents('tr');
 		var leadName = $tr.find('.txt-lead-name').val();
 		var leadId = $tr.find('.txt-lead-id').val();
@@ -331,6 +332,11 @@ $(function () {
 		$('#txt_lead_id').val(leadId);
 		$('#txt_event_data_code').val(eventCode);
 		$('#txt_note').val(eventNote);
+		if (hasBonus === 1) {
+			$('input[name="hot_bonus"]').prop('checked', true);
+		} else {
+			$('input[name="hot_bonus"]').prop('checked', false);
+		}
 
 		$('#txt_event_data_id').val(eventDataId);
 		toggleFormEventData();

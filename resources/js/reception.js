@@ -220,6 +220,7 @@ $(function() {
 	$body.on('click', '.link-event-data', function() {
 		let eventDataId = $(this).data('event-id')
 		let appointmentId = $(this).data('appointment-id')
+		let hasBonus = $(this).data('has-bonus')
 		let $tr = $(this).parents('tr')
 		let leadName = $tr.find('.txt-lead-name').val()
 		let leadId = $tr.find('.txt-lead-id').val()
@@ -238,6 +239,11 @@ $(function() {
 		$('#txt_lead_id').val(leadId)
 		$('#txt_event_data_code').val(eventCode)
 		$('#txt_note').val(eventNote)
+		if (hasBonus === 1) {
+			$('input[name="hot_bonus"]').prop('checked', true)
+		} else {
+			$('input[name="hot_bonus"]').prop('checked', false)
+		}
 
 		$('#txt_event_data_id').val(eventDataId)
 		toggleFormEventData()

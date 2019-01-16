@@ -12,8 +12,8 @@ use App\Enums\PaymentMethod;
  * 2: Trả góp ngân hàng
  * 3: Cà thẻ
  * 4: Chuyển khoản
- * @property string|null $name
- * @property string|null $payment_cost
+ * @property string|null $bank_name
+ * @property string|null $cost
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Activity[] $activity
@@ -21,6 +21,8 @@ use App\Enums\PaymentMethod;
  * @property-read \App\Models\ActivityLog $deletedBy
  * @property-read mixed $confirmations
  * @property-read mixed $created_at_text
+ * @property-read mixed $payment_method_text
+ * @property-read mixed $payment_methods
  * @property-read \App\Models\ActivityLog $updatedBy
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BaseModel andFilterWhere($conditions)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BaseModel dateBetween($dates, $column = 'created_at', $format = 'd-m-Y', $boolean = 'and', $not = false)
@@ -29,10 +31,10 @@ use App\Enums\PaymentMethod;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BaseModel orFilterWhere($conditions)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost whereBankName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost whereCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost wherePaymentCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost wherePaymentMethod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentCost whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -44,6 +46,11 @@ class PaymentCost extends \App\Models\Base\PaymentCost
         'bank_name',
         'cost',
     ];
+
+    protected $casts = [
+        'payment_method' => 'int'
+    ];
+
     public static $logName = 'PaymentCost';
 
     protected static $logOnlyDirty = true;

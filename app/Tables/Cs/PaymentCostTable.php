@@ -63,9 +63,10 @@ class PaymentCostTable extends DataTable
                 $paymentCost->payment_method_text,
                 $paymentCost->payment_cost,
 
-                '<a href="' . route('payment_costs.show', $paymentCost, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
-					<i class="fa fa-eye"></i>
-				</a>' . $btnEdit . $btnDelete,
+//                '<a href="' . route('payment_costs.show', $paymentCost, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
+//					<i class="fa fa-eye"></i>
+//				</a>' .
+                $btnEdit . $btnDelete,
             ];
         }
 

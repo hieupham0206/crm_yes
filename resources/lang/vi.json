@@ -163,5 +163,7 @@
 
   "Wife identity": "CMND (vợ)",
   "Wife identity address": "Nơi cấp CMND (vợ)",
-  "Wife identity date": "Ngày cấp CMND (vợ)"
+  "Wife identity date": "Ngày cấp CMND (vợ)",
+
+  "PaymentCost": "Payment cost"
 }

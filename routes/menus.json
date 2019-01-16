@@ -75,7 +75,7 @@
         "icon": "fa fa-user",
         "parent": "",
         "route": "event_data_receps.index",
-        "hide": true
+        "hide": false
       }
     },
     "icon": "fa fa-user-cog"

@@ -13,19 +13,19 @@ final class PaymentMethod extends Enum
 
     public static function getDescription($value): string
     {
-        if ($value === self::CASH) {
+        if ((int) $value === self::CASH) {
             return 'Tiền mặt';
         }
 
-        if ($value === self::AMORTIZATION) {
+        if ((int) $value === self::AMORTIZATION) {
             return 'Trả góp ngân hàng';
         }
 
-        if ($value === self::CARD) {
+        if ((int) $value === self::CARD) {
             return 'Cà thẻ';
         }
 
-        if ($value === self::TRANSFER) {
+        if ((int) $value === self::TRANSFER) {
             return 'Chuyển khoản';
         }
 

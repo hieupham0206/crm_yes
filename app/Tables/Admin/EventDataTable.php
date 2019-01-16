@@ -94,7 +94,7 @@ class EventDataTable extends DataTable
 //                "<a class='m-link m--font-brand' href='javascript:void(0)'>{$eventData->created_at->format('d-m-Y H:i:s')}</a>",
                 $eventData->created_at->format('d-m-Y H:i:s'),
                 $eventData->lead->title,
-                "<a class='link-event-data m-link m--font-brand' href='javascript:void(0)' data-appointment-id='{$appointmentId}' data-event-id='{$eventData->id}' data-lead-id='{$eventData->lead_id}'>$leadName</a>" .
+                "<a class='link-event-data m-link m--font-brand' href='javascript:void(0)' data-has-bonus='{$eventData->has_bonus}' data-appointment-id='{$appointmentId}' data-event-id='{$eventData->id}' data-lead-id='{$eventData->lead_id}'>$leadName</a>" .
                 "<input value='$leadName' class='txt-lead-name' type='hidden'/>" .
                 "<input value='$leadId' class='txt-lead-id' type='hidden'/>" .
                 "<input value='{$eventData->note}' class='txt-event-data-note' type='hidden'/>" .

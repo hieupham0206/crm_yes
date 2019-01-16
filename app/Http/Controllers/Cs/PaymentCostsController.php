@@ -59,7 +59,7 @@ class PaymentCostsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'bank_name' => 'required'
         ]);
         $requestData = $request->all();
         $paymentCost = PaymentCost::create($requestData);
@@ -70,7 +70,7 @@ class PaymentCostsController extends Controller
             ]);
         }
 
-        return redirect(route('payment_costs.show', $paymentCost))->with('message', __('Data created successfully'));
+        return redirect(route('payment_costs.index'))->with('message', __('Data created successfully'));
     }
 
     /**
@@ -113,7 +113,7 @@ class PaymentCostsController extends Controller
     public function update(Request $request, PaymentCost $paymentCost)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'bank_name' => 'required'
         ]);
         $requestData = $request->all();
         $paymentCost->update($requestData);
@@ -124,7 +124,7 @@ class PaymentCostsController extends Controller
             ]);
         }
 
-        return redirect(route('payment_costs.show', $paymentCost))->with('message', __('Data edited successfully'));
+        return redirect(route('payment_costs.index'))->with('message', __('Data edited successfully'));
     }
 
     /**

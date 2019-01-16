@@ -9,6 +9,7 @@ use App\Models\EventData;
 use App\Models\Lead;
 use App\Models\Member;
 use App\Models\PaymentCost;
+use App\Models\PaymentDetail;
 use App\Tables\Cs\ContractTable;
 use App\Tables\TableFacade;
 use Illuminate\Http\Request;
@@ -75,7 +76,6 @@ class ContractsController extends Controller
             'contract_no' => 'required',
         ]);
         $requestData = $request->all();
-        $contract    = Contract::create($requestData);
 
         //note: check kiem tra sdt hoac email da lam member chua
         $identityHusband = $requestData['identity_husband'];
@@ -83,13 +83,36 @@ class ContractsController extends Controller
 
         if ( ! $member = Member::isMember($identityHusband, $identityWife)) {
             $member = Member::create($requestData);
+        } else {
+            $validator = \Validator::make([], []); // Empty data and rules fields
+            $validator->errors()->add('identity_husband', 'Thông tin member đã tồn tại');
+
+            throw new ValidationException($validator);
         }
+        $requestData['member_id'] = $member->id;
+        $contract    = Contract::create($requestData);
 
         //note: cập nhật state của lead thành member
         $lead = $member->lead;
         $lead->update(['state' => LeadState::MEMBER]);
 
         //note: tạo payment_detail
+        if ($request->has('PaymentDetail')) {
+            $paymentDates   = collect($requestData['PaymentDetail']['payment_date'])->flatten()->toArray();
+            $totalPaidDeals = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
+
+            $paymentDetailDatas = [];
+
+            foreach ($paymentDates as $key => $paymentDate) {
+                $paymentDetailDatas[] = [
+                    'pay_date'        => $paymentDate,
+                    'total_paid_deal' => $totalPaidDeals[$key],
+                    'contract_id'     => $contract->id,
+                ];
+            }
+
+            PaymentDetail::insert($paymentDetailDatas);
+        }
 
         if ($request->wantsJson()) {
             return $this->asJson([

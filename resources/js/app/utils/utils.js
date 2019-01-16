@@ -7,7 +7,7 @@
 window.flash = function(message, level, hide) {
 	window.events.$emit('flash', message, level, hide)
 
-	mUtil.scrollTop()
+	// mUtil.scrollTop()
 }
 
 /**

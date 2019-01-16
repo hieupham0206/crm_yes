@@ -5,7 +5,7 @@
         @method('put')
     @endisset
     <div class="m-portlet__body">
-
+        <input type="hidden" name="event_data_id" value="{{ $eventData->id }}">
         {{--MEMBER INFO--}}
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('name') ? 'has-danger' : ''}}">
@@ -225,15 +225,17 @@
             </div>
         </div>
 
-        <div class="form-group m-form__group row">
-            <div class="col-lg-3">
-                <label for="txt_payment_time">Số lần thanh toán</label>
-                <input class="form-control" name="payment_time" type="text" id="txt_payment_time" value="" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+        @if (! $contract->exists)
+            <div class="form-group m-form__group row">
+                <div class="col-lg-3">
+                    <label for="txt_payment_time">Số lần thanh toán</label>
+                    <input class="form-control" name="payment_time" type="text" id="txt_payment_time" value="" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="btn btn-accent m-btn m-btn--custom mt-6" id="btn_add_payment_detail">{{ __('Add') }}</button>
+                </div>
             </div>
-            <div class="col-lg-1">
-                <button type="button" class="btn btn-accent m-btn m-btn--custom mt-6" id="btn_add_payment_detail">{{ __('Add') }}</button>
-            </div>
-        </div>
+        @endif
 
         <div class="form-group m-form__group row">
             <div class="col-lg-4">
@@ -246,6 +248,14 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @isset ($paymentDetails)
+                        @foreach ($paymentDetails as $paymentDetail)
+                            <tr>
+                                <td><input class="form-control txt-payment-date" value="{{ $paymentDetail->pay_date }}" name="PaymentDetail[payment_date][{{ $loop->index }}][]" type="text" autocomplete="off"></td>
+                                <td><input class="form-control txt-total-paid-deal" value="{{ $paymentDetail->total_paid_detail }}" name="PaymentDetail[total_paid_deal][{{ $loop->index }}][]" type="text" autocomplete="off"></td>
+                            </tr>
+                        @endforeach
+                    @endisset
                     </tbody>
                 </table>
             </div>

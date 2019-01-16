@@ -67,10 +67,11 @@ $(function() {
 
 		for (let i = 0; i < paymentTime; i++) {
 			rows.push([
-				`<input class="form-control txt-payment-date" name="payment_date[]" type="text" autocomplete="off">`,
-				`<input class="form-control txt-total-paid-deal" name="total_paid_deal[]" type="text" autocomplete="off">`,
+				`<input class="form-control txt-payment-date" name="PaymentDetail[payment_date][${i}][]" type="text" autocomplete="off">`,
+				`<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][${i}][]" type="text" autocomplete="off">`,
 			])
 		}
 		tablePaymentDetail.rows.add(rows).draw(false)
+		$('.txt-payment-date').datepicker()
 	})
 })

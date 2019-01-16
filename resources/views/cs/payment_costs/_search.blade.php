@@ -15,7 +15,7 @@
         <div class="col-12 col-md-3 m-form__group-sub">
             <div class="form-group">
                 <label for="select_payment_method">{{ __('payment_method') }}</label>
-                <select name="payment_method" id="select_payment_method">
+                <select name="payment_method" class="select" id="select_payment_method">
                     <option></option>
                     @foreach ($paymentCost->payment_methods as $key => $method)
                         <option value="{{ $key }}">{{ $method }}</option>
