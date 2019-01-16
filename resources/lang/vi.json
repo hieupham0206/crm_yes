@@ -165,5 +165,9 @@
   "Wife identity address": "Nơi cấp CMND (vợ)",
   "Wife identity date": "Ngày cấp CMND (vợ)",
 
-  "PaymentCost": "Payment cost"
+  "PaymentCost": "Payment cost",
+  "PaymentDetail": "Payment detail",
+  "Event data c": "Event data (CS)",
+  "Event data": "Event data",
+  "event data": "Event data"
 }

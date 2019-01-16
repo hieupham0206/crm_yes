@@ -16,9 +16,9 @@ class EditAddMoreInfoToContractsTable extends Migration
         Schema::table('contracts', function (Blueprint $table) {
             $table->string('contract_no', 100)->after('id');
 
-            $table->tinyInteger('membership')->default(1)->comment('1: Dynasty; 2: Emerald; 3: Crystal');
-            $table->tinyInteger('room_type')->default(1)->comment('1: 1 giường; 2: 2 giường; 3: 3 giường; 4: phòng ngủ');
-            $table->tinyInteger('limit')->default(1)->comment('1: 2 lớn, 2 nhỏ <6 2: 4 lớn, 2 nhỏ <6 3: 6 lớn, 2 nhỏ <6');
+            $table->tinyInteger('membership')->default(1)->nullable()->comment('1: Dynasty; 2: Emerald; 3: Crystal');
+            $table->tinyInteger('room_type')->default(1)->nullable()->comment('1: 1 giường; 2: 2 giường; 3: 3 giường; 4: phòng ngủ');
+            $table->tinyInteger('limit')->default(1)->nullable()->comment('1: 2 lớn, 2 nhỏ <6 2: 4 lớn, 2 nhỏ <6 3: 6 lớn, 2 nhỏ <6');
 
             $table->timestamp('signed_date')->nullable()->comment('Ngày kí hợp đồng');
             $table->timestamp('effective_time')->nullable();

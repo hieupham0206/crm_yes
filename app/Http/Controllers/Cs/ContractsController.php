@@ -13,6 +13,7 @@ use App\Models\PaymentDetail;
 use App\Tables\Cs\ContractTable;
 use App\Tables\TableFacade;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ContractsController extends Controller
 {
@@ -79,14 +80,14 @@ class ContractsController extends Controller
         $requestData = $request->all();
 
         //note: check kiem tra sdt hoac email da lam member chua
-        $identityHusband = $requestData['identity_husband'];
-        $identityWife    = $requestData['identity_wife'];
+        $identityHusband = $requestData['identity'];
+        $identityWife    = $requestData['spouse_identity'];
 
         if ( ! $member = Member::isMember($identityHusband, $identityWife)) {
             $member = Member::create($requestData);
         } else {
             $validator = \Validator::make([], []); // Empty data and rules fields
-            $validator->errors()->add('identity_husband', 'Thông tin member đã tồn tại');
+            $validator->errors()->add('identity', 'Thông tin member đã tồn tại');
 
             throw new ValidationException($validator);
         }

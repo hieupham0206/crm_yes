@@ -138,7 +138,7 @@ class Member extends \App\Models\Base\Member
 
     public static function isMember($identityHusband, $identityWife)
     {
-        return self::where('husband_identity', $identityHusband)->orWhere('wife_identity', $identityWife)->first();
+        return self::where('identity', $identityHusband)->orWhere('spouse_identity', $identityWife)->first();
     }
 
     public function getTitlesAttribute()

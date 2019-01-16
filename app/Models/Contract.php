@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ContractLimit;
 use App\Enums\ContractMembership;
 use App\Enums\ContractRoomType;
+use Carbon\Carbon;
 
 /**
  * App\Models\Contract
@@ -179,5 +180,19 @@ class Contract extends \App\Models\Base\Contract
         }
 
         return $contractNo;
+    }
+
+    public function setSignedDateAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['signed_date'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+        }
+    }
+
+    public function setStartDateAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['start_date'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+        }
     }
 }

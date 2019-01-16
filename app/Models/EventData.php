@@ -18,7 +18,7 @@ class EventData extends \App\Models\Base\EventData
         'note',
         'hot_bonus',
     ];
-    public static $logName = 'EventData';
+    public static $logName = 'Event Data';
 
     protected static $logOnlyDirty = true;
 

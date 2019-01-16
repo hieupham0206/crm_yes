@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 /**
  * App\Models\PaymentDetail
  *
@@ -79,5 +81,12 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
 	public function getDescriptionForEvent(string $eventName): string
     {
         return parent::getDescriptionEvent($eventName);
+    }
+
+    public function setPayDateAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['pay_date'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+        }
     }
 }
