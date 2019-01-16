@@ -165,15 +165,15 @@ $(function () {
 					}
 				}).then(function (result) {
 					var totalCount = result.data.total_count;
+					var items = result.data.items;
+					var lead = items[0];
 
 					if (totalCount === 1 && (lead.state === 2 || lead.state === 3 || lead.state === 4 || lead.state === 7 || lead.state === 8 || lead.state === 10)) {
-						var items = result.data.items;
-						var _lead = items[0];
 						swal('', 'Khách hàng đã tồn tại trong hệ thống', 'warning').then(function () {
 							$('#txt_phone_out_call').val('');
 							wantToCallOut = false;
 							// autoCall()
-							fetchLead(_lead.id, 1).then(function () {
+							fetchLead(lead.id, 1).then(function () {
 								callInterval = setInterval(callClock, 1000);
 								$('#btn_form_change_state').prop('disabled', false);
 
@@ -191,6 +191,7 @@ $(function () {
 						});
 						return false;
 					} else {
+						// phone = ''
 						callInterval = setInterval(callClock, 1000);
 						$('#span_lead_name').text('No Name');
 						$('#span_lead_birthday').text('');
@@ -245,15 +246,15 @@ $(function () {
 			var items = result.data.items;
 			var count = result.data.total_count;
 			if (count > 0) {
-				var _lead2 = items[0];
+				var lead = items[0];
 
-				var birthday = _lead2.birthday !== '' ? moment(birthday).format('DD-MM-YYYY') : '';
-				$('#span_lead_visibility').text(_lead2.visibility);
-				$('#span_lead_name').text(_lead2.name);
+				var birthday = lead.birthday !== '' ? moment(birthday).format('DD-MM-YYYY') : '';
+				$('#span_lead_visibility').text(lead.visibility);
+				$('#span_lead_name').text(lead.name);
 				$('#span_lead_birthday').text(birthday);
-				$('#span_lead_phone').text(_lead2.phone);
-				$('#span_lead_title').text(_lead2.title);
-				$('#txt_lead_id').val(_lead2.id);
+				$('#span_lead_phone').text(lead.phone);
+				$('#span_lead_title').text(lead.title);
+				$('#txt_lead_id').val(lead.id);
 
 				reloadTable();
 			}

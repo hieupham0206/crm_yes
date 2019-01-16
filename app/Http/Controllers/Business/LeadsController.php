@@ -528,7 +528,13 @@ class LeadsController extends Controller
         }
 
         if ( ! $lead->exists) {
-            $leadWithCustomPhone = Lead::wherePhone($customerPhone)->first();
+            $leadWithCustomPhone = Lead::wherePhone($customerPhone)->whereNotIn('state', [
+                LeadState::DEAD_NUMBER,
+                LeadState::OTHER_CITY,
+                LeadState::CALL_LATER,
+                LeadState::APPOINTMENT,
+                LeadState::MEMBER,
+            ])->first();
 
             if ($leadWithCustomPhone) {
                 $lead = $leadWithCustomPhone;

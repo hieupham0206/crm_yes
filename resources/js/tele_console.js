@@ -74,10 +74,10 @@ $(function() {
 					},
 				}).then(result => {
 					let totalCount = result.data.total_count
+					let items = result.data.items
+					let lead = items[0]
 
 					if (totalCount === 1 && (lead.state === 2 || lead.state === 3 || lead.state === 4 || lead.state === 7 || lead.state === 8 || lead.state === 10)) {
-						let items = result.data.items
-						let lead = items[0]
 						swal(
 							'',
 							'Khách hàng đã tồn tại trong hệ thống',
@@ -106,6 +106,7 @@ $(function() {
 						return false
 
 					} else {
+						// phone = ''
 						callInterval = setInterval(callClock, 1000)
 						$('#span_lead_name').text('No Name')
 						$('#span_lead_birthday').text('')
