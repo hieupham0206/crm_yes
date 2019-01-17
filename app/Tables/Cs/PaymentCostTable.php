@@ -61,7 +61,7 @@ class PaymentCostTable extends DataTable
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $paymentCost->id . '"><span></span></label>',
                 $paymentCost->bank_name,
                 $paymentCost->payment_method_text,
-                $paymentCost->payment_cost,
+                $paymentCost->cost,
 
 //                '<a href="' . route('payment_costs.show', $paymentCost, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
 //					<i class="fa fa-eye"></i>
