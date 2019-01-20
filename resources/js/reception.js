@@ -196,6 +196,10 @@ $(function() {
 		})
 	})
 
+	$('#modal_lg').on('shown.bs.modal', function() {
+		$('#select_user').select2Ajax()
+	})
+
 	$body.on('click', '#btn_reappointment', function() {
 		let leadId = $('#txt_lead_id').val()
 		let url = route('appointments.cancel', $('#txt_appointment_id').val())
