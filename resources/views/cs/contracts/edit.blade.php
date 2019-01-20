@@ -13,7 +13,7 @@ $breadcrumbs = ['breadcrumb' => 'contracts.edit', 'model' => $contract];
 @section('content')
     <div class="m-content">
         <div class="m-portlet">
-            @include('cs.contracts._form')
+            @include('cs.contracts._form_edit')
         </div>
     </div>
 @endsection

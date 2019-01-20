@@ -54,10 +54,14 @@ class ContractsController extends Controller
             abort(404);
         }
 
+        $eventData   = EventData::find($eventDataId);
+        $appointment = $eventData->appointment;
+        $lead        = $appointment->lead;
+
         return view('cs.contracts.create', [
             'contract'    => new Contract,
-            'eventData'   => EventData::find($eventDataId),
-            'lead'        => new Lead,
+            'eventData'   => $eventData,
+            'lead'        => $lead,
             'member'      => new Member,
             'paymentCost' => new PaymentCost,
             'action'      => route('contracts.store'),
@@ -147,10 +151,14 @@ class ContractsController extends Controller
      */
     public function edit(Contract $contract)
     {
+
         return view('cs.contracts.edit', [
-            'contract' => $contract,
-            'method'   => 'put',
-            'action'   => route('contracts.update', $contract),
+            'contract'    => $contract,
+            'lead'        => new Lead(),
+            'member'      => new Member,
+            'paymentCost' => new PaymentCost,
+            'method'      => 'put',
+            'action'      => route('contracts.update', $contract),
         ]);
     }
 
