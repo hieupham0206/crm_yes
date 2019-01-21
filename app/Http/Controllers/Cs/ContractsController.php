@@ -230,28 +230,47 @@ class ContractsController extends Controller
             'contract_no' => 'required',
         ]);
         $requestData = $request->all();
+
+        $requestData['amount']    = str_replace(',', '', $requestData['amount']);
+        $requestData['year_cost'] = str_replace(',', '', $requestData['year_cost']);
+
+        //note: check neu gia tri hop dong thay doi thi cap nhat vao lan hen trả cuoi cùng
+        if ($contract->amount !== $requestData['amount']) {
+            $amountChange = $contract->amount - $requestData['amount'];
+            /** @var PaymentDetail $lastPaymentDetail */
+            $lastPaymentDetail = $contract->payment_details()->orderBy('pay_date', 'desc')->first();
+
+            if ($lastPaymentDetail) {
+                $totalPaid = $lastPaymentDetail->total_paid_deal - $amountChange;
+                $lastPaymentDetail->update([
+                    'total_paid_deal' => $totalPaid,
+                ]);
+            }
+        }
+
         $contract->update($requestData);
 
         //note: update payment_detail
-        if ($request->has('PaymentDetail')) {
-            $paymentDates     = collect($requestData['PaymentDetail']['pay_date'])->flatten()->toArray();
-            $totalPaidDeals   = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
-            $paymentDetailIds = collect($requestData['PaymentDetail']['id'])->flatten()->toArray();
 
-            $paymentDetailDatas = [];
+//        if ($request->has('PaymentDetail')) {
+//            $paymentDates     = collect($requestData['PaymentDetail']['pay_date'])->flatten()->toArray();
+//            $totalPaidDeals   = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
+//            $paymentDetailIds = collect($requestData['PaymentDetail']['id'])->flatten()->toArray();
+//
+//            $paymentDetailDatas = [];
+//
+//            foreach ($paymentDates as $key => $paymentDate) {
+//                $paymentDetailDatas[] = [
+//                    'pay_date'        => date('Y-m-d', strtotime($paymentDate)),
+//                    'total_paid_deal' => str_replace(',', '', $totalPaidDeals[$key]),
+//                    'contract_id'     => $contract->id,
+//                    'id'              => $paymentDetailIds[$key],
+//                ];
+//
+//                PaymentDetail::updateOrCreate($paymentDetailDatas);
+//            }
+//        }
 
-            foreach ($paymentDates as $key => $paymentDate) {
-                $paymentDetailDatas[] = [
-                    'pay_date'        => date('Y-m-d', strtotime($paymentDate)),
-                    'total_paid_deal' => str_replace(',', '', $totalPaidDeals[$key]),
-                    'contract_id'     => $contract->id,
-                    'id'              => $paymentDetailIds[$key],
-                ];
-
-                PaymentDetail::updateOrCreate($paymentDetailDatas);
-            }
-
-        }
         if ($request->wantsJson()) {
             return $this->asJson([
                 'message' => __('Data edited successfully'),

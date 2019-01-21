@@ -235,19 +235,20 @@
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('total_paid_deal') ? 'has-danger' : ''}}">
                 <label for="txt_total_paid_deal">{{ $contract->label('total_paid_deal') }}</label>
-                <input class="form-control numeric" name="total_paid_deal" type="text" id="txt_total_paid_deal" value="{{ number_format($firstPaymentDetail->total_paid_deal) ?? old('total_paid_deal')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control numeric" readonly name="total_paid_deal" type="text" id="txt_total_paid_deal" value="{{ number_format($firstPaymentDetail->total_paid_deal) ?? old('total_paid_deal')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('total_paid_deal', '<div class="form-control-feedback">:message</div>') !!}
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('pay_date') ? 'has-danger' : ''}}">
                 <label for="txt_pay_date">{{ $contract->label('pay_date') }}</label>
-                <input class="form-control text-datepicker" name="pay_date" type="text" id="txt_pay_date" value="{{ optional($firstPaymentDetail->pay_date)->format('d-m-Y') ?? old('pay_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control text-datepicker" readonly name="pay_date" type="text" id="txt_pay_date" value="{{ optional($firstPaymentDetail->pay_date)->format('d-m-Y') ?? old('pay_date')}}" required placeholder="{{ __('Enter value') }}"
+                       autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('pay_date', '<div class="form-control-feedback">:message</div>') !!}
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_method') ? 'has-danger' : ''}}">
                 <label for="select_payment_method">{{ $paymentCost->label('payment_method') }}</label>
-                <select name="payment_method" id="select_payment_method" class="select">
+                <select name="payment_method" id="select_payment_method" class="select" readonly>
                     <option></option>
                     @foreach ($paymentCost->payment_methods as $key => $paymentMethod)
                         <option value="{{ $key }}" {{ $firstPaymentDetail->payment_cost->payment_method === $key ? 'selected' : '' }}>{{ $paymentMethod }}</option>
@@ -258,7 +259,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name') ? 'has-danger' : ''}}">
                 <label for="select_bank">{{ $paymentCost->label('bank_name') }}</label>
-                <select name="bank_name" id="select_bank" class="select">
+                <select name="bank_name" id="select_bank" class="select" readonly>
                     <option></option>
                     <option value="1" {{ $firstPaymentDetail->payment_cost->bank_name ? 'selected' : '' }}>{{ $firstPaymentDetail->payment_cost->bank_name }}</option>
                 </select>
@@ -275,13 +276,13 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_no') ? 'has-danger' : ''}}">
                 <label for="txt_bank_no">{{ $paymentCost->label('bank_no') }}</label>
-                <input class="form-control" name="bank_no" type="text" id="txt_bank_no" value="{{ $firstPaymentDetail->bank_no ?? old('bank_no')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control" name="bank_no" type="text" id="txt_bank_no" value="{{ $firstPaymentDetail->bank_no ?? old('bank_no')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('bank_no', '<div class="form-control-feedback">:message</div>') !!}
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('year_cost') ? 'has-danger' : ''}}">
                 <label for="txt_year_cost">{{ $contract->label('year_cost') }}</label>
-                <input class="form-control numeric" name="year_cost" type="text" id="txt_year_cost" value="{{ $contract->year_cost ?? old('year_cost')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control numeric" name="year_cost" type="text" id="txt_year_cost" value="{{ $contract->year_cost ?? old('year_cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('year_cost', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -312,11 +313,13 @@
                     @isset ($paymentDetails)
                         @foreach ($paymentDetails as $paymentDetail)
                             <tr>
-                                <td>
-                                    <input type="hidden" name="PaymentDetail[id][{{ $loop->index }}][]" value="{{ $paymentDetail->id }}">
-                                    <input class="form-control txt-payment-date" value="{{ $paymentDetail->pay_date->format('d-m-Y') }}" name="PaymentDetail[pay_date][{{ $loop->index }}][]" type="text" autocomplete="off">
-                                </td>
-                                <td><input class="form-control txt-total-paid-deal" value="{{ number_format($paymentDetail->total_paid_deal) }}" name="PaymentDetail[total_paid_deal][{{ $loop->index }}][]" type="text" autocomplete="off"></td>
+                                <td>{{ $paymentDetail->pay_date->format('d-m-Y') }}</td>
+                                <td>{{ number_format($paymentDetail->total_paid_deal) }}</td>
+                                {{--<td>--}}
+                                    {{--<input type="hidden" name="PaymentDetail[id][{{ $loop->index }}][]" value="{{ $paymentDetail->id }}">--}}
+                                    {{--<input class="form-control txt-payment-date" value="{{ $paymentDetail->pay_date->format('d-m-Y') }}" name="PaymentDetail[pay_date][{{ $loop->index }}][]" type="text" autocomplete="off">--}}
+                                {{--</td>--}}
+                                {{--<td><input class="form-control txt-total-paid-deal" value="{{ number_format($paymentDetail->total_paid_deal) }}" name="PaymentDetail[total_paid_deal][{{ $loop->index }}][]" type="text" autocomplete="off"></td>--}}
                             </tr>
                         @endforeach
                     @endisset
