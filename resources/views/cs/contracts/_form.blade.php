@@ -12,7 +12,6 @@
             <div class="col-md-6 row">
                 <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('title') ? 'has-danger' : ''}}">
                     <label for="select_title">{{ $member->label('title') }}</label>
-                    {{--<input class="form-control" name="title" type="text" id="txt_title" value="{{ $lead->title ?? old('title')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">--}}
                     <select name="title" class="form-control select" id="select_title">
                         <option></option>
                         @foreach ($member->titles as $key => $title)
@@ -55,7 +54,6 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('identity_address') ? 'has-danger' : ''}}">
                     <label for="txt_identity_address">{{ $member->label('identity_address') }}</label>
-                    {{--<input class="form-control" name="identity_address" type="text" id="txt_identity_address" value="{{ $member->identity_address ?? old('identity_address')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">--}}
                     <select name="identity_address" class="form-control select2-ajax" id="select_identity_address" data-url="{{ route('leads.provinces.table') }}">
                         <option></option>
                         @if($member->identity_address)
@@ -76,7 +74,6 @@
             <div class="col-md-6 row">
                 <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('spouse_title') ? 'has-danger' : ''}}">
                     <label for="select_spouse_title">{{ $member->label('spouse_title') }}</label>
-                    {{--<input class="form-control" name="spouse_title" type="text" id="txt_spouse_title" value="{{ $member->spouse_title ?? old('spouse_title')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">--}}
                     <select name="spouse_title" class="form-control select" id="select_spouse_title">
                         <option></option>
                         @foreach ($member->titles as $key => $title)
@@ -120,8 +117,6 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('spouse_identity_address') ? 'has-danger' : ''}}">
                     <label for="txt_spouse_identity_address">{{ $member->label('spouse_identity_address') }}</label>
-                    {{--<input class="form-control" name="spouse_identity_address" type="text" id="txt_spouse_identity_address" value="{{ $member->spouse_identity_address ?? old('spouse_identity_address')}}" placeholder="{{ __('Enter value') }}"--}}
-                    {{--autocomplete="off">--}}
                     <select name="spouse_identity_address" class="form-control select2-ajax" id="select_spouse_identity_address" data-url="{{ route('leads.provinces.table') }}">
                         <option></option>
                         @if($member->spouse_identity_address)
@@ -146,7 +141,7 @@
                 <span class="m-form__help"></span>
                 {!! $errors->first('address', '<div class="form-control-feedback">:message</div>') !!}
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('state') ? 'has-danger' : ''}}">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('city') ? 'has-danger' : ''}}">
                 <label for="select_province">{{ $member->label('province') }}</label>
                 <select name="city" class="form-control" id="select_province" data-url="{{ route('leads.provinces.table') }}" required>
                     <option></option>
@@ -155,10 +150,9 @@
                     @endif
                 </select>
                 <span class="m-form__help"></span>
-                {!! $errors->first('province', '<div class="form-control-feedback">:message</div>') !!}
+                {!! $errors->first('city', '<div class="form-control-feedback">:message</div>') !!}
             </div>
         </div>
-        {{--<div class="form-group m-form__group row"></div>--}}
         {{--END MEMBER INFO--}}
 
         {{--CONTRACT--}}
@@ -247,7 +241,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_method') ? 'has-danger' : ''}}">
                 <label for="select_payment_method">{{ $paymentCost->label('payment_method') }}</label>
-                <select name="payment_method" id="select_payment_method" class="select">
+                <select name="payment_method" id="select_payment_method" class="select" required>
                     <option></option>
                     @foreach ($paymentCost->payment_methods as $key => $paymentMethod)
                         <option value="{{ $key }}">{{ $paymentMethod }}</option>

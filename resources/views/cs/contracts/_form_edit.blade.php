@@ -146,16 +146,16 @@
                 <span class="m-form__help"></span>
                 {!! $errors->first('address', '<div class="form-control-feedback">:message</div>') !!}
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('state') ? 'has-danger' : ''}}">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('city') ? 'has-danger' : ''}}">
                 <label for="select_province">{{ $member->label('province') }}</label>
-                <select name="province_id" class="form-control" id="select_province" data-url="{{ route('leads.provinces.table') }}">
+                <select name="city" class="form-control" id="select_province" data-url="{{ route('leads.provinces.table') }}">
                     <option></option>
-                    @if ($member->province_id)
-                        <option value="{{ $member->province_id }}" selected>{{ $member->province->name }}</option>
+                    @if ($member->city)
+                        <option value="{{ $member->city }}" selected>{{ $member->province->name }}</option>
                     @endif
                 </select>
                 <span class="m-form__help"></span>
-                {!! $errors->first('province', '<div class="form-control-feedback">:message</div>') !!}
+                {!! $errors->first('city', '<div class="form-control-feedback">:message</div>') !!}
             </div>
         </div>
         {{--<div class="form-group m-form__group row"></div>--}}
@@ -235,13 +235,13 @@
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('total_paid_deal') ? 'has-danger' : ''}}">
                 <label for="txt_total_paid_deal">{{ $contract->label('total_paid_deal') }}</label>
-                <input class="form-control numeric" name="total_paid_deal" type="text" id="txt_total_paid_deal" value="{{ $contract->total_paid_deal ?? old('total_paid_deal')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control numeric" name="total_paid_deal" type="text" id="txt_total_paid_deal" value="{{ $firstPaymentDetail->total_paid_deal ?? old('total_paid_deal')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('total_paid_deal', '<div class="form-control-feedback">:message</div>') !!}
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('pay_date') ? 'has-danger' : ''}}">
                 <label for="txt_pay_date">{{ $contract->label('pay_date') }}</label>
-                <input class="form-control text-datepicker" name="pay_date" type="text" id="txt_pay_date" value="{{ optional($contract->pay_date)->format('d-m-Y') ?? old('pay_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control text-datepicker" name="pay_date" type="text" id="txt_pay_date" value="{{ optional($firstPaymentDetail->pay_date)->format('d-m-Y') ?? old('pay_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('pay_date', '<div class="form-control-feedback">:message</div>') !!}
             </div>

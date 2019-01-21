@@ -107,17 +107,36 @@ class ContractsController extends Controller
         }
 
         //note: tạo payment_detail
+
+        //1. PaymentDetail dau tien
+        $totalPaidDeal = $requestData['total_paid_deal'];
+        $payDate       = $requestData['pay_date'];
+        $bankName      = $requestData['bank_name'];
+        $paymentMethod = $requestData['payment_method'];
+
+        $paymentCost = PaymentCost::where([
+            'bank_name'      => $bankName,
+            'payment_method' => $paymentMethod,
+        ])->first();
+        $payTime     = 1;
+        if ($totalPaidDeal) {
+            PaymentDetail::create([
+                'pay_date'        => $payDate,
+                'total_paid_deal' => str_replace(',', '', $totalPaidDeal),
+                'contract_id'     => $contract->id,
+                'payment_cost_id' => optional($paymentCost)->id,
+
+                'bank_name'  => $bankName,
+                'bank_no'    => $requestData['bank_no'],
+                'note'       => $requestData['note'],
+                'pay_time'   => $payTime,
+                'created_at' => now()->toDateTimeString()
+            ]);
+        }
+
         if ($request->has('PaymentDetail')) {
             $paymentDates   = collect($requestData['PaymentDetail']['pay_date'])->flatten()->toArray();
             $totalPaidDeals = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
-
-            $bankName      = $requestData['bank_name'];
-            $paymentMethod = $requestData['payment_method'];
-
-            $paymentCost = PaymentCost::where([
-                'bank_name'      => $bankName,
-                'payment_method' => $paymentMethod,
-            ])->first();
 
             $paymentDetailDatas = [];
 
@@ -131,7 +150,7 @@ class ContractsController extends Controller
                     'bank_name'  => $bankName,
                     'bank_no'    => $requestData['bank_no'],
                     'note'       => $requestData['note'],
-                    'pay_time'   => ++$key,
+                    'pay_time'   => ++$payTime,
                     'created_at' => now()->toDateTimeString(),
                 ];
             }
@@ -178,16 +197,18 @@ class ContractsController extends Controller
      */
     public function edit(Contract $contract)
     {
-        $paymentDetails = $contract->payment_details;
+        $paymentDetails     = $contract->payment_details;
+        $firstPaymentDetail = $paymentDetails->first();
 
         return view('cs.contracts.edit', [
-            'contract'       => $contract,
-            'paymentDetails' => $paymentDetails,
-            'lead'           => new Lead(),
-            'member'         => new Member,
-            'paymentCost'    => new PaymentCost,
-            'method'         => 'put',
-            'action'         => route('contracts.update', $contract),
+            'contract'           => $contract,
+            'paymentDetails'     => $paymentDetails,
+            'firstPaymentDetail' => $firstPaymentDetail,
+            'lead'               => new Lead(),
+            'member'             => $contract->member,
+            'paymentCost'        => new PaymentCost,
+            'method'             => 'put',
+            'action'             => route('contracts.update', $contract),
         ]);
     }
 
@@ -208,18 +229,20 @@ class ContractsController extends Controller
         $requestData = $request->all();
         $contract->update($requestData);
 
-        //note: tạo payment_detail
+        //note: update payment_detail
         if ($request->has('PaymentDetail')) {
-            $paymentDates   = collect($requestData['PaymentDetail']['payment_date'])->flatten()->toArray();
-            $totalPaidDeals = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
+            $paymentDates     = collect($requestData['PaymentDetail']['pay_date'])->flatten()->toArray();
+            $totalPaidDeals   = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
+            $paymentDetailIds = collect($requestData['PaymentDetail']['id'])->flatten()->toArray();
 
             $paymentDetailDatas = [];
 
             foreach ($paymentDates as $key => $paymentDate) {
                 $paymentDetailDatas[] = [
-                    'pay_date'        => $paymentDate,
-                    'total_paid_deal' => $totalPaidDeals[$key],
+                    'pay_date'        => date('Y-m-d', strtotime($paymentDate)),
+                    'total_paid_deal' => str_replace(',', '', $totalPaidDeals[$key]),
                     'contract_id'     => $contract->id,
+                    'id'              => $paymentDetailIds[$key],
                 ];
 
                 PaymentDetail::updateOrCreate($paymentDetailDatas);
