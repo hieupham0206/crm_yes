@@ -19,7 +19,7 @@ class CreatePaymentDetailsTable extends Migration
             $table->unsignedInteger('contract_id');
             $table->unsignedInteger('payment_cost_id');
 
-            $table->timestamp('pay_date')->nullable()->comment('Ngày thanh toán');
+            $table->timestamp('pay_date')->nullable()->comment('Ngày hẹn thanh toán');
             $table->integer('pay_time')->nullable()->comment('Lần thanh toán');
 
             $table->double('total_paid_deal')->default(0);

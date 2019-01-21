@@ -46,29 +46,34 @@ use Carbon\Carbon;
  */
 class PaymentDetail extends \App\Models\Base\PaymentDetail
 {
-	protected $fillable = [
-		'contract_id',
-		'payment_cost_id',
-		'pay_time',
-		'pay_date',
-		'total_paid_deal',
-		'total_paid_real',
-		'bank_name',
-		'bank_no',
-		'note'
-	];
-	public static $logName = 'PaymentDetail';
+    protected $fillable = [
+        'contract_id',
+        'payment_cost_id',
+        'pay_time',
+        'pay_date',
+        'pay_date_real',
+        'total_paid_deal',
+        'total_paid_real',
+        'bank_name',
+        'bank_no',
+        'note',
+    ];
+    public static $logName = 'PaymentDetail';
 
     protected static $logOnlyDirty = true;
 
     protected static $logFillable = true;
 
-    public $labels = [];
+    public $labels = [
+        'pay_date'      => 'Ngày hẹn thanh toán',
+        'pay_date_real' => 'Ngày thanh toán',
+    ];
 
     public $filters = [];
 
     protected $dates = [
-        'pay_date'
+        'pay_date',
+        'pay_date_real',
     ];
 
     /**
@@ -81,9 +86,9 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
      * Column dùng để hiển thị cho model (Default là name)
      * @var string
      */
-     public $displayAttribute = 'name';
+    public $displayAttribute = 'name';
 
-	public function getDescriptionForEvent(string $eventName): string
+    public function getDescriptionForEvent(string $eventName): string
     {
         return parent::getDescriptionEvent($eventName);
     }
@@ -98,5 +103,10 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
     public function payment_cost()
     {
         return $this->belongsTo(\App\Models\PaymentCost::class);
+    }
+
+    public function contract()
+    {
+        return $this->belongsTo(\App\Models\Contract::class);
     }
 }

@@ -79,24 +79,78 @@ module.exports = __webpack_require__(94);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 $(function () {
-    var isConfirm = $('#payment_details_form').data('confirm');
+	var isConfirm = $('#payment_details_form').data('confirm');
 
-    $('#payment_details_form').validate({
-        submitHandler: isConfirm ? function (form, e) {
-            window.blockPage();
-            e.preventDefault();
+	$('#payment_details_form').validate({
+		submitHandler: isConfirm ? function (form, e) {
+			window.blockPage();
+			e.preventDefault();
 
-            $(form).confirmation(function (result) {
-                if (result && (typeof result === 'undefined' ? 'undefined' : _typeof(result)) === 'object' && result.value) {
-                    $(form).submitForm().then(function () {
-                        location.href = route('payment_details.index');
-                    });
-                } else {
-                    window.unblock();
-                }
-            });
-        } : false
-    });
+			$(form).confirmation(function (result) {
+				if (result && (typeof result === 'undefined' ? 'undefined' : _typeof(result)) === 'object' && result.value) {
+					$(form).submitForm().then(function () {
+						location.href = route('payment_details.index');
+					});
+				} else {
+					window.unblock();
+				}
+			});
+		} : false
+	});
+
+	$('#select_payment_method').on('change', function () {
+		if ($(this).val() !== '') {
+			$('#select_bank').prop('disabled', false).empty().trigger('change');
+			axios.get(route('payment_costs.get_bank'), {
+				params: {
+					method: $(this).val()
+				}
+			}).then(function (result) {
+				var items = result['data']['items'];
+
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var item = _step.value;
+
+						var option = new Option(item.bank_name, item.cost, false, false);
+						$('#select_bank').append(option).trigger('change');
+						$('#txt_bank_name').val($('#select_bank').select2('data')[0]['text']);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+			}).catch(function (e) {
+				return console.log(e);
+			}).finally(function () {
+				window.unblock();
+			});
+		} else {
+			$('#select_bank').prop('disabled', true);
+		}
+	});
+
+	$('#select_bank').on('change', function () {
+		if ($(this).val() !== '') {
+			$('#txt_cost').val($(this).val());
+		} else {
+			$('#txt_cost').val('');
+		}
+	});
 });
 
 /***/ })
