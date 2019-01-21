@@ -50,6 +50,7 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
 		'contract_id',
 		'payment_cost_id',
 		'pay_time',
+		'pay_date',
 		'total_paid_deal',
 		'total_paid_real',
 		'bank_name',
@@ -65,6 +66,10 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
     public $labels = [];
 
     public $filters = [];
+
+    protected $dates = [
+        'pay_date'
+    ];
 
     /**
      * Route của model dùng cho Linkable trait

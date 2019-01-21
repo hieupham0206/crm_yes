@@ -6,6 +6,7 @@
     @endisset
     <div class="m-portlet__body">
         <input type="hidden" name="event_data_id" value="{{ optional($eventData)->id }}">
+        <input type="hidden" name="lead_id" value="{{ optional($lead)->id }}">
         {{--MEMBER INFO--}}
         <div class="form-group m-form__group row">
             <div class="col-md-6 row">
@@ -147,7 +148,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('state') ? 'has-danger' : ''}}">
                 <label for="select_province">{{ $member->label('province') }}</label>
-                <select name="province_id" class="form-control" id="select_province" data-url="{{ route('leads.provinces.table') }}">
+                <select name="city" class="form-control" id="select_province" data-url="{{ route('leads.provinces.table') }}" required>
                     <option></option>
                     @if ($member->province_id)
                         <option value="{{ $member->province_id }}" selected>{{ $member->province->name }}</option>
@@ -182,7 +183,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('membership') ? 'has-danger' : ''}}">
                 <label for="select_membership">{{ $contract->label('membership') }}</label>
-                <select name="membership" id="select_membership" class="select">
+                <select name="membership" id="select_membership" class="select" required>
                     <option></option>
                     @foreach ($contract->memberships as $key => $membership)
                         <option value="{{ $key }}" {{ $contract->membership == $key ? 'checked' : '' }}>{{ $membership }}</option>
@@ -195,7 +196,7 @@
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('room_type') ? 'has-danger' : ''}}">
                 <label for="select_room_type">{{ $contract->label('room_type') }}</label>
-                <select name="room_type" id="select_room_type" class="select">
+                <select name="room_type" id="select_room_type" class="select" required>
                     <option></option>
                     @foreach ($contract->room_types as $key => $roomType)
                         <option value="{{ $key }}" {{ $contract->room_type == $key ? 'checked' : '' }}>{{ $roomType }}</option>
@@ -206,7 +207,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('limit') ? 'has-danger' : ''}}">
                 <label for="select_limit">{{ $contract->label('limit') }}</label>
-                <select name="limit" id="select_limit" class="select">
+                <select name="limit" id="select_limit" class="select" required>
                     <option></option>
                     @foreach ($contract->limits as $key => $limit)
                         <option value="{{ $key }}" {{ $contract->limit == $key ? 'checked' : '' }}>{{ $limit }}</option>
@@ -257,7 +258,8 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name') ? 'has-danger' : ''}}">
                 <label for="select_bank">{{ $paymentCost->label('bank_name') }}</label>
-                <select name="bank_name" id="select_bank" class="select" disabled>
+                <input type="hidden" name="bank_name" id="txt_bank_name">
+                <select name="select_bank_name" id="select_bank" class="select" disabled>
                     <option></option>
                 </select>
                 <span class="m-form__help"></span>
@@ -279,7 +281,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('year_cost') ? 'has-danger' : ''}}">
                 <label for="txt_year_cost">{{ $contract->label('year_cost') }}</label>
-                <input class="form-control numeric" name="year_cost" type="text" id="txt_year_cost" value="{{ $contract->year_cost ?? old('year_cost')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control numeric" name="year_cost" type="text" id="txt_year_cost" value="{{ $contract->year_cost ?? old('year_cost')}}" placeholder="{{ __('Enter value') }}" autocomplete="off" required>
                 <span class="m-form__help"></span>
                 {!! $errors->first('year_cost', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -289,7 +291,7 @@
             <div class="form-group m-form__group row">
                 <div class="col-lg-3">
                     <label for="txt_payment_time">Số lần thanh toán</label>
-                    <input class="form-control" name="payment_time" type="text" id="txt_payment_time" value="" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                    <input class="form-control" name="num_of_payment" type="text" id="txt_payment_time" value="" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 </div>
                 <div class="col-lg-1">
                     <button type="button" class="btn btn-accent m-btn m-btn--custom mt-6" id="btn_add_payment_detail">{{ __('Add') }}</button>
@@ -307,16 +309,6 @@
                         {{--<th>@lang('Actions')</th>--}}
                     </tr>
                     </thead>
-                    <tbody>
-                    @isset ($paymentDetails)
-                        @foreach ($paymentDetails as $paymentDetail)
-                            <tr>
-                                <td><input class="form-control txt-payment-date" value="{{ $paymentDetail->pay_date }}" name="PaymentDetail[payment_date][{{ $loop->index }}][]" type="text" autocomplete="off"></td>
-                                <td><input class="form-control txt-total-paid-deal" value="{{ $paymentDetail->total_paid_detail }}" name="PaymentDetail[total_paid_deal][{{ $loop->index }}][]" type="text" autocomplete="off"></td>
-                            </tr>
-                        @endforeach
-                    @endisset
-                    </tbody>
                 </table>
             </div>
         </div>

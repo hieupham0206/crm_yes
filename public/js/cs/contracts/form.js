@@ -82,12 +82,28 @@ $(function () {
 	var isConfirm = $('#contracts_form').data('confirm');
 
 	$('#contracts_form').validate({
+		rules: {
+			email: {
+				email: function email(element) {
+					var val = $(element).data('value');
+					return val === '';
+				}
+			},
+			spouse_email: {
+				email: function email(element) {
+					var val = $(element).data('value');
+					return val === '';
+				}
+			}
+		},
 		submitHandler: isConfirm ? function (form, e) {
 			window.blockPage();
 			e.preventDefault();
 
 			$(form).confirmation(function (result) {
 				if (result && (typeof result === 'undefined' ? 'undefined' : _typeof(result)) === 'object' && result.value) {
+					var fd = new FormData(form);
+					fd.append('bank_name', $('#select_bank').select2('data')[0]['text']);
 					$(form).submitForm().then(function () {
 						location.href = route('contracts.index');
 					});
@@ -124,6 +140,8 @@ $(function () {
 
 						var option = new Option(item.bank_name, item.cost, false, false);
 						$('#select_bank').append(option).trigger('change');
+						$('#txt_bank_name').val($('#select_bank').select2('data')[0]['text']);
+						console.log($('#select_bank').select2('data')[0]['text']);
 					}
 				} catch (err) {
 					_didIteratorError = true;
@@ -164,6 +182,9 @@ $(function () {
 
 	$('#btn_add_payment_detail').on('click', function () {
 		var paymentTime = parseInt($('#txt_payment_time').val());
+		if (paymentTime > 1000) {
+			return;
+		}
 		var rows = [],
 		    $leftAmount = 0;
 		var totalAmount = $('#txt_amount').val();
@@ -174,11 +195,13 @@ $(function () {
 		}
 
 		for (var i = 0; i < paymentTime; i++) {
-			rows.push(['<input class="form-control txt-payment-date" name="PaymentDetail[payment_date][' + i + '][]" type="text" autocomplete="off">', '<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][' + i + '][]" value="' + $leftAmount + '" type="text" autocomplete="off">']);
+			rows.push(['<input class="form-control txt-payment-date" name="PaymentDetail[pay_date][' + i + '][]" type="text" autocomplete="off">', '<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][' + i + '][]" value="' + $leftAmount + '" type="text" autocomplete="off">']);
 		}
 		tablePaymentDetail.rows().remove();
 		tablePaymentDetail.rows.add(rows).draw(false);
-		$('.txt-payment-date').datepicker();
+		$('.txt-payment-date').datepicker({
+			startDate: new Date()
+		});
 		$('.txt-total-paid-deal').numeric();
 	});
 

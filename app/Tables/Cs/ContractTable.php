@@ -58,10 +58,10 @@ class ContractTable extends DataTable
             }
 
             $dataArray[] = [
-                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $contract->id . '"><span></span></label>',
+//                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $contract->id . '"><span></span></label>',
                 $contract->contract_no,
-                $contract->lead->name,
-                $contract->lead->phone,
+                optional($contract->member)->name,
+                optional($contract->member)->phone,
                 $contract->membership_text,
                 $contract->amount,
                 'debt',
@@ -82,7 +82,7 @@ class ContractTable extends DataTable
      */
     public function getModels()
     {
-        $contracts = Contract::query()->with(['lead']);
+        $contracts = Contract::query()->with(['member']);
 
         $this->totalFilteredRecords = $this->totalRecords = $contracts->count();
 

@@ -25,9 +25,9 @@ class EditAddMoreInfoToContractsTable extends Migration
             $table->date('start_date')->nullable()->comment('Năm bắt đầu');
             $table->integer('end_time')->nullable()->comment('Số năm');
 
-            $table->double('year_cost')->default(0)->comment('Chi phí hàng năm');
-            $table->integer('num_of_payment')->default(0)->comment('Số lần thanh toán');
-            $table->double('total_payment')->default(0);
+            $table->double('year_cost')->nullable()->default(0)->comment('Chi phí hàng năm');
+            $table->integer('num_of_payment')->nullable()->default(0)->comment('Số lần thanh toán');
+            $table->double('total_payment')->nullable()->default(0);
 
             $table->dropColumn([
                 'paid_first_date',

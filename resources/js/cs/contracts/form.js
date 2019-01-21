@@ -2,12 +2,28 @@ $(function() {
 	let isConfirm = $('#contracts_form').data('confirm')
 
 	$('#contracts_form').validate({
+		rules: {
+			email: {
+				email(element) {
+					let val = $(element).data('value')
+					return val === ''
+				},
+			},
+			spouse_email: {
+				email(element) {
+					let val = $(element).data('value')
+					return val === ''
+				},
+			},
+		},
 		submitHandler: isConfirm ? function(form, e) {
 			window.blockPage()
 			e.preventDefault()
 
 			$(form).confirmation(result => {
 				if (result && (typeof result === 'object' && result.value)) {
+					let fd = new FormData(form)
+					fd.append('bank_name', $('#select_bank').select2('data')[0]['text'])
 					$(form).submitForm().then(() => {
 						location.href = route('contracts.index')
 					})
@@ -37,6 +53,9 @@ $(function() {
 				for (const item of items) {
 					let option = new Option(item.bank_name, item.cost, false, false)
 					$('#select_bank').append(option).trigger('change')
+					$('#txt_bank_name').val($('#select_bank').select2('data')[0]['text'])
+					console.log($('#select_bank').select2('data')[0]['text'])
+
 				}
 			}).catch(e => console.log(e)).finally(() => {
 				window.unblock()
@@ -63,6 +82,9 @@ $(function() {
 
 	$('#btn_add_payment_detail').on('click', function() {
 		let paymentTime = parseInt($('#txt_payment_time').val())
+		if (paymentTime > 1000) {
+			return
+		}
 		let rows = [], $leftAmount = 0
 		let totalAmount = $('#txt_amount').val()
 		let firstPaid = $('#txt_total_paid_deal').val()
@@ -73,13 +95,15 @@ $(function() {
 
 		for (let i = 0; i < paymentTime; i++) {
 			rows.push([
-				`<input class="form-control txt-payment-date" name="PaymentDetail[payment_date][${i}][]" type="text" autocomplete="off">`,
+				`<input class="form-control txt-payment-date" name="PaymentDetail[pay_date][${i}][]" type="text" autocomplete="off">`,
 				`<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][${i}][]" value="${$leftAmount}" type="text" autocomplete="off">`,
 			])
 		}
 		tablePaymentDetail.rows().remove()
 		tablePaymentDetail.rows.add(rows).draw(false)
-		$('.txt-payment-date').datepicker()
+		$('.txt-payment-date').datepicker({
+			startDate: new Date(),
+		})
 		$('.txt-total-paid-deal').numeric()
 	})
 

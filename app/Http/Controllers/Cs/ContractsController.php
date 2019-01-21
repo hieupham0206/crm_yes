@@ -13,7 +13,6 @@ use App\Models\PaymentDetail;
 use App\Tables\Cs\ContractTable;
 use App\Tables\TableFacade;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class ContractsController extends Controller
 {
@@ -78,10 +77,10 @@ class ContractsController extends Controller
      */
     public function store(Request $request)
     {
+        $requestData = $request->all();
         $this->validate($request, [
             'contract_no' => 'required',
         ]);
-        $requestData = $request->all();
 
         //note: check kiem tra sdt hoac email da lam member chua
         $identityHusband = $requestData['identity'];
@@ -90,31 +89,50 @@ class ContractsController extends Controller
         if ( ! $member = Member::isMember($identityHusband, $identityWife)) {
             $member = Member::create($requestData);
         } else {
-            $validator = \Validator::make([], []); // Empty data and rules fields
-            $validator->errors()->add('identity', 'Thông tin member đã tồn tại');
-
-            throw new ValidationException($validator);
+//            $validator = \Validator::make([], []); // Empty data and rules fields
+//            $validator->errors()->add('identity', 'Thông tin member đã tồn tại');
+//
+//            throw new ValidationException($validator);
         }
         $requestData['member_id']   = $member->id;
-        $requestData['contract_no'] = Contract::createContractNo($requestData['contract_no'], $member->province_id);
+        $requestData['contract_no'] = Contract::createContractNo($requestData['contract_no'], $requestData['city']);
+        $requestData['amount']      = str_replace(',', '', $requestData['amount']);
         $contract                   = Contract::create($requestData);
 
         //note: cập nhật state của lead thành member
-        $lead = $member->lead;
-        $lead->update(['state' => LeadState::MEMBER]);
+        $leadId = $requestData['lead_id'];
+        $lead   = Lead::find($leadId);
+        if ($lead) {
+            $lead->update(['state' => LeadState::MEMBER]);
+        }
 
         //note: tạo payment_detail
         if ($request->has('PaymentDetail')) {
-            $paymentDates   = collect($requestData['PaymentDetail']['payment_date'])->flatten()->toArray();
+            $paymentDates   = collect($requestData['PaymentDetail']['pay_date'])->flatten()->toArray();
             $totalPaidDeals = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
+
+            $bankName      = $requestData['bank_name'];
+            $paymentMethod = $requestData['payment_method'];
+
+            $paymentCost = PaymentCost::where([
+                'bank_name'      => $bankName,
+                'payment_method' => $paymentMethod,
+            ])->first();
 
             $paymentDetailDatas = [];
 
             foreach ($paymentDates as $key => $paymentDate) {
                 $paymentDetailDatas[] = [
-                    'pay_date'        => $paymentDate,
-                    'total_paid_deal' => $totalPaidDeals[$key],
+                    'pay_date'        => date('Y-m-d', strtotime($paymentDate)),
+                    'total_paid_deal' => str_replace(',', '', $totalPaidDeals[$key]),
                     'contract_id'     => $contract->id,
+                    'payment_cost_id' => optional($paymentCost)->id,
+
+                    'bank_name'  => $bankName,
+                    'bank_no'    => $requestData['bank_no'],
+                    'note'       => $requestData['note'],
+                    'pay_time'   => ++$key,
+                    'created_at' => now()->toDateTimeString(),
                 ];
             }
 
@@ -127,7 +145,8 @@ class ContractsController extends Controller
             ]);
         }
 
-        return redirect(route('contracts.show', $contract))->with('message', __('Data created successfully'));
+//        return redirect(route('contracts.show', $contract))->with('message', __('Data created successfully'));
+        return redirect(route('contracts.index'))->with('message', __('Data created successfully'));
     }
 
     /**
@@ -139,7 +158,15 @@ class ContractsController extends Controller
      */
     public function show(Contract $contract)
     {
-        return view('cs.contracts.show', compact('contract'));
+        $paymentDetails = $contract->payment_details;
+
+        return view('cs.contracts.show', [
+            'contract'       => $contract,
+            'paymentDetails' => $paymentDetails,
+            'lead'           => new Lead(),
+            'member'         => $contract->member,
+            'paymentCost'    => new PaymentCost,
+        ]);
     }
 
     /**
@@ -151,14 +178,16 @@ class ContractsController extends Controller
      */
     public function edit(Contract $contract)
     {
+        $paymentDetails = $contract->payment_details;
 
         return view('cs.contracts.edit', [
-            'contract'    => $contract,
-            'lead'        => new Lead(),
-            'member'      => new Member,
-            'paymentCost' => new PaymentCost,
-            'method'      => 'put',
-            'action'      => route('contracts.update', $contract),
+            'contract'       => $contract,
+            'paymentDetails' => $paymentDetails,
+            'lead'           => new Lead(),
+            'member'         => new Member,
+            'paymentCost'    => new PaymentCost,
+            'method'         => 'put',
+            'action'         => route('contracts.update', $contract),
         ]);
     }
 
@@ -179,6 +208,24 @@ class ContractsController extends Controller
         $requestData = $request->all();
         $contract->update($requestData);
 
+        //note: tạo payment_detail
+        if ($request->has('PaymentDetail')) {
+            $paymentDates   = collect($requestData['PaymentDetail']['payment_date'])->flatten()->toArray();
+            $totalPaidDeals = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
+
+            $paymentDetailDatas = [];
+
+            foreach ($paymentDates as $key => $paymentDate) {
+                $paymentDetailDatas[] = [
+                    'pay_date'        => $paymentDate,
+                    'total_paid_deal' => $totalPaidDeals[$key],
+                    'contract_id'     => $contract->id,
+                ];
+
+                PaymentDetail::updateOrCreate($paymentDetailDatas);
+            }
+
+        }
         if ($request->wantsJson()) {
             return $this->asJson([
                 'message' => __('Data edited successfully'),

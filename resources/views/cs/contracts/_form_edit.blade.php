@@ -5,7 +5,8 @@
         @method('put')
     @endisset
     <div class="m-portlet__body">
-        <input type="hidden" name="event_data_id" value="{{ optional($eventData)->id }}">
+        {{--<input type="hidden" name="event_data_id" value="{{ optional($eventData)->id }}">--}}
+
         {{--MEMBER INFO--}}
         <div class="form-group m-form__group row">
             <div class="col-md-6 row">
@@ -170,13 +171,13 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('signed_date') ? 'has-danger' : ''}}">
                 <label for="txt_signed_date">{{ $contract->label('signed_date') }}</label>
-                <input class="form-control text-datepicker" name="signed_date" type="text" id="txt_signed_date" value="{{ $contract->signed_date ?? old('signed_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control text-datepicker" name="signed_date" type="text" id="txt_signed_date" value="{{ optional($contract->signed_date)->format('d-m-Y') ?? old('signed_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('signed_date', '<div class="form-control-feedback">:message</div>') !!}
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('amount') ? 'has-danger' : ''}}">
                 <label for="txt_amount">{{ $contract->label('amount') }}</label>
-                <input class="form-control numeric" name="amount" type="text" id="txt_amount" value="{{ $contract->amount ?? old('amount')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control numeric" name="amount" type="text" id="txt_amount" value="{{ number_format($contract->amount) ?? old('amount')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('amount', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -185,7 +186,7 @@
                 <select name="membership" id="select_membership" class="select">
                     <option></option>
                     @foreach ($contract->memberships as $key => $membership)
-                        <option value="{{ $key }}" {{ $contract->membership == $key ? 'checked' : '' }}>{{ $membership }}</option>
+                        <option value="{{ $key }}" {{ $contract->membership == $key ? 'selected' : '' }}>{{ $membership }}</option>
                     @endforeach
                 </select>
                 <span class="m-form__help"></span>
@@ -198,7 +199,7 @@
                 <select name="room_type" id="select_room_type" class="select">
                     <option></option>
                     @foreach ($contract->room_types as $key => $roomType)
-                        <option value="{{ $key }}" {{ $contract->room_type == $key ? 'checked' : '' }}>{{ $roomType }}</option>
+                        <option value="{{ $key }}" {{ $contract->room_type == $key ? 'selected' : '' }}>{{ $roomType }}</option>
                     @endforeach
                 </select>
                 <span class="m-form__help"></span>
@@ -209,7 +210,7 @@
                 <select name="limit" id="select_limit" class="select">
                     <option></option>
                     @foreach ($contract->limits as $key => $limit)
-                        <option value="{{ $key }}" {{ $contract->limit == $key ? 'checked' : '' }}>{{ $limit }}</option>
+                        <option value="{{ $key }}" {{ $contract->limit == $key ? 'selected' : '' }}>{{ $limit }}</option>
                     @endforeach
                 </select>
                 <span class="m-form__help"></span>
@@ -217,7 +218,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('start_date') ? 'has-danger' : ''}}">
                 <label for="txt_start_date">{{ $contract->label('start_date') }}</label>
-                <input class="form-control text-datepicker" name="start_date" type="text" id="txt_start_date" value="{{ $contract->start_date ?? old('start_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control text-datepicker" name="start_date" type="text" id="txt_start_date" value="{{ optional($contract->start_date)->format('d-m-Y') ?? old('start_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('start_date', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -240,7 +241,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('pay_date') ? 'has-danger' : ''}}">
                 <label for="txt_pay_date">{{ $contract->label('pay_date') }}</label>
-                <input class="form-control text-datepicker" name="pay_date" type="text" id="txt_pay_date" value="{{ $contract->pay_date ?? old('pay_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control text-datepicker" name="pay_date" type="text" id="txt_pay_date" value="{{ optional($contract->pay_date)->format('d-m-Y') ?? old('pay_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('pay_date', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -289,14 +290,13 @@
             <div class="form-group m-form__group row">
                 <div class="col-lg-3">
                     <label for="txt_payment_time">Số lần thanh toán</label>
-                    <input class="form-control" name="payment_time" type="text" id="txt_payment_time" value="" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                    <input class="form-control" name="num_of_payment" type="text" id="txt_payment_time" value="" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 </div>
                 <div class="col-lg-1">
                     <button type="button" class="btn btn-accent m-btn m-btn--custom mt-6" id="btn_add_payment_detail">{{ __('Add') }}</button>
                 </div>
             </div>
         @endif
-
         <div class="form-group m-form__group row">
             <div class="col-lg-4">
                 <table class="table table-hover table-bordered nowrap" id="table_payment_detail">
@@ -311,8 +311,11 @@
                     @isset ($paymentDetails)
                         @foreach ($paymentDetails as $paymentDetail)
                             <tr>
-                                <td><input class="form-control txt-payment-date" value="{{ $paymentDetail->pay_date }}" name="PaymentDetail[payment_date][{{ $loop->index }}][]" type="text" autocomplete="off"></td>
-                                <td><input class="form-control txt-total-paid-deal" value="{{ $paymentDetail->total_paid_detail }}" name="PaymentDetail[total_paid_deal][{{ $loop->index }}][]" type="text" autocomplete="off"></td>
+                                <td>
+                                    <input type="hidden" name="PaymentDetail[id][{{ $loop->index }}][]" value="{{ $paymentDetail->id }}">
+                                    <input class="form-control txt-payment-date" value="{{ $paymentDetail->pay_date->format('d-m-Y') }}" name="PaymentDetail[pay_date][{{ $loop->index }}][]" type="text" autocomplete="off">
+                                </td>
+                                <td><input class="form-control txt-total-paid-deal" value="{{ number_format($paymentDetail->total_paid_deal) }}" name="PaymentDetail[total_paid_deal][{{ $loop->index }}][]" type="text" autocomplete="off"></td>
                             </tr>
                         @endforeach
                     @endisset

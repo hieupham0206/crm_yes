@@ -135,6 +135,11 @@ class Contract extends \App\Models\Base\Contract
         return parent::getDescriptionEvent($eventName);
     }
 
+    public function lead()
+    {
+        return $this->belongsTo(\App\Models\Lead::class);
+    }
+
     public function getMembershipsAttribute()
     {
         return ContractMembership::toSelectArray();
@@ -142,7 +147,7 @@ class Contract extends \App\Models\Base\Contract
 
     public function getMembershipTextAttribute()
     {
-        return ContractMembership::getDescription($this->state);
+        return ContractMembership::getDescription($this->membership);
     }
 
     public function getLimitsAttribute()
@@ -194,5 +199,10 @@ class Contract extends \App\Models\Base\Contract
         if ($value) {
             $this->attributes['start_date'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
         }
+    }
+
+    public function payment_details()
+    {
+        return $this->hasMany(PaymentDetail::class);
     }
 }

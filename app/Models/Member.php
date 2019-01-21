@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PersonTitle;
+use Carbon\Carbon;
 
 /**
  * App\Models\Member
@@ -144,5 +145,38 @@ class Member extends \App\Models\Base\Member
     public function getTitlesAttribute()
     {
         return PersonTitle::toSelectArray();
+    }
+
+    public function setSpouseIdentityDateAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['spouse_identity_date'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+        }
+    }
+
+    public function setIdentityDateAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['identity_date'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+        }
+    }
+
+    public function setBirthdayAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['spouse_birthday'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+        }
+    }
+
+    public function setSpouseBirthdayAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['birthday'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+        }
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(\App\Models\Province::class, 'city', 'id');
     }
 }
