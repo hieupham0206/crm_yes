@@ -129,7 +129,8 @@ class PaymentDetailsController extends Controller
             ]);
         }
 
-        return redirect(route('payment_details.show', $paymentDetail))->with('message', __('Data edited successfully'));
+//        return redirect(route('payment_details.show', $paymentDetail))->with('message', __('Data edited successfully'));
+        return redirect(route('payment_details.index'))->with('message', __('Data edited successfully'));
     }
 
     /**
