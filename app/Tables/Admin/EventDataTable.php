@@ -118,7 +118,7 @@ class EventDataTable extends DataTable
      */
     public function getModels()
     {
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'appointment']);
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'appointment'])->doesntHave('contracts');
 //                               ->where(function ($q) {
 //                                   return $q->where('state', '!=', EventDataState::NOT_DEAL)->orWhere('state', '=', null);
 //                               });

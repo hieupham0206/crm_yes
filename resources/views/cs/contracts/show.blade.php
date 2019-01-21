@@ -48,7 +48,7 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('identity_address') ? 'has-danger' : ''}}">
                                 <label for="txt_identity_address">{{ $member->label('identity_address') }}</label>
-                                <input disabled class="form-control" name="name" type="text" id="txt_identity_address" value="{{ optional($member->identity_address)->name }}">
+                                <input disabled class="form-control" name="name" type="text" id="txt_identity_address" value="{{ optional($member->identityAddress)->name }}">
                                 <span class="m-form__help"></span>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('identity_date') ? 'has-danger' : ''}}">
@@ -93,7 +93,7 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('spouse_identity_address') ? 'has-danger' : ''}}">
                                 <label for="txt_spouse_identity_address">{{ $member->label('spouse_identity_address') }}</label>
-                                <input disabled class="form-control" name="name" type="text" id="txt_spouse_identity_address" value="{{ optional($member->spouse_identity_address)->name }}">
+                                <input disabled class="form-control" name="name" type="text" id="txt_spouse_identity_address" value="{{ optional($member->spouseIdentityAddress)->name }}">
                                 <span class="m-form__help"></span>
                                 {!! $errors->first('spouse_identity_address', '<div class="form-control-feedback">:message</div>') !!}
                             </div>
@@ -126,7 +126,7 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('signed_date') ? 'has-danger' : ''}}">
                             <label for="txt_signed_date">{{ $contract->label('signed_date') }}</label>
-                            <input disabled class="form-control" name="signed_date" type="text" id="txt_signed_date" value="{{ $contract->signed_date ?? old('signed_date')}}">
+                            <input disabled class="form-control" name="signed_date" type="text" id="txt_signed_date" value="{{ $contract->signed_date->format('d-m-Y') ?? old('signed_date')}}">
                             <span class="m-form__help"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('amount') ? 'has-danger' : ''}}">
@@ -153,7 +153,7 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('start_date') ? 'has-danger' : ''}}">
                             <label for="txt_start_date">{{ $contract->label('start_date') }}</label>
-                            <input disabled class="form-control" name="start_date" type="text" id="txt_start_date" value="{{ $contract->start_date}}">
+                            <input disabled class="form-control" name="start_date" type="text" id="txt_start_date" value="{{ $contract->start_date->format('d-m-Y') }}">
                             <span class="m-form__help"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('end_time') ? 'has-danger' : ''}}">
@@ -166,11 +166,26 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
 
                     {{--PAYMENT_DETAIL--}}
                     <div class="form-group m-form__group row">
+                        {{--<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('total_paid_deal') ? 'has-danger' : ''}}">--}}
+                            {{--<label for="txt_total_paid_deal">{{ $contract->label('total_paid_deal') }}</label>--}}
+                            {{--<input disabled class="form-control numeric" name="total_paid_deal" type="text" id="txt_total_paid_deal" --}}
+                                   {{--value="{{ number_format($firstPaymentDetail->total_paid_deal) ?? old('total_paid_deal')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">--}}
+                            {{--<span class="m-form__help"></span>--}}
+                        {{--</div>--}}
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('cost') ? 'has-danger' : ''}}">
+                            <label for="txt_cost">{{ $paymentCost->label('cost') }}</label>
+                            <input disabled class="form-control" name="cost" type="text" id="txt_cost" value="{{ $firstPaymentDetail->payment_cost->cost ?? old('cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
+                            <span class="m-form__help"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_no') ? 'has-danger' : ''}}">
+                            <label for="txt_bank_no">{{ $paymentCost->label('bank_no') }}</label>
+                            <input disabled class="form-control" name="bank_no" type="text" id="txt_bank_no" value="{{ $firstPaymentDetail->bank_no ?? old('bank_no')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
+                            <span class="m-form__help"></span>
+                        </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('year_cost') ? 'has-danger' : ''}}">
                             <label for="txt_year_cost">{{ $contract->label('year_cost') }}</label>
-                            <input disable class="form-control" name="year_cost" type="text" id="txt_year_cost" value="{{ $contract->year_cost}}">
+                            <input disabled class="form-control" name="year_cost" type="text" id="txt_year_cost" value="{{ number_format($contract->year_cost)  }}">
                             <span class="m-form__help"></span>
-                            {!! $errors->first('year_cost', '<div class="form-control-feedback">:message</div>') !!}
                         </div>
                     </div>
                     <div class="form-group m-form__group row">

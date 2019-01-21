@@ -79,7 +79,7 @@ class ContractsController extends Controller
     {
         $requestData = $request->all();
         $this->validate($request, [
-            'contract_no' => 'required',
+            'contract_no' => 'required|unique:contracts',
         ]);
 
         //note: check kiem tra sdt hoac email da lam member chua
@@ -97,6 +97,7 @@ class ContractsController extends Controller
         $requestData['member_id']   = $member->id;
         $requestData['contract_no'] = Contract::createContractNo($requestData['contract_no'], $requestData['city']);
         $requestData['amount']      = str_replace(',', '', $requestData['amount']);
+        $requestData['year_cost']   = str_replace(',', '', $requestData['year_cost']);
         $contract                   = Contract::create($requestData);
 
         //note: cập nhật state của lead thành member
@@ -130,7 +131,7 @@ class ContractsController extends Controller
                 'bank_no'    => $requestData['bank_no'],
                 'note'       => $requestData['note'],
                 'pay_time'   => $payTime,
-                'created_at' => now()->toDateTimeString()
+                'created_at' => now()->toDateTimeString(),
             ]);
         }
 
@@ -177,14 +178,16 @@ class ContractsController extends Controller
      */
     public function show(Contract $contract)
     {
-        $paymentDetails = $contract->payment_details;
+        $paymentDetails     = $contract->payment_details;
+        $firstPaymentDetail = $paymentDetails->first();
 
         return view('cs.contracts.show', [
-            'contract'       => $contract,
-            'paymentDetails' => $paymentDetails,
-            'lead'           => new Lead(),
-            'member'         => $contract->member,
-            'paymentCost'    => new PaymentCost,
+            'contract'           => $contract,
+            'firstPaymentDetail' => $firstPaymentDetail,
+            'paymentDetails'     => $paymentDetails,
+            'lead'               => new Lead(),
+            'member'             => $contract->member,
+            'paymentCost'        => new PaymentCost,
         ]);
     }
 

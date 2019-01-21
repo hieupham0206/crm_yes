@@ -82,17 +82,18 @@ class Member extends \App\Models\Base\Member
         'city',
         'phone',
         'email',
+        'identity',
+        'identity_address',
+        'identity_date',
+
+        'spouse_title',
         'spouse_name',
         'spouse_phone',
         'spouse_birthday',
         'spouse_email',
-        'spouse_title',
-        'identity',
-        'identity_address',
-        'identity_date',
         'spouse_identity',
         'spouse_identity_address',
-        'spouse_identity_date',
+        'spouse_identity_date'
     ];
     public static $logName = 'Member';
 
@@ -178,5 +179,15 @@ class Member extends \App\Models\Base\Member
     public function province()
     {
         return $this->belongsTo(\App\Models\Province::class, 'city', 'id');
+    }
+
+    public function identityAddress()
+    {
+        return $this->belongsTo(\App\Models\Province::class, 'identity_address', 'id');
+    }
+
+    public function spouseIdentityAddress()
+    {
+        return $this->belongsTo(\App\Models\Province::class, 'spouse_identity_address', 'id');
     }
 }

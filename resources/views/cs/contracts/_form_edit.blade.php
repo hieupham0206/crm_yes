@@ -59,7 +59,7 @@
                     <select name="identity_address" class="form-control select2-ajax" id="select_identity_address" data-url="{{ route('leads.provinces.table') }}">
                         <option></option>
                         @if($member->identity_address)
-                            <option value="{{ $member->identity_address }}" selected>{{ $member->identity_address->name }}</option>
+                            <option value="{{ $member->identity_address }}" selected>{{ optional($member->identity_address)->name }}</option>
                         @endif
                     </select>
                     <span class="m-form__help"></span>
@@ -165,7 +165,7 @@
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('contract_no') ? 'has-danger' : ''}}">
                 <label for="txt_contract_no">{{ $contract->label('contract_no') }}</label>
-                <input class="form-control numeral" name="contract_no" type="text" id="txt_contract_no" value="{{ $contract->contract_no ?? old('contract_no')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input readonly class="form-control numeral" name="contract_no" type="text" id="txt_contract_no" value="{{ $contract->contract_no ?? old('contract_no')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('contract_no', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -235,7 +235,7 @@
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('total_paid_deal') ? 'has-danger' : ''}}">
                 <label for="txt_total_paid_deal">{{ $contract->label('total_paid_deal') }}</label>
-                <input class="form-control numeric" name="total_paid_deal" type="text" id="txt_total_paid_deal" value="{{ $firstPaymentDetail->total_paid_deal ?? old('total_paid_deal')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control numeric" name="total_paid_deal" type="text" id="txt_total_paid_deal" value="{{ number_format($firstPaymentDetail->total_paid_deal) ?? old('total_paid_deal')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('total_paid_deal', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -250,7 +250,7 @@
                 <select name="payment_method" id="select_payment_method" class="select">
                     <option></option>
                     @foreach ($paymentCost->payment_methods as $key => $paymentMethod)
-                        <option value="{{ $key }}">{{ $paymentMethod }}</option>
+                        <option value="{{ $key }}" {{ $firstPaymentDetail->payment_cost->payment_method === $key ? 'selected' : '' }}>{{ $paymentMethod }}</option>
                     @endforeach
                 </select>
                 <span class="m-form__help"></span>
@@ -258,8 +258,9 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name') ? 'has-danger' : ''}}">
                 <label for="select_bank">{{ $paymentCost->label('bank_name') }}</label>
-                <select name="bank_name" id="select_bank" class="select" disabled>
+                <select name="bank_name" id="select_bank" class="select">
                     <option></option>
+                    <option value="1" {{ $firstPaymentDetail->payment_cost->bank_name ? 'selected' : '' }}>{{ $firstPaymentDetail->payment_cost->bank_name }}</option>
                 </select>
                 <span class="m-form__help"></span>
                 {!! $errors->first('bank_name', '<div class="form-control-feedback">:message</div>') !!}
@@ -268,13 +269,13 @@
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('cost') ? 'has-danger' : ''}}">
                 <label for="txt_cost">{{ $paymentCost->label('cost') }}</label>
-                <input class="form-control" name="cost" type="text" id="txt_cost" value="{{ $paymentCost->cost ?? old('cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control" name="cost" type="text" id="txt_cost" value="{{ $firstPaymentDetail->payment_cost->cost ?? old('cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('cost', '<div class="form-control-feedback">:message</div>') !!}
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_no') ? 'has-danger' : ''}}">
                 <label for="txt_bank_no">{{ $paymentCost->label('bank_no') }}</label>
-                <input class="form-control" name="bank_no" type="text" id="txt_bank_no" value="{{ $paymentCost->bank_no ?? old('bank_no')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control" name="bank_no" type="text" id="txt_bank_no" value="{{ $firstPaymentDetail->bank_no ?? old('bank_no')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('bank_no', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -326,7 +327,7 @@
         <div class="form-group m-form__group row">
             <div class="col-12 m-form__group-sub {{ $errors->has('note') ? 'has-danger' : ''}}">
                 <label for="textarea_note">{{ $paymentCost->label('note') }}</label>
-                <textarea name="note" id="textarea_note" cols="30" rows="5" class="form-control"></textarea>
+                <textarea name="note" id="textarea_note" cols="30" rows="5" class="form-control">{{ $firstPaymentDetail->note }}</textarea>
                 <span class="m-form__help"></span>
                 {!! $errors->first('note', '<div class="form-control-feedback">:message</div>') !!}
             </div>
