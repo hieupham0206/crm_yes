@@ -57,14 +57,16 @@ class ContractTable extends DataTable
                 </button>';
             }
 
+            $paid = $contract->payment_details()->sum('total_paid_real');
+            $debt = $contract->amount - $paid;
             $dataArray[] = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $contract->id . '"><span></span></label>',
                 $contract->contract_no,
                 optional($contract->member)->name,
                 optional($contract->member)->phone,
                 $contract->membership_text,
-                $contract->amount,
-                'debt',
+                number_format($contract->amount),
+                number_format($debt),
                 $contract->created_at->format('d-m-Y'),
                 $contract->limit,
 
@@ -82,7 +84,7 @@ class ContractTable extends DataTable
      */
     public function getModels()
     {
-        $contracts = Contract::query()->with(['member']);
+        $contracts = Contract::query()->with(['member', 'payment_details']);
 
         $this->totalFilteredRecords = $this->totalRecords = $contracts->count();
 

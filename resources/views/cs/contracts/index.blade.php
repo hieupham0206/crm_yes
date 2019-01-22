@@ -20,7 +20,7 @@ $breadcrumbs = ['breadcrumb' => 'contracts.index'];
                     <thead>
                         <tr>
                             {{--<th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
-                            <th>{{ $contract->label('contract no') }}</th>
+                            <th>{{ $contract->label('contract_no') }}</th>
                             <th>{{ $contract->label('lead_name') }}</th>
                             <th>{{ $contract->label('phone') }}</th>
                             <th>{{ $contract->label('membership') }}</th>

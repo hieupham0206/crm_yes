@@ -14,7 +14,7 @@ class ContractTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->contract = factory( Contract::class )->create();
+//		$this->contract = factory( Contract::class )->create();
 	}
 
 	public function test_unauthorized_user_cannot_crud_contract() {

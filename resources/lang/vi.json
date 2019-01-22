@@ -170,5 +170,7 @@
   "Event data c": "Event data (CS)",
   "Event data": "Event data",
   "event data": "Event data",
-  "Amount": "Số tiền"
+  "Amount": "Số tiền",
+  "Value": "Giá trị",
+  "Debt": "Nợ"
 }

@@ -166,15 +166,19 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
 
                     {{--PAYMENT_DETAIL--}}
                     <div class="form-group m-form__group row">
-                        {{--<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('total_paid_deal') ? 'has-danger' : ''}}">--}}
-                            {{--<label for="txt_total_paid_deal">{{ $contract->label('total_paid_deal') }}</label>--}}
-                            {{--<input disabled class="form-control numeric" name="total_paid_deal" type="text" id="txt_total_paid_deal" --}}
-                                   {{--value="{{ number_format($firstPaymentDetail->total_paid_deal) ?? old('total_paid_deal')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">--}}
-                            {{--<span class="m-form__help"></span>--}}
-                        {{--</div>--}}
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_method') ? 'has-danger' : ''}}">
+                            <label for="select_payment_method">{{ $paymentCost->label('payment_method') }}</label>
+                            <input class="form-control" name="cost" type="text" id="txt_payment_cost" value="{{ $firstPaymentDetail->payment_cost->payment_method_text}}" disabled placeholder="{{ __('Enter value') }}" autocomplete="off">
+                            <span class="m-form__help"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name') ? 'has-danger' : ''}}">
+                            <label for="select_bank">{{ $paymentCost->label('bank_name') }}</label>
+                            <input class="form-control" name="cost" type="text" id="txt_bank_name" value="{{ $firstPaymentDetail->payment_cost->bank_name ?? old('bank_name')}}" disabled placeholder="{{ __('Enter value') }}" autocomplete="off">
+                            <span class="m-form__help"></span>
+                        </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('cost') ? 'has-danger' : ''}}">
                             <label for="txt_cost">{{ $paymentCost->label('cost') }}</label>
-                            <input disabled class="form-control" name="cost" type="text" id="txt_cost" value="{{ $firstPaymentDetail->payment_cost->cost ?? old('cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
+                            <input disabled class="form-control" name="cost" type="text" id="txt_cost" value="{{ $firstPaymentDetail->payment_cost->cost ?? old('cost')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
                             <span class="m-form__help"></span>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_no') ? 'has-danger' : ''}}">
@@ -182,10 +186,16 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
                             <input disabled class="form-control" name="bank_no" type="text" id="txt_bank_no" value="{{ $firstPaymentDetail->bank_no ?? old('bank_no')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
                             <span class="m-form__help"></span>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('year_cost') ? 'has-danger' : ''}}">
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
                             <label for="txt_year_cost">{{ $contract->label('year_cost') }}</label>
                             <input disabled class="form-control" name="year_cost" type="text" id="txt_year_cost" value="{{ number_format($contract->year_cost)  }}">
                             <span class="m-form__help"></span>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+                            <label for="txt_payment_time">Số lần thanh toán</label>
+                            <input class="form-control" name="num_of_payment" type="text" id="txt_payment_time" value="{{ $contract->num_of_payment }}" required placeholder="{{ __('Enter value') }}" autocomplete="off" disabled>
                         </div>
                     </div>
                     <div class="form-group m-form__group row">

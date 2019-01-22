@@ -13,6 +13,7 @@ use App\Models\PaymentDetail;
 use App\Tables\Cs\ContractTable;
 use App\Tables\TableFacade;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ContractsController extends Controller
 {
@@ -57,12 +58,28 @@ class ContractsController extends Controller
         $appointment = $eventData->appointment;
         $lead        = $appointment->lead;
 
+        $contract = new Contract;
+        $contract->fill([
+//            'contract_no'    => time(),
+            'contract_no'    => '1548129013',
+            'amount'         => '1000000',
+            'signed_date'    => '22-01-2019',
+            'start_date'     => '22-01-2019',
+            'membership'     => 1,
+            'room_type'      => 1,
+            'limit'          => 1,
+            'end_time'       => 1,
+            'num_of_payment' => 2,
+            'pay_date'       => '22-01-2019',
+        ]);
+
         return view('cs.contracts.create', [
-            'contract'    => new Contract,
+            'contract'    => $contract,
             'eventData'   => $eventData,
             'lead'        => $lead,
             'member'      => new Member,
             'paymentCost' => new PaymentCost,
+            'appointment' => $appointment,
             'action'      => route('contracts.store'),
         ]);
     }
@@ -79,7 +96,7 @@ class ContractsController extends Controller
     {
         $requestData = $request->all();
         $this->validate($request, [
-            'contract_no' => 'required|unique:contracts',
+            'contract_no' => 'required',
         ]);
 
         //note: check kiem tra sdt hoac email da lam member chua
@@ -94,11 +111,20 @@ class ContractsController extends Controller
 //
 //            throw new ValidationException($validator);
         }
-        $requestData['member_id']   = $member->id;
         $requestData['contract_no'] = Contract::createContractNo($requestData['contract_no'], $requestData['city']);
-        $requestData['amount']      = str_replace(',', '', $requestData['amount']);
-        $requestData['year_cost']   = str_replace(',', '', $requestData['year_cost']);
-        $contract                   = Contract::create($requestData);
+
+        if (Contract::checkContractNoExists($requestData['contract_no'])) {
+            $validator = \Validator::make([], []); // Empty data and rules fields
+            $validator->errors()->add('contract_no', 'Số hợp đồng đã tồn tại');
+
+            throw new ValidationException($validator);
+        }
+
+        $requestData['member_id'] = $member->id;
+        $requestData['amount']    = str_replace(',', '', $requestData['amount']);
+        $requestData['year_cost'] = str_replace(',', '', $requestData['year_cost']);
+        ++$requestData['num_of_payment'];
+        $contract = Contract::create($requestData);
 
         //note: cập nhật state của lead thành member
         $leadId = $requestData['lead_id'];

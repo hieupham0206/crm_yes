@@ -187,6 +187,11 @@ class Contract extends \App\Models\Base\Contract
         return $contractNo;
     }
 
+    public static function checkContractNoExists($contractNo)
+    {
+        return self::where('contract_no', $contractNo)->exists();
+    }
+
     public function setSignedDateAttribute($value)
     {
         if ($value) {
