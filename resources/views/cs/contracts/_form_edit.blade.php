@@ -261,7 +261,7 @@
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('year_cost') ? 'has-danger' : ''}}">
                 <label for="txt_year_cost">{{ $contract->label('year_cost') }}</label>
-                <input class="form-control numeric" name="year_cost" type="text" id="txt_year_cost" value="{{ number_format($contract->year_cost) ?? old('year_cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control numeric" name="year_cost" type="text" id="txt_year_cost" value="{{ number_format($contract->year_cost) ?? old('year_cost')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('year_cost', '<div class="form-control-feedback">:message</div>') !!}
             </div>
