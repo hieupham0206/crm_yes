@@ -88,7 +88,7 @@ class EventDataCsTable extends DataTable
      */
     public function getModels()
     {
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])->where('state', EventDataState::DEAL);
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])->doesntHave('contracts')->where('state', EventDataState::DEAL);
 
         $this->totalFilteredRecords = $this->totalRecords = $eventDatas->count();
 

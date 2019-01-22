@@ -124,7 +124,6 @@ class EventDataTable extends DataTable
 //                               });
 
         $this->totalFilteredRecords = $this->totalRecords = $eventDatas->count();
-
         if ($this->isFilterNotEmpty) {
             $eventDatas->filters($this->filters);
 

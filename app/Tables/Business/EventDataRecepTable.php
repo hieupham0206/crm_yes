@@ -87,7 +87,7 @@ class EventDataRecepTable extends DataTable
      */
     public function getModels()
     {
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep']);
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])->doesntHave('contracts');
 
         $this->totalFilteredRecords = $this->totalRecords = $eventDatas->count();
 
