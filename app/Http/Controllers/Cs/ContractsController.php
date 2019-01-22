@@ -59,19 +59,19 @@ class ContractsController extends Controller
         $lead        = $appointment->lead;
 
         $contract = new Contract;
-        $contract->fill([
-//            'contract_no'    => time(),
-            'contract_no'    => '1548129013',
-            'amount'         => '1000000',
-            'signed_date'    => '22-01-2019',
-            'start_date'     => '22-01-2019',
-            'membership'     => 1,
-            'room_type'      => 1,
-            'limit'          => 1,
-            'end_time'       => 1,
-            'num_of_payment' => 2,
-            'pay_date'       => '22-01-2019',
-        ]);
+//        $contract->fill([
+////            'contract_no'    => time(),
+//            'contract_no'    => '1548129013',
+//            'amount'         => '1000000',
+//            'signed_date'    => '22-01-2019',
+//            'start_date'     => '22-01-2019',
+//            'membership'     => 1,
+//            'room_type'      => 1,
+//            'limit'          => 1,
+//            'end_time'       => 1,
+//            'num_of_payment' => 2,
+//            'pay_date'       => '22-01-2019',
+//        ]);
 
         return view('cs.contracts.create', [
             'contract'    => $contract,
