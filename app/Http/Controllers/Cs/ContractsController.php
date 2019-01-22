@@ -261,8 +261,8 @@ class ContractsController extends Controller
         $requestData['year_cost'] = str_replace(',', '', $requestData['year_cost']);
 
         //note: check neu gia tri hop dong thay doi thi cap nhat vao lan hen trả cuoi cùng
-        if ($contract->amount !== $requestData['amount']) {
-            $amountChange = $contract->amount - $requestData['amount'];
+        $amountChange = $contract->amount - $requestData['amount'];
+        if ($amountChange != 0) {
             /** @var PaymentDetail $lastPaymentDetail */
             $lastPaymentDetail = $contract->payment_details()->orderBy('pay_date', 'desc')->first();
 
