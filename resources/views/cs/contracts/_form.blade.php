@@ -165,7 +165,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('signed_date') ? 'has-danger' : ''}}">
                 <label for="txt_signed_date">{{ $contract->label('signed_date') }}</label>
-                <input class="form-control text-datepicker" name="signed_date" type="text" id="txt_signed_date" value="{{ $contract->signed_date->format('d-m-Y') ?? old('signed_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control text-datepicker" name="signed_date" type="text" id="txt_signed_date" value="{{ optional($contract->signed_date)->format('d-m-Y') ?? old('signed_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('signed_date', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -212,7 +212,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('start_date') ? 'has-danger' : ''}}">
                 <label for="txt_start_date">{{ $contract->label('start_date') }}</label>
-                <input class="form-control text-datepicker" name="start_date" type="text" id="txt_start_date" value="{{ $contract->start_date->format('d-m-Y') ?? old('start_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control text-datepicker" name="start_date" type="text" id="txt_start_date" value="{{ optional($contract->start_date)->format('d-m-Y') ?? old('start_date')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('start_date', '<div class="form-control-feedback">:message</div>') !!}
             </div>
