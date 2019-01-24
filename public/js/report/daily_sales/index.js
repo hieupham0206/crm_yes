@@ -60,98 +60,51 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 115);
+/******/ 	return __webpack_require__(__webpack_require__.s = 107);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 115:
+/***/ 107:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(116);
+module.exports = __webpack_require__(108);
 
 
 /***/ }),
 
-/***/ 116:
+/***/ 108:
 /***/ (function(module, exports) {
 
 $(function () {
-	var $app = $('#app');
-	var tableLead = $('#table_leads').DataTable({
+	var tableDailySale = $('#table_daily_sale_report').DataTable({
 		'serverSide': true,
 		'paging': true,
 		'ajax': $.fn.dataTable.pipeline({
-			url: route('leads.table'),
+			url: route('daily_sales.table'),
 			data: function data(q) {
-				q.filters = JSON.stringify($('#leads_search_form').serializeArray());
+				q.filters = JSON.stringify($('#daily_sale_report_search_form').serializeArray());
 			}
 		}),
 		conditionalPaging: true,
 		info: true,
 		lengthChange: true
 	});
-	$app.on('click', '.btn-delete', function () {
-		tableLead.actionDelete({ btnDelete: $(this) });
-	});
-	$app.on('click', '.btn-form-import', function () {
-		var url = $(this).data('url');
-
-		$('#modal_md').showModal({ url: url, params: {}, method: 'get' });
-	});
-	$('body').on('submit', '#import_leads_form', function (e) {
-		e.preventDefault();
-
-		mApp.block('.modal');
-		var url = $(this).prop('action');
-		var formData = new FormData($(this)[0]);
-
-		$(this).submitForm({ url: url, formData: formData, method: 'post' }).then(function () {
-			mApp.unblock('.modal');
-			tableLead.reload();
-			$('#modal_md').modal('hide');
-		});
-	});
-	$('#select_user_filter_id').select2Ajax({
-		data: function data(q) {
-			q.roleId = [5, 6];
-		}
-	});
-
-	$('#leads_search_form').on('submit', function () {
-		tableLead.reload();
+	$('#daily_sale_report_search_form').on('submit', function () {
+		tableDailySale.reload();
 		return false;
 	});
 	$('#btn_reset_filter').on('click', function () {
-		$('#leads_search_form').resetForm();
-		tableLead.reload();
+		$('#daily_sale_report_search_form').resetForm();
+		tableDailySale.reload();
 	});
 
 	//Export tools
 	$('#btn_export_excel').on('click', function () {
-		tableLead.exportExcel();
+		tableDailySale.exportExcel();
 	});
 	$('#btn_export_pdf').on('click', function () {
-		tableLead.exportPdf();
-	});
-	//Quick actions
-	$('#link_delete_selected_rows').on('click', function () {
-		var ids = $('.m-checkbox--single > input[type=\'checkbox\']:checked').getValues();
-
-		if (ids.length > 0) {
-			tableLead.actionDelete({ btnDelete: $(this), params: { ids: ids } });
-		}
-	});
-
-	$('#modal_md').on('shown.modal.bs', function () {
-		$('.fileinput').fileinput();
-
-		$('#select_user_id').select2Ajax({
-			data: function data(q) {
-				q.roleId = [5, 6];
-			}
-		});
-		$('#select_state_modal').select2();
+		tableDailySale.exportPdf();
 	});
 });
 
