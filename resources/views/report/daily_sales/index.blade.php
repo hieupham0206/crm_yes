@@ -1,5 +1,5 @@
 @php /** @var \App\Models\User $user */
-$breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily tele report'];
+$breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily sale report'];
 @endphp@extends("$layout.app")
 
 @push('scripts')
