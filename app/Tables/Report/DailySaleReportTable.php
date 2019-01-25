@@ -46,7 +46,7 @@ class DailySaleReportTable extends DataTable
     {
         $this->column = $this->getColumn();
 
-        return $this->getModels();
+        return [$this->getModels()];
     }
 
     /**
@@ -102,12 +102,15 @@ class DailySaleReportTable extends DataTable
             'opc',
             $totalAppointmentRep,
             'ssref',
-            $totalAppointmentHasEvent,
+//            $totalAppointmentHasEvent,
+            'ambassador',
+            $totalAppointment,
             $totalAppointmentNoRep,
             $totalAppointmentNQ,
             $totalAppointmentQueue,
             $totalAppointmentTo,
             $toRate,
+            $totalEventDataDeal,
             $totalEventDataNotDeal,
             $dealRate,
             'phone SS'

@@ -1,4 +1,4 @@
-<form id="daily_tele_report_search_form">
+<form id="daily_sale_report_search_form">
     <div class="form-group m-form__group row">
         <div class="col-12 col-md-3 m-form__group-sub">
             <label for="txt_name">{{ $user->label('name') }}</label>

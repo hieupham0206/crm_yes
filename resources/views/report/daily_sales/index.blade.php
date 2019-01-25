@@ -17,7 +17,7 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily tele report'];
                 <table class="table table-borderless table-hover nowrap" id="table_daily_sale_report"  width="100%">
                     <thead>
                     <tr>
-                        <th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>
+                        {{--<th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
                         <th>Tele</th>
                         <th>Digital</th>
                         <th>OPC</th>
@@ -33,8 +33,7 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily tele report'];
                         <th>{{ $user->label('deal') }}</th>
                         <th>{{ $user->label('cxl') }}</th>
                         <th>{{ $user->label('deal_rate') }}</th>
-                        <th>{{ $user->label('phone') }}</th>
-                        <th>{{ $user->label('ss') }}</th>
+                        <th>{{ $user->label('phone ss') }}</th>
                         {{--<th>@lang('Actions')</th>--}}
                     </tr>
                     </thead>
