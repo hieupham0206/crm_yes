@@ -13,7 +13,6 @@ use App\Models\Appointment;
 use App\Models\EventData;
 use App\Models\User;
 use App\Tables\DataTable;
-use Carbon\Carbon;
 
 class DailySaleReportTable extends DataTable
 {
@@ -72,12 +71,11 @@ class DailySaleReportTable extends DataTable
                              $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
                          },
                          'roles',
-                     ])->withCount(['appointments'])->role(['REP'])->get();
-
+                     ])->withCount(['appointments', 'ambassadors'])->role(['REP'])->get();
+        
         $datas = [];
 
         foreach ($users as $user) {
-
             $appointments = $user->appointments();
             $eventDatas   = EventData::query();
 
@@ -88,7 +86,7 @@ class DailySaleReportTable extends DataTable
             $appointments = $appointments->get();
             $eventDatas   = $eventDatas->get();
 
-            $totalAppointment = $appointments->count();
+            $totalAppointment = $user->appointments_count;
             $totalEventData   = $eventDatas->count();
 
             $totalAppointmentTele     = $appointments->filter(function (Appointment $app) {
@@ -118,11 +116,10 @@ class DailySaleReportTable extends DataTable
                 return $event->state == EventDataState::NOT_DEAL;
             })->count();
             $dealRate                 = ($totalEventDataDeal / $totalEventData) * 100;
-            $ambassador = $appointments->filter(function (Appointment $app) use ($user) {
-                return $app->user_id === $user->id;
-            })->count();//Tổng APP của từng nhan viên
+            $ambassador               = property_exists($users, 'ambassadors_count') ? $users->ambassadors_count : 0;//Tổng APP của từng nhan viên
 
             $datas[] = [
+                $user->name,
                 $totalAppointmentTele,
                 'digital',
                 'opc',
@@ -139,7 +136,7 @@ class DailySaleReportTable extends DataTable
                 $totalEventDataDeal,
                 $totalEventDataNotDeal,
                 $dealRate,
-                'phone SS'
+                'phone SS',
             ];
         }
 

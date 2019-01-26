@@ -73,17 +73,21 @@
                     {{--</div>--}}
                 {{--</div>--}}
                 <div class="form-group m-form__group row">
-                    {{--<div class="col-sm-12 col-md-6 m-form__group-sub">--}}
-                        {{--<label for="txt_voucher">{{ $lead->label('Voucher') }}</label>--}}
-                        {{--<input class="form-control" name="voucher" type="text" id="txt_voucher" value="" placeholder="{{ __('Enter value') }}">--}}
-                    {{--</div>--}}
                     <div class="col-sm-12 col-md-6 m-form__group-sub">
-                        <label for="txt_note">Người hẹn</label>
+                        <label for="select_user">Người hẹn</label>
                         <select name="user_id" id="select_user" data-url="{{ route('users.list') }}">
                             <option></option>
                         </select>
                     </div>
                     <div class="col-sm-12 col-md-6 m-form__group-sub">
+                        <label for="select_by_customer">By customer</label>
+                        <select name="ambassador" id="select_by_customer" data-url="{{ route('users.list') }}">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <div class="col-12 m-form__group-sub">
                         <label for="txt_note">{{ $lead->label('Note') }}</label>
                         <textarea class="form-control" name="note" row="4" id="txt_note" placeholder="{{ __('Enter value') }}"></textarea>
                     </div>

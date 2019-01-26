@@ -18,6 +18,7 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily sale report'];
                     <thead>
                     <tr>
                         {{--<th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
+                        <th>Tele name</th>
                         <th>Tele</th>
                         <th>Digital</th>
                         <th>OPC</th>

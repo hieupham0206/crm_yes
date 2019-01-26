@@ -68,6 +68,7 @@ class Appointment extends \App\Models\Base\Appointment
         'is_show_up',
         'is_queue',
         'state',
+        'ambassador'
     ];
     public static $logName = 'Appointment';
 

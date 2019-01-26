@@ -46,7 +46,7 @@ class EventData extends Eloquent
 
 	public function lead()
 	{
-		return $this->belongsTo(\App\Models\Lead::class);
+		return $this->belongsTo(\App\Models\Lead::class)->withDefault();
 	}
 
 	public function appointment()
