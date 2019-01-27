@@ -307,6 +307,11 @@ class User extends Authenticatable
         return $this->hasMany(Appointment::class);
     }
 
+    public function ambassadors()
+    {
+        return $this->hasMany(Appointment::class, 'ambassador', 'id');
+    }
+
     /**
      * @inheritdoc
      */

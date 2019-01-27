@@ -50,6 +50,11 @@
         "icon": "fa fa-chart-bar",
         "parent": "",
         "route": "daily_teles.index"
+      },
+      "daily_sales": {
+        "icon": "fa fa-chart-bar",
+        "parent": "",
+        "route": "daily_sales.index"
       }
     },
     "icon": "fa fa-chart-area"

@@ -21,7 +21,8 @@
     "event_data_cs"
   ],
   "report": [
-    "daily_teles"
+    "daily_teles",
+    "daily_sales"
   ],
   "business": [
     "event_data_receps",

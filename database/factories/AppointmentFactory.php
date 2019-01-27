@@ -7,6 +7,9 @@ $factory->define(App\Models\Appointment::class, function (Faker $faker) {
         'user_id'              => function () use ($faker) {
             return $faker->randomElement(\App\Models\User::get(['id'])->pluck('id')->toArray());
         },
+        'ambassador'           => function () use ($faker) {
+            return $faker->randomElement(\App\Models\User::get(['id'])->pluck('id')->toArray());
+        },
         'lead_id'              => function () use ($faker) {
             return $faker->randomElement(\App\Models\Lead::get(['id'])->pluck('id')->toArray());
         },

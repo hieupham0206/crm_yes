@@ -289,6 +289,7 @@ $(function () {
 
 	$('#modal_lg').on('shown.bs.modal', function () {
 		$('#select_user').select2Ajax();
+		$('#select_by_customer').select2Ajax();
 	});
 
 	$body.on('click', '#btn_reappointment', function () {
