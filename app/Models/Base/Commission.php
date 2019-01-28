@@ -2,7 +2,7 @@
 
 /**
  * Created by hieu.pham.
- * Date: Fri, 25 Jan 2019 10:06:54 +0700.
+ * Date: Mon, 28 Jan 2019 11:16:00 +0700.
  */
 
 namespace App\Models\Base;
@@ -15,16 +15,12 @@ use App\Models\BaseModel as Eloquent;
  * @property int $id
  * @property int $contract_id
  * @property int $user_id
- * @property float $sdm_percent
+ * @property float $net_total
  * @property float $to_percent
- * @property float $tele_percent
- * @property float $private_percent
- * @property float $ambassador_percent
+ * @property float $tele_amount
  * @property float $rep_percent
  * @property float $cs_percent
- * @property float $homesit_percent
  * @property float $total_percent
- * @property float $provisional_commission
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  *
@@ -37,15 +33,11 @@ class Commission extends Eloquent
 	protected $casts = [
 		'contract_id' => 'int',
 		'user_id' => 'int',
-		'sdm_percent' => 'float',
+		'net_total' => 'float',
 		'to_percent' => 'float',
-		'tele_percent' => 'float',
-		'private_percent' => 'float',
-		'ambassador_percent' => 'float',
+		'tele_amount' => 'float',
 		'rep_percent' => 'float',
 		'cs_percent' => 'float',
-		'homesit_percent' => 'float',
-		'total_percent' => 'float',
-		'provisional_commission' => 'float'
+		'total_percent' => 'float'
 	];
 }
