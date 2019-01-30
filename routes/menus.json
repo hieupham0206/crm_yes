@@ -81,6 +81,12 @@
         "parent": "",
         "route": "event_data_receps.index",
         "hide": false
+      },
+      "commission_role": {
+        "icon": "fa fa-user-cog",
+        "parent": "",
+        "route": "commission_roles.index",
+        "hide": false
       }
     },
     "icon": "fa fa-user-cog"

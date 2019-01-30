@@ -114,4 +114,9 @@ class Role extends Eloquent
     {
         return $this->getDescriptionEvent($eventName);
     }
+
+    public function commissions()
+    {
+        return $this->hasMany(CommissionRole::class);
+    }
 }

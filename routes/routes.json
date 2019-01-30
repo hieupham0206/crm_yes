@@ -29,6 +29,7 @@
     "leads",
     "history_calls",
     "appointments",
-    "callbacks"
+    "callbacks",
+    "commission_roles"
   ]
 }

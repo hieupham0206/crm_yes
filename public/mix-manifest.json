@@ -25,6 +25,7 @@
     "/js/business/history_calls/form.js": "/js/business/history_calls/form.js",
     "/js/business/event_data_receps/index.js": "/js/business/event_data_receps/index.js",
     "/js/business/event_data_receps/form.js": "/js/business/event_data_receps/form.js",
+    "/js/business/commission_roles/index.js": "/js/business/commission_roles/index.js",
     "/js/business/callbacks/index.js": "/js/business/callbacks/index.js",
     "/js/business/callbacks/form.js": "/js/business/callbacks/form.js",
     "/js/business/appointments/index.js": "/js/business/appointments/index.js",
