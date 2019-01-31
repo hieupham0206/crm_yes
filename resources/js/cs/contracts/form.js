@@ -95,7 +95,7 @@ $(function() {
 
 		for (let i = 0; i < paymentTime; i++) {
 			rows.push([
-				`<input class="form-control txt-payment-date" name="PaymentDetail[pay_date][${i}][]" type="text" autocomplete="off">`,
+				`<input class="form-control txt-payment-date" name="PaymentDetail[pay_date][${i}][]" type="text" autocomplete="off" required>`,
 				`<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][${i}][]" value="${$leftAmount}" type="text" autocomplete="off">`,
 			])
 		}
