@@ -81,7 +81,13 @@ class CommissionDetailTable extends DataTable
         $this->totalFilteredRecords = $this->totalRecords = $commissions->count();
 
         if ($this->isFilterNotEmpty) {
-            $commissions->filters($this->filters)->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
+            $commissions->filters($this->filters);
+
+            if (! empty($this->filters['from_date'])) {
+                $commissions->whereHas('contract', function($contract) {
+                    $contract->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
+                });
+            }
 
             $this->totalFilteredRecords = $commissions->count();
         }

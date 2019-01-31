@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cs;
 use App\Enums\LeadState;
 use App\Http\Controllers\Controller;
 use App\Models\Commission;
+use App\Models\Contract;
 use App\Models\EventData;
 use App\Models\Lead;
 use App\Models\Member;
@@ -30,7 +31,8 @@ class ContractsController extends Controller
      */
     public function index()
     {
-        return view('cs.contracts.index')->with('contract', new Commission)->with('eventData', new EventData);
+
+        return view('cs.contracts.index')->with('contract', new Contract)->with('eventData', new EventData);
     }
 
     /**
@@ -72,7 +74,6 @@ class ContractsController extends Controller
 //            'num_of_payment' => 2,
 //            'pay_date'       => '22-01-2019',
 //        ]);
-
         return view('cs.contracts.create', [
             'contract'    => $contract,
             'eventData'   => $eventData,

@@ -2,7 +2,7 @@
 
 namespace App\Tables\Cs;
 
-use App\Models\Commission;
+use App\Models\Contract;
 use App\Tables\DataTable;
 
 class ContractTable extends DataTable
@@ -35,12 +35,12 @@ class ContractTable extends DataTable
         $this->column = $this->getColumn();
         $contracts    = $this->getModels();
         $dataArray    = [];
-        $modelName    = (new Commission)->classLabel(true);
+        $modelName    = (new Contract)->classLabel(true);
 
         $canUpdateContract = can('update-contract');
         $canDeleteContract = can('delete-contract');
 
-        /** @var Commission[] $contracts */
+        /** @var Contract[] $contracts */
         foreach ($contracts as $contract) {
             $btnEdit = $btnDelete = '';
 
@@ -67,7 +67,7 @@ class ContractTable extends DataTable
                 $contract->membership_text,
                 number_format($contract->amount),
                 number_format($debt),
-                $contract->created_at->format('d-m-Y'),
+                optional($contract->created_at)->format('d-m-Y'),
                 $contract->limit,
 
                 '<a href="' . route('contracts.show', $contract, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
@@ -80,11 +80,11 @@ class ContractTable extends DataTable
     }
 
     /**
-     * @return Commission[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return Contract[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getModels()
     {
-        $contracts = Commission::query()->with(['member', 'payment_details']);
+        $contracts = Contract::query()->with(['member', 'payment_details']);
 
         $this->totalFilteredRecords = $this->totalRecords = $contracts->count();
 

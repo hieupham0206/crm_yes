@@ -177,7 +177,7 @@ class RolesController extends Controller
         $excludeIds = $request->get('excludeIds', []);
 
         $offset = ($page - 1) * 10;
-        $roles  = Role::query()->select(['id', 'name']);
+        $roles  = Role::query()->select(['id', 'name'])->whereKeyNot(1);
 
         if ($query) {
             $roles = $roles->where('name', 'like', "%{$query}%");
