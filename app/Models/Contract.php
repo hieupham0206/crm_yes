@@ -71,7 +71,7 @@ use Carbon\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commission whereYearCost($value)
  * @mixin \Eloquent
  */
-class Commission extends \App\Models\Base\Contract
+class Contract extends \App\Models\Base\Contract
 {
     protected $fillable = [
         'member_id',

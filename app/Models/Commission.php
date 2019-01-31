@@ -62,7 +62,9 @@ class Commission extends \App\Models\Base\Commission
 
     public $labels = [];
 
-    public $filters = [];
+    public $filters = [
+        'contract_no' => 'like'
+    ];
 
     /**
      * Route của model dùng cho Linkable trait
@@ -83,11 +85,11 @@ class Commission extends \App\Models\Base\Commission
 
     public function contract()
     {
-        return $this->hasOne(Commission::class);
+        return $this->hasOne(Contract::class);
     }
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 }

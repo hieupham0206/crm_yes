@@ -3,7 +3,6 @@
 namespace App\Tables\Cs;
 
 use App\Models\Commission;
-use App\Models\PaymentDetail;
 use App\Tables\DataTable;
 
 class CommissionDetailTable extends DataTable
@@ -13,14 +12,14 @@ class CommissionDetailTable extends DataTable
         $column = $this->column;
 
         switch ($column) {
-            case '1':
-                $column = 'contracts.contract_no';
-                break;
-            case '2':
-                $column = 'contracts.';
-                break;
+//            case '1':
+//                $column = 'contracts.contract_no';
+//                break;
+//            case '2':
+//                $column = 'contracts.';
+//                break;
             default:
-                $column = 'contracts.id';
+                $column = 'id';
                 break;
         }
 
@@ -34,7 +33,7 @@ class CommissionDetailTable extends DataTable
     public function getData(): array
     {
         $this->column = $this->getColumn();
-        $commissions    = $this->getModels();
+        $commissions  = $this->getModels();
         $dataArray    = [];
 //        $modelName    = (new Contract)->classLabel(true);
 //
@@ -43,23 +42,28 @@ class CommissionDetailTable extends DataTable
 
         /** @var Commission[] $commissions */
         foreach ($commissions as $commission) {
-            /** @var PaymentDetail $firstPaymentDetail */
-            $firstPaymentDetail = $commission->payment_details()->first();
-
             $dataArray[] = [
                 $commission->contract_no,
-                optional($commission->member)->name,
+                optional($commission->contract)->member->name,
                 number_format($commission->amount),
-                $commission->amount - (17000 + $firstPaymentDetail->payment_cost->cost),
-                'REP',
-                '% REP,',
-                'SM/TO',
-                '% SM/TO,',
-                'CS',
-                '% CS,',
-                'CSM',
-                '% CSM,',
-                'TEle trong hop dong',
+                $commission->amount,
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+//                'REP',
+//                '% REP,',
+//                'SM/TO',
+//                '% SM/TO,',
+//                'CS',
+//                '% CS,',
+//                'CSM',
+//                '% CSM,',
+                '',
                 250000,
             ];
         }
@@ -72,17 +76,17 @@ class CommissionDetailTable extends DataTable
      */
     public function getModels()
     {
-        $commissions = Commission::query()->with(['member', 'payment_details'])->where('state', 1);
+        $commissions = Commission::query()->with(['user']);
 
         $this->totalFilteredRecords = $this->totalRecords = $commissions->count();
 
         if ($this->isFilterNotEmpty) {
-            $commissions->filters($this->filters);
+            $commissions->filters($this->filters)->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
 
             $this->totalFilteredRecords = $commissions->count();
         }
 
         return $commissions->limit($this->length)->offset($this->start)
-                         ->orderBy($this->column, $this->direction)->get();
+                           ->orderBy($this->column, $this->direction)->get();
     }
 }

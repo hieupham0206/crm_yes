@@ -11,9 +11,9 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Commission detail'];
 @section('content')
     <div class="m-content">
         <div class="m-portlet">
-{{--            @include('layouts.partials.index_header', ['modelName' => $user->classLabel(true), 'model' => 'user', 'createUrl' => '', 'editUrl' => ''])--}}
+{{--            @include('layouts.partials.index_header', ['modelName' => 'commmision_detail', 'model' => 'commmision_detail', 'createUrl' => '', 'editUrl' => ''])--}}
             <div class="m-portlet__body">
-{{--                @include('layouts.partials.search', ['form' => view('report.commission_details._search', ['user' => $user])])--}}
+                @include('layouts.partials.search', ['form' => view('report.commission_details._search')])
                 <table class="table table-borderless table-hover nowrap" id="table_commission_detail_report"  width="100%">
                     <thead>
                     <tr>

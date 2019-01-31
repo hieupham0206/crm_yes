@@ -3,7 +3,6 @@
 namespace App\Tables\Cs;
 
 use App\Models\Commission;
-use App\Models\Commission;
 use App\Models\User;
 use App\Tables\DataTable;
 
@@ -37,7 +36,7 @@ class CommissionUserTable extends DataTable
         $this->column = $this->getColumn();
         $users        = $this->getModels();
         $dataArray    = [];
-        $contracts    = Commission::with(['member'])->get();
+        $contracts    = Commission::with(['member'])->dateBetween([$this->filters['from_date'], $this->filters['to_date']])->get();
 //        $modelName    = (new Contract)->classLabel(true);
 //
 //        $canUpdateContract = can('update-contract');
