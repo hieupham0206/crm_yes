@@ -13,7 +13,7 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Commission nhân viê
         <div class="m-portlet">
 {{--            @include('layouts.partials.index_header', ['modelName' => $user->classLabel(true), 'model' => 'user', 'createUrl' => '', 'editUrl' => ''])--}}
             <div class="m-portlet__body">
-{{--                @include('layouts.partials.search', ['form' => view('report.commission_details._search', ['user' => $user])])--}}
+                @include('layouts.partials.search', ['form' => view('report.commission_users._search')])
                 <table class="table table-borderless table-hover nowrap" id="table_commission_user_report"  width="100%">
                     <thead>
                     <tr>

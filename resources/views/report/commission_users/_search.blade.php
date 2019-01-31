@@ -1,12 +1,16 @@
-<form id="commission_detail_report_search_form">
+<form id="commission_user_report_search_form">
     <div class="form-group m-form__group row">
         <div class="col-12 col-md-3 m-form__group-sub">
-            <label for="txt_contract_no"></label>
-            <input class="form-control" name="contract_no" id="txt_contract_no">
+            <label for="select_user">Tên nhân viên</label>
+            <select name="user_id" id="select_user" class="select2-ajax" data-url="{{ route('users.list') }}">
+                <option></option>
+            </select>
         </div>
         <div class="col-12 col-md-3 m-form__group-sub">
-            <label for="txt_name">Tên khách</label>
-            <input class="form-control" name="name" id="txt_name">
+            <label for="select_role">Chức vụ</label>
+            <select name="role_id" id="select_role" class="select2-ajax" data-url="{{ route('roles.list') }}">
+                <option></option>
+            </select>
         </div>
         <div class="col-12 col-md-3 m-form__group-sub">
             <div class="form-group">

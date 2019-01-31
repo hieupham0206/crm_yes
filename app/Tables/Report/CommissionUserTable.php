@@ -3,6 +3,7 @@
 namespace App\Tables\Cs;
 
 use App\Models\Commission;
+use App\Models\Contract;
 use App\Models\User;
 use App\Tables\DataTable;
 
@@ -36,7 +37,7 @@ class CommissionUserTable extends DataTable
         $this->column = $this->getColumn();
         $users        = $this->getModels();
         $dataArray    = [];
-        $contracts    = Commission::with(['member'])->dateBetween([$this->filters['from_date'], $this->filters['to_date']])->get();
+        $contracts    = Contract::with(['member'])->dateBetween([$this->filters['from_date'], $this->filters['to_date']])->get();
 //        $modelName    = (new Contract)->classLabel(true);
 //
 //        $canUpdateContract = can('update-contract');
@@ -48,7 +49,7 @@ class CommissionUserTable extends DataTable
             $totalContractOfUser       = $contracts->filter(function ($contract) use ($user) {
                 return $contract->member->user_id === $user->id;
             })->count();
-            $totalContractOfPrivate       = $contracts->filter(function ($contract) use ($user) {
+            $totalContractOfPrivate    = $contracts->filter(function ($contract) use ($user) {
                 $eventData = $contract->event_data;
                 $user1     = $eventData->appointment->user;
 
