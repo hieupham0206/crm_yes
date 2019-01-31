@@ -42,9 +42,10 @@ class CommissionDetailTable extends DataTable
 
         /** @var Commission[] $commissions */
         foreach ($commissions as $commission) {
+            $contract    = $commission->contract;
             $dataArray[] = [
                 $commission->contract_no,
-                optional($commission->contract)->member->name,
+                $contract ? optional($contract->member)->name : '',
                 number_format($commission->amount),
                 $commission->amount,
                 '',

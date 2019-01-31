@@ -85,7 +85,7 @@ class Commission extends \App\Models\Base\Commission
 
     public function contract()
     {
-        return $this->hasOne(Contract::class);
+        return $this->belongsTo(Contract::class);
     }
 
     public function user()
