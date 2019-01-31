@@ -54,7 +54,6 @@ class Menu
                 }
             }
         }
-//        die;
 
         return $menus;
     }
@@ -91,6 +90,9 @@ class Menu
             }
             if ($menuModule === 'daily_teles') {
                 $module = 'daily-tele-report';
+            }
+            if ($menuModule === 'commission_details' || $menuModule === 'commission_users') {
+                $module = 'commmission';
             }
             if (can("view-{$module}") || can("create-{$module}")) {
                 $datas = self::buildSubMenu($maps ?? [], $menuModule, $singularModuleName, $datas);

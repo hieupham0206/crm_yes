@@ -55,6 +55,16 @@
         "icon": "fa fa-chart-bar",
         "parent": "",
         "route": "daily_sales.index"
+      },
+      "commission_users": {
+        "icon": "fa fa-chart-bar",
+        "parent": "",
+        "route": "commission_users.index"
+      },
+      "commission_details": {
+        "icon": "fa fa-chart-bar",
+        "parent": "",
+        "route": "commission_details.index"
       }
     },
     "icon": "fa fa-chart-area"

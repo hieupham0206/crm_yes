@@ -4,7 +4,7 @@ namespace App\Tables\Business;
 
 use App\Enums\CommissionRoleSpecification;
 use App\Models\CommissionRole;
-use App\Models\Contract;
+use App\Models\Commission;
 use App\Tables\DataTable;
 
 class CommissionRoleTable extends DataTable
@@ -103,7 +103,7 @@ class CommissionRoleTable extends DataTable
     }
 
     /**
-     * @return Contract[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return Commission[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getModels()
     {

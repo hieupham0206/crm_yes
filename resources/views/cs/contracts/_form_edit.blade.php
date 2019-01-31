@@ -1,4 +1,4 @@
-@php /** @var \App\Models\Contract $contract */ @endphp
+@php /** @var \App\Models\Commission $contract */ @endphp
 <form id="contracts_form" class="m-form m-form--label-align-right m-form--group-seperator-dashed m-form--state" method="post" action="{{ $action }}">
     @csrf
     @isset($method)

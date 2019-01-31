@@ -10,7 +10,7 @@ namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use App\Models\CommissionRole;
-use App\Models\Contract;
+use App\Models\Commission;
 use App\Tables\Business\CommissionRoleTable;
 use App\Tables\Cs\CommissionTable;
 use App\Tables\TableFacade;
@@ -26,7 +26,7 @@ class CommissionRolesController extends Controller
     public function index()
     {
         return view('business.commission_roles.index', [
-            'contract' => new Contract(),
+            'contract' => new Commission(),
         ]);
     }
 

@@ -6,6 +6,8 @@
     "/js/tele_console.js": "/js/tele_console.js",
     "/js/report/daily_teles/index.js": "/js/report/daily_teles/index.js",
     "/js/report/daily_sales/index.js": "/js/report/daily_sales/index.js",
+    "/js/report/commission_users/index.js": "/js/report/commission_users/index.js",
+    "/js/report/commission_details/index.js": "/js/report/commission_details/index.js",
     "/js/reception.js": "/js/reception.js",
     "/js/monitor_sale.js": "/js/monitor_sale.js",
     "/js/home.js": "/js/home.js",

@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contract;
+use App\Models\Commission;
 use App\Models\User;
 use App\Tables\Cs\CommissionDetailTable;
 use App\Tables\Cs\CommissionTable;
@@ -27,7 +27,7 @@ class CommissionsController extends Controller
     public function index()
     {
         return view('business.commissions.index', [
-            'contract' => new Contract()
+            'contract' => new Commission()
         ]);
     }
 

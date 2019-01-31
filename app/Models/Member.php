@@ -32,7 +32,7 @@ use Carbon\Carbon;
  * @property int|null $spouse_identity_address Tỉnh cấp CMND
  * @property \Illuminate\Support\Carbon|null $spouse_identity_date
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Activity[] $activity
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Contract[] $contracts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commission[] $contracts
  * @property-read \App\Models\ActivityLog $createdBy
  * @property-read \App\Models\ActivityLog $deletedBy
  * @property-read mixed $confirmations
@@ -189,5 +189,10 @@ class Member extends \App\Models\Base\Member
     public function spouseIdentityAddress()
     {
         return $this->belongsTo(\App\Models\Province::class, 'spouse_identity_address', 'id');
+    }
+
+    public function contracts()
+    {
+        return $this->belongsTo(Commission::class);
     }
 }

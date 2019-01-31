@@ -1,4 +1,4 @@
-@php /** @var \App\Models\Contract $contract */
+@php /** @var \App\Models\Commission $contract */
 $breadcrumbs = ['breadcrumb' => 'contracts.create', 'model' => $contract];
 @endphp
 

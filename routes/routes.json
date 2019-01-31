@@ -22,7 +22,9 @@
   ],
   "report": [
     "daily_teles",
-    "daily_sales"
+    "daily_sales",
+    "commission_users",
+    "commission_details"
   ],
   "business": [
     "event_data_receps",

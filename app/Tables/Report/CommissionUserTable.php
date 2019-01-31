@@ -2,8 +2,9 @@
 
 namespace App\Tables\Cs;
 
-use App\Models\Contract;
-use App\Models\PaymentDetail;
+use App\Models\Commission;
+use App\Models\Commission;
+use App\Models\User;
 use App\Tables\DataTable;
 
 class CommissionUserTable extends DataTable
@@ -13,14 +14,14 @@ class CommissionUserTable extends DataTable
         $column = $this->column;
 
         switch ($column) {
-            case '1':
-                $column = 'contracts.contract_no';
-                break;
-            case '2':
-                $column = 'contracts.';
-                break;
+//            case '1':
+//                $column = 'contracts.contract_no';
+//                break;
+//            case '2':
+//                $column = 'contracts.';
+//                break;
             default:
-                $column = 'contracts.id';
+                $column = 'id';
                 break;
         }
 
@@ -34,34 +35,43 @@ class CommissionUserTable extends DataTable
     public function getData(): array
     {
         $this->column = $this->getColumn();
-        $contracts    = $this->getModels();
+        $users        = $this->getModels();
         $dataArray    = [];
+        $contracts    = Commission::with(['member'])->get();
 //        $modelName    = (new Contract)->classLabel(true);
 //
 //        $canUpdateContract = can('update-contract');
 //        $canDeleteContract = can('delete-contract');
 
-        /** @var Contract[] $contracts */
-        foreach ($contracts as $contract) {
-            /** @var PaymentDetail $firstPaymentDetail */
-            $firstPaymentDetail = $contract->payment_details()->first();
+        /** @var Commission[] $users */
+        foreach ($users as $user) {
+            $roles                     = $user->roles;
+            $totalContractOfUser       = $contracts->filter(function ($contract) use ($user) {
+                return $contract->member->user_id === $user->id;
+            })->count();
+            $totalContractOfPrivate       = $contracts->filter(function ($contract) use ($user) {
+                $eventData = $contract->event_data;
+                $user1     = $eventData->appointment->user;
+
+                return $user1->roles[0] === 'TELE MARKETER' && $eventData->rep_id === $user->id;
+            })->count();
+            $totalContractOfTele       = $contracts->filter(function ($contract) use ($user) {
+                return $contract->event_data->appointment->user_id === $user->id;
+            })->count();
+            $totalContractOfAmbassador = $contracts->filter(function ($contract) use ($user) {
+                return $contract->event_data->appointment->ambassador === $user->id;
+            })->count();
+            $totalCommission           = $user->commissions->sum('net_total');
 
             $dataArray[] = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $contract->id . '"><span></span></label>',
-                $contract->contract_no,
-                optional($contract->member)->name,
-                number_format($contract->amount),
-                $contract->amount - (17000 + $firstPaymentDetail->payment_cost->cost),
-                'REP',
-                '% REP,',
-                'SM/TO',
-                '% SM/TO,',
-                'CS',
-                '% CS,',
-                'CSM',
-                '% CSM,',
-                'TEle trong hop dong',
-                250000,
+                $roles ? $roles[0]->name : '',
+                $user->name,
+                $totalContractOfUser,
+                $totalContractOfPrivate,
+                $totalContractOfTele,
+                $totalContractOfAmbassador,
+                number_format($totalCommission),
             ];
         }
 
@@ -69,21 +79,25 @@ class CommissionUserTable extends DataTable
     }
 
     /**
-     * @return Contract[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return Commission[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getModels()
     {
-        $contracts = Contract::query()->with(['member', 'payment_details'])->where('state', 1);
+        $users = User::query()->with([
+//            'contract' => function ($c) {
+//                return $c->where('state', 1);
+//            },
+        ])->role(['REP']);
 
-        $this->totalFilteredRecords = $this->totalRecords = $contracts->count();
+        $this->totalFilteredRecords = $this->totalRecords = $users->count();
 
         if ($this->isFilterNotEmpty) {
-            $contracts->filters($this->filters);
+            $users->filters($this->filters);
 
-            $this->totalFilteredRecords = $contracts->count();
+            $this->totalFilteredRecords = $users->count();
         }
 
-        return $contracts->limit($this->length)->offset($this->start)
-                         ->orderBy($this->column, $this->direction)->get();
+        return $users->limit($this->length)->offset($this->start)
+                     ->orderBy($this->column, $this->direction)->get();
     }
 }

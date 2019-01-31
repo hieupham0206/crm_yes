@@ -3,35 +3,27 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Commission nhân viê
 @endphp@extends("$layout.app")
 
 @push('scripts')
-    <script src="{{ asset('js/report/commission_details/index.js') }}"></script>
+    <script src="{{ asset('js/report/commission_users/index.js') }}"></script>
 @endpush
 
-@section('title', 'Daily tele report')
+@section('title', 'Commission nhân viên')
 
 @section('content')
     <div class="m-content">
         <div class="m-portlet">
-            @include('layouts.partials.index_header', ['modelName' => $user->classLabel(true), 'model' => 'user', 'createUrl' => '', 'editUrl' => ''])
+{{--            @include('layouts.partials.index_header', ['modelName' => $user->classLabel(true), 'model' => 'user', 'createUrl' => '', 'editUrl' => ''])--}}
             <div class="m-portlet__body">
-                @include('layouts.partials.search', ['form' => view('report.commission_details._search', ['user' => $user])])
-                <table class="table table-borderless table-hover nowrap" id="table_commission_detail_report"  width="100%">
+{{--                @include('layouts.partials.search', ['form' => view('report.commission_details._search', ['user' => $user])])--}}
+                <table class="table table-borderless table-hover nowrap" id="table_commission_user_report"  width="100%">
                     <thead>
                     <tr>
-                        <th>{{ $contract->label('contract_no') }}</th>
-                        <th>{{ $contract->label('lead_name') }}</th>
-                        <th>{{ $contract->label('value') }}</th>
-                        <th>{{ $contract->label('net_value') }}</th>
-                        <th>{{ $contract->label('total_commission') }}</th>
-
-                        <th>{{ $contract->label('rep') }}</th>
-                        <th>%</th>
-                        <th>{{ $contract->label('sm/to') }}</th>
-                        <th>%</th>
-                        <th>{{ $contract->label('cs') }}</th>
-                        <th>%</th>
-                        <th>{{ $contract->label('csm') }}</th>
-                        <th>%</th>
-                        <th>Tip</th>
+                        <th>Chức vụ</th>
+                        <th>Tên nhân viên</th>
+                        <th>Tổng số hợp đồng</th>
+                        <th>Tele</th>
+                        <th>Private</th>
+                        <th>Ambassador</th>
+                        <th>Total commission</th>
                     </tr>
                     </thead>
                     <tbody></tbody>

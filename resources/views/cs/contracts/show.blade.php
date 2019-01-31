@@ -1,4 +1,4 @@
-@php /** @var \App\Models\Contract $contract */
+@php /** @var \App\Models\Commission $contract */
 $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
 @endphp@extends("$layout.app")
 

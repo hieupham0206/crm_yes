@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Cs;
 
 use App\Enums\LeadState;
 use App\Http\Controllers\Controller;
-use App\Models\Contract;
+use App\Models\Commission;
 use App\Models\EventData;
 use App\Models\Lead;
 use App\Models\Member;
@@ -30,7 +30,7 @@ class ContractsController extends Controller
      */
     public function index()
     {
-        return view('cs.contracts.index')->with('contract', new Contract)->with('eventData', new EventData);
+        return view('cs.contracts.index')->with('contract', new Commission)->with('eventData', new EventData);
     }
 
     /**
@@ -58,7 +58,7 @@ class ContractsController extends Controller
         $appointment = $eventData->appointment;
         $lead        = $appointment->lead;
 
-        $contract = new Contract;
+        $contract = new Commission;
 //        $contract->fill([
 ////            'contract_no'    => time(),
 //            'contract_no'    => '1548129013',
@@ -111,9 +111,9 @@ class ContractsController extends Controller
 //
 //            throw new ValidationException($validator);
         }
-        $requestData['contract_no'] = Contract::createContractNo($requestData['contract_no'], $requestData['city']);
+        $requestData['contract_no'] = Commission::createContractNo($requestData['contract_no'], $requestData['city']);
 
-        if (Contract::checkContractNoExists($requestData['contract_no'])) {
+        if (Commission::checkContractNoExists($requestData['contract_no'])) {
             $validator = \Validator::make([], []); // Empty data and rules fields
             $validator->errors()->add('contract_no', 'Số hợp đồng đã tồn tại');
 
@@ -124,7 +124,7 @@ class ContractsController extends Controller
         $requestData['amount']    = str_replace(',', '', $requestData['amount']);
         $requestData['year_cost'] = str_replace(',', '', $requestData['year_cost']);
         ++$requestData['num_of_payment'];
-        $contract = Contract::create($requestData);
+        $contract = Commission::create($requestData);
 
         //note: cập nhật state của lead thành member
         $leadId = $requestData['lead_id'];
@@ -198,11 +198,11 @@ class ContractsController extends Controller
     /**
      * Trang xem chi tiết Contract.
      *
-     * @param  Contract $contract
+     * @param  Commission $contract
      *
      * @return \Illuminate\View\View
      */
-    public function show(Contract $contract)
+    public function show(Commission $contract)
     {
         $paymentDetails     = $contract->payment_details;
         $firstPaymentDetail = $paymentDetails->first();
@@ -220,11 +220,11 @@ class ContractsController extends Controller
     /**
      * Trang cập nhật Contract.
      *
-     * @param  Contract $contract
+     * @param  Commission $contract
      *
      * @return \Illuminate\View\View
      */
-    public function edit(Contract $contract)
+    public function edit(Commission $contract)
     {
         $paymentDetails     = $contract->payment_details;
         $firstPaymentDetail = $paymentDetails->first();
@@ -245,12 +245,12 @@ class ContractsController extends Controller
      * Cập nhật Contract tương ứng.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  Contract $contract
+     * @param  Commission $contract
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Contract $contract)
+    public function update(Request $request, Commission $contract)
     {
         $this->validate($request, [
             'contract_no' => 'required',
@@ -309,11 +309,11 @@ class ContractsController extends Controller
     /**
      * Xóa Contract.
      *
-     * @param Contract $contract
+     * @param Commission $contract
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy(Contract $contract)
+    public function destroy(Commission $contract)
     {
         try {
             $contract->delete();
@@ -338,7 +338,7 @@ class ContractsController extends Controller
     {
         try {
             $ids = \request()->get('ids');
-            Contract::destroy($ids);
+            Commission::destroy($ids);
         } catch (\Exception $e) {
             return $this->asJson([
                 'message' => "Error: {$e->getMessage()}",
@@ -361,7 +361,7 @@ class ContractsController extends Controller
         $page       = request()->get('page', 1);
         $excludeIds = request()->get('excludeIds', []);
         $offset     = ($page - 1) * 10;
-        $contracts  = Contract::query()->select(['id', 'name']);
+        $contracts  = Commission::query()->select(['id', 'name']);
 
         $contracts->andFilterWhere([
             ['name', 'like', $query],

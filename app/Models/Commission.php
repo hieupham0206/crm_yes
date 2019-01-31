@@ -80,4 +80,14 @@ class Commission extends \App\Models\Base\Commission
     {
         return parent::getDescriptionEvent($eventName);
     }
+
+    public function contract()
+    {
+        return $this->hasOne(Commission::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }

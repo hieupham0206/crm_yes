@@ -2,7 +2,7 @@
 
 namespace App\Tables\Cs;
 
-use App\Models\Contract;
+use App\Models\Commission;
 use App\Models\PaymentDetail;
 use App\Tables\DataTable;
 
@@ -34,24 +34,23 @@ class CommissionDetailTable extends DataTable
     public function getData(): array
     {
         $this->column = $this->getColumn();
-        $contracts    = $this->getModels();
+        $commissions    = $this->getModels();
         $dataArray    = [];
 //        $modelName    = (new Contract)->classLabel(true);
 //
 //        $canUpdateContract = can('update-contract');
 //        $canDeleteContract = can('delete-contract');
 
-        /** @var Contract[] $contracts */
-        foreach ($contracts as $contract) {
+        /** @var Commission[] $commissions */
+        foreach ($commissions as $commission) {
             /** @var PaymentDetail $firstPaymentDetail */
-            $firstPaymentDetail = $contract->payment_details()->first();
+            $firstPaymentDetail = $commission->payment_details()->first();
 
             $dataArray[] = [
-//                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $contract->id . '"><span></span></label>',
-                $contract->contract_no,
-                optional($contract->member)->name,
-                number_format($contract->amount),
-                $contract->amount - (17000 + $firstPaymentDetail->payment_cost->cost),
+                $commission->contract_no,
+                optional($commission->member)->name,
+                number_format($commission->amount),
+                $commission->amount - (17000 + $firstPaymentDetail->payment_cost->cost),
                 'REP',
                 '% REP,',
                 'SM/TO',
@@ -69,21 +68,21 @@ class CommissionDetailTable extends DataTable
     }
 
     /**
-     * @return Contract[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return Commission[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getModels()
     {
-        $contracts = Contract::query()->with(['member', 'payment_details'])->where('state', 1);
+        $commissions = Commission::query()->with(['member', 'payment_details'])->where('state', 1);
 
-        $this->totalFilteredRecords = $this->totalRecords = $contracts->count();
+        $this->totalFilteredRecords = $this->totalRecords = $commissions->count();
 
         if ($this->isFilterNotEmpty) {
-            $contracts->filters($this->filters);
+            $commissions->filters($this->filters);
 
-            $this->totalFilteredRecords = $contracts->count();
+            $this->totalFilteredRecords = $commissions->count();
         }
 
-        return $contracts->limit($this->length)->offset($this->start)
+        return $commissions->limit($this->length)->offset($this->start)
                          ->orderBy($this->column, $this->direction)->get();
     }
 }

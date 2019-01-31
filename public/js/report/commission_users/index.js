@@ -60,60 +60,52 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 113);
+/******/ 	return __webpack_require__(__webpack_require__.s = 109);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 113:
+/***/ 109:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(114);
+module.exports = __webpack_require__(110);
 
 
 /***/ }),
 
-/***/ 114:
+/***/ 110:
 /***/ (function(module, exports) {
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 $(function () {
-				var isConfirm = $('#contracts_form').data('confirm');
-				var $selectTo = $('#select_to'),
-				    $selectRep = $('#select_rep');
+	var tableCommissionUser = $('#table_commission_user_report').DataTable({
+		'serverSide': true,
+		'paging': true,
+		'ajax': $.fn.dataTable.pipeline({
+			url: route('commission_users.table'),
+			data: function data(q) {
+				q.filters = JSON.stringify($('#commission_user_report_search_form').serializeArray());
+			}
+		}),
+		conditionalPaging: true,
+		info: true,
+		lengthChange: true
+	});
+	$('#commission_user_report_search_form').on('submit', function () {
+		tableCommissionUser.reload();
+		return false;
+	});
+	$('#btn_reset_filter').on('click', function () {
+		$('#commission_user_report_search_form').resetForm();
+		tableCommissionUser.reload();
+	});
 
-				$('#contracts_form').validate({
-								submitHandler: isConfirm ? function (form, e) {
-												window.blockPage();
-												e.preventDefault();
-
-												$(form).confirmation(function (result) {
-																if (result && (typeof result === 'undefined' ? 'undefined' : _typeof(result)) === 'object' && result.value) {
-																				$(form).submitForm().then(function () {
-																								location.href = route('contracts.index');
-																				});
-																} else {
-																				window.unblock();
-																}
-												});
-								} : false
-				});
-
-				$selectTo.select2Ajax({
-								url: route('users.list'),
-								data: function data(q) {
-												q.roleId = 8;
-								},
-								column: 'username'
-				});
-				$selectRep.select2Ajax({
-								url: route('users.list'),
-								data: function data(q) {
-												q.roleId = 9;
-								},
-								column: 'username'
-				});
+	//Export tools
+	$('#btn_export_excel').on('click', function () {
+		tableCommissionUser.exportExcel();
+	});
+	$('#btn_export_pdf').on('click', function () {
+		tableCommissionUser.exportPdf();
+	});
 });
 
 /***/ })

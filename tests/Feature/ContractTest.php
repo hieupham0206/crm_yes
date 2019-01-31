@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Contract;
+use App\Models\Commission;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -44,7 +44,7 @@ class ContractTest extends TestCase {
 
 		$this->get( route( 'contracts.create' ) )->assertStatus( 200 );
 
-		$contract = make(Contract::class);
+		$contract = make(Commission::class);
 		$this->post( route( 'contracts.store' ), $contract->toArray() )
 		     ->assertRedirect( route( 'contracts.index' ) );
 	}
@@ -56,7 +56,7 @@ class ContractTest extends TestCase {
 		     ->assertStatus( 200 )
 		     ->assertSee( $this->contract->title );
 
-		$contract = create(Contract::class);
+		$contract = create(Commission::class);
 
 		$this->put( route( 'contracts.update', $contract->id ), $contract->toArray())->assertRedirect( route( 'contracts.index' ) );
 
@@ -68,7 +68,7 @@ class ContractTest extends TestCase {
 	public function test_authorized_user_can_delete_contract() {
 		$this->authorizedUserSignIn();
 
-		$contract = create( Contract::class );
+		$contract = create( Commission::class );
 
 		$this->delete( route( 'contracts.destroy', $contract->id ))->assertStatus( 200 );
 
@@ -80,8 +80,8 @@ class ContractTest extends TestCase {
 	public function test_authorized_user_can_delete_multiple_contract() {
   		$this->authorizedUserSignIn();
 
-  		$contract1 = create( Contract::class, null );
-  		$contract2 = create( Contract::class, null );
+  		$contract1 = create( Commission::class, null );
+  		$contract2 = create( Commission::class, null );
 
   		$this->delete( route( 'contracts.destroys', [
   			'ids' => [$contract1->id, $contract2->id]

@@ -62,7 +62,7 @@ class Member extends Eloquent
 
 	public function contracts()
 	{
-		return $this->hasMany(\App\Models\Contract::class);
+		return $this->hasMany(\App\Models\Commission::class);
 	}
 
 	public function history_calls()
