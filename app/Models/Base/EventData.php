@@ -56,7 +56,7 @@ class EventData extends Eloquent
 
 	public function contracts()
 	{
-		return $this->hasMany(\App\Models\Commission::class);
+		return $this->hasMany(\App\Models\Contract::class);
 	}
 
 	public function event_data_details()

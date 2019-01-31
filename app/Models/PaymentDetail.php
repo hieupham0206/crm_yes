@@ -107,6 +107,6 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
 
     public function contract()
     {
-        return $this->belongsTo(\App\Models\Commission::class);
+        return $this->belongsTo(\App\Models\Contract::class);
     }
 }

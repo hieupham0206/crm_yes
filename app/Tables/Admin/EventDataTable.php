@@ -2,7 +2,6 @@
 
 namespace App\Tables\Admin;
 
-use App\Enums\EventDataState;
 use App\Models\EventData;
 use App\Tables\DataTable;
 
