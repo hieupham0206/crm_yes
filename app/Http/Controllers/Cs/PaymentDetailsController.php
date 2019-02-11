@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Cs;
 
 use App\Http\Controllers\Controller;
+use App\Models\Commission;
+use App\Models\Contract;
 use App\Models\PaymentCost;
 use App\Models\PaymentDetail;
 use App\Tables\Cs\PaymentDetailTable;
@@ -122,6 +124,28 @@ class PaymentDetailsController extends Controller
         $requestData['total_paid_real'] = str_replace(',', '', $requestData['total_paid_real']);
         $requestData['pay_date_real']   = date('Y-m-d', strtotime($requestData['pay_date_real']));
         $paymentDetail->update($requestData);
+
+        //note: nếu thanh toán hop dong done thi tao commisison
+        /** @var Contract $contract */
+        $contract                = $paymentDetail->contract;
+        $paymentDetails          = $contract->payment_details()->where('total_paid_real', 0)->whereNull('pay_date_real')->get();
+        $contract->total_payment += $requestData['total_paid_real'];
+
+        if ($paymentDetails->count() === 0) {
+            $contract->update(['state' => 1]);
+
+            $eventData   = $contract->event_data;
+            $appointment = $eventData->appointment;
+            if ($appointment) {
+                $userId = $appointment->ambassador ?? $appointment->user_id;
+            }
+
+            Commission::create([
+                'contract_id' => $contract->id,
+                'user_id'     => $userId ?? null,
+                'net_total'   => 0,
+            ]);
+        }
 
         if ($request->wantsJson()) {
             return $this->asJson([

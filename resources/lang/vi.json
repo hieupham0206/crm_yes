@@ -172,5 +172,7 @@
   "event data": "Event data",
   "Amount": "Số tiền",
   "Value": "Giá trị",
-  "Debt": "Nợ"
+  "Debt": "Nợ",
+  "Payment detail": "Lịch thu tiền",
+  "payment detail": "Lịch thu tiền"
 }

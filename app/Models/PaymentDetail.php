@@ -58,7 +58,7 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
         'bank_no',
         'note',
     ];
-    public static $logName = 'PaymentDetail';
+    public static $logName = 'Payment detail';
 
     protected static $logOnlyDirty = true;
 
