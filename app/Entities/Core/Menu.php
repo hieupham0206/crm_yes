@@ -91,6 +91,9 @@ class Menu
             if ($menuModule === 'daily_teles') {
                 $module = 'daily-tele-report';
             }
+            if ($menuModule === 'tele_marketer_console') {
+                $module = 'tele-marketer-console';
+            }
             if ($menuModule === 'commission_details' || $menuModule === 'commission_users') {
                 $module = 'commmission';
             }
