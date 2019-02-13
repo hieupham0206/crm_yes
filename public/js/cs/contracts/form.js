@@ -210,6 +210,19 @@ $(function () {
 		allowMinus: false, // Allow the - sign
 		allowThouSep: false // Allow the thousands separator, default is the comma eg 12,000
 	});
+
+	$('#select_limit').on('change', function () {
+
+		var limit = $(this).val();
+		var amount = 4400000;
+
+		if (limit === '2') {
+			amount = 5400000;
+		} else if (limit === '3') {
+			amount = 6400000;
+		}
+		$('#txt_year_cost').val(numeral(amount).format('0,00'));
+	});
 });
 
 /***/ })
