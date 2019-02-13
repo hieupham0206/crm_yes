@@ -87,12 +87,16 @@ class CommissionUserTable extends DataTable
 //            'contract' => function ($c) {
 //                return $c->where('state', 1);
 //            },
-        ])->role(['REP']);
+        ]);
 
         $this->totalFilteredRecords = $this->totalRecords = $users->count();
 
         if ($this->isFilterNotEmpty) {
             $users->filters($this->filters);
+
+            if (! empty($this->filters['role_id'])) {
+                $users->role($this->filters['role_id']);
+            }
 
             $this->totalFilteredRecords = $users->count();
         }
