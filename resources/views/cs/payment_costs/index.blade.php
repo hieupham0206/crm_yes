@@ -18,6 +18,7 @@ $breadcrumbs = ['breadcrumb' => 'payment_costs.index'];
                     <thead>
                     <tr>
                         {{--<th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
+                        <th>{{ $paymentCost->label('name') }}</th>
                         <th>{{ $paymentCost->label('bank_name') }}</th>
                         <th>{{ $paymentCost->label('payment_method') }}</th>
                         <th>{{ $paymentCost->label('cost') }}</th>

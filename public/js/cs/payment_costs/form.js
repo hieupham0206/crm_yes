@@ -98,9 +98,7 @@ $(function () {
         } : false
     });
 
-    $('#txt_cost').numeric({
-        max: 50
-    });
+    $('#txt_cost').numeric();
 });
 
 /***/ })

@@ -50,7 +50,7 @@ class PaymentCostTable extends DataTable
 				</a>';
             }
 
-            if ($canDeletePaymentCost) {
+            if ($canDeletePaymentCost && $paymentCost->payment_method != 5) {
                 $btnDelete = ' <button type="button" data-title="' . __('Delete') . ' ' . $modelName . ' ' . $paymentCost->name . ' !!!" class="btn btn-sm btn-danger btn-delete m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                 data-url="' . route('payment_costs.destroy', $paymentCost, false) . '" title="' . __('Delete') . '">
                     <i class="fa fa-trash"></i>
@@ -59,9 +59,10 @@ class PaymentCostTable extends DataTable
 
             $dataArray[] = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $paymentCost->id . '"><span></span></label>',
+                $paymentCost->name,
                 $paymentCost->bank_name,
                 $paymentCost->payment_method_text,
-                $paymentCost->cost,
+                number_format($paymentCost->cost),
 
 //                '<a href="' . route('payment_costs.show', $paymentCost, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
 //					<i class="fa fa-eye"></i>

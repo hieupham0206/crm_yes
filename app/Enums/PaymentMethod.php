@@ -10,6 +10,7 @@ final class PaymentMethod extends Enum
     public const AMORTIZATION = 2;
     public const CARD = 3;
     public const TRANSFER = 4;
+    public const FIXED = 5;
 
     public static function getDescription($value): string
     {
@@ -27,6 +28,10 @@ final class PaymentMethod extends Enum
 
         if ((int) $value === self::TRANSFER) {
             return 'Chuyển khoản';
+        }
+
+        if ((int) $value === self::FIXED) {
+            return 'Phí cố định';
         }
 
         return parent::getDescription($value);

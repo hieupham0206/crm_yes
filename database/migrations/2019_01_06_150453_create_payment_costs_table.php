@@ -19,7 +19,8 @@ class CreatePaymentCostsTable extends Migration
             $table->tinyInteger('payment_method')->comment('1: Tiền mặt
 2: Trả góp ngân hàng
 3: Cà thẻ
-4: Chuyển khoản')->nullable();
+4: Chuyển khoản
+5: Phí cố định')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('cost')->nullable();
             $table->timestamps();

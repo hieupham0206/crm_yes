@@ -120,9 +120,11 @@ class ContractsController extends Controller
             throw new ValidationException($validator);
         }
 
+        $feeCosts = PaymentCost::where('payment_method', 5)->get(['cost'])->sum('cost');
+
         $requestData['member_id']  = $member->id;
         $requestData['amount']     = str_replace(',', '', $requestData['amount']);
-        $requestData['net_amount'] = $requestData['amount'] - 17000000;
+        $requestData['net_amount'] = $requestData['amount'] - $feeCosts;
         $requestData['year_cost']  = str_replace(',', '', $requestData['year_cost']);
         ++$requestData['num_of_payment'];
         $contract = Contract::create($requestData);
