@@ -45,9 +45,9 @@ class CommissionRolesController extends Controller
         $commissionRoleId  = request()->get('commissionRoleId');
         $spec              = request()->get('spec');
         $attributes        = [
-            'level'                    => $level,
-            'percent_commission'       => $percentCommission,
-            'percent_commission_bonus' => $bonusCommission,
+            'level'                    => $level ?: 0,
+            'percent_commission'       => $percentCommission ?: 0,
+            'percent_commission_bonus' => $bonusCommission ?: 0,
             'deal_completed'           => $dealCompleted,
             'role_id'                  => $roleId,
             'specification'            => $spec ?: 1,
@@ -56,9 +56,13 @@ class CommissionRolesController extends Controller
         if ($commissionRoleId) {
             $commissionRole = CommissionRole::find($commissionRoleId);
             $commissionRole->update($attributes);
-        } else {
-            CommissionRole::create($attributes);
+
+            return response()->json([
+                'message' => __('Data edited successfully'),
+            ]);
         }
+
+        CommissionRole::create($attributes);
 
         return response()->json([
             'message' => __('Data created successfully'),

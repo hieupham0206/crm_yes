@@ -110,6 +110,8 @@ $(function () {
 	});
 
 	$body.on('click', '.btn-save-commission-role', function () {
+		window.blockPage();
+
 		var url = $(this).data('url');
 		var roleId = $(this).data('role-id');
 		var spec = $(this).data('spec');

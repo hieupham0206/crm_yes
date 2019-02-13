@@ -32,6 +32,8 @@ $(function() {
 	})
 
 	$body.on('click', '.btn-save-commission-role', function() {
+		window.blockPage()
+
 		let url = $(this).data('url')
 		let roleId = $(this).data('role-id')
 		let spec = $(this).data('spec')

@@ -3,8 +3,8 @@
 namespace App\Tables\Business;
 
 use App\Enums\CommissionRoleSpecification;
-use App\Models\CommissionRole;
 use App\Models\Commission;
+use App\Models\CommissionRole;
 use App\Tables\DataTable;
 
 class CommissionRoleTable extends DataTable
@@ -41,13 +41,16 @@ class CommissionRoleTable extends DataTable
 //
 //        $canUpdateContract = can('update-contract');
 //        $canDeleteContract = can('delete-commission');
-        $commissionRoles = CommissionRole::all();
+        $commissionRoles    = CommissionRole::all();
+        $commissionRoleSdms = $commissionRoles->filter(function ($r) {
+            return $r->role_id == 7;
+        });
 
         foreach ($roleDatas as $roleData) {
             $buttonDelete = $dealCompleted = $commisionBonus = $level = $buttonSaveCommission = '';
             $roleId       = $roleData['id'];
 
-            $spec = ! empty($roleData['spec']) ? (int) $roleData['spec'] : '';
+            $spec                 = ! empty($roleData['spec']) ? (int) $roleData['spec'] : '';
             $commissionRole       = $commissionRoles->filter(function ($r) use ($roleId, $spec) {
                 if ($spec) {
                     return $r->role_id == $roleId && $r->specification == $spec;
@@ -67,10 +70,21 @@ class CommissionRoleTable extends DataTable
 //						</button>';
 //            }
 
+            $percentCommission = $commissionRole ? $commissionRole->percent_commission : '';
             //nếu role SDM thi moi hiện
             if ($roleId == 7) {
-                $roleLevel = $commissionRole ? $commissionRole->level : '';
-                $level     = '<input class="form-control txt-level" value="' . $roleLevel . '"/>';
+                $commissionRoleSdm = $commissionRoleSdms->pop();
+                $roleLevel         = optional($commissionRoleSdm)->level;
+                $level             = '<input class="form-control txt-level" value="' . $roleLevel . '"/>';
+
+                if ($commissionRoleSdm) {
+                    $percentCommission = $commissionRoleSdm->percent_commission;
+                }
+
+                $buttonSaveCommission = ' <button type="button" data-spec="' . $spec . '" data-commission-role-id="' . $commissionRoleSdm->id . '" data-role-id="' . $roleId . '" data-url="' . route('commission_roles.store') . '"
+            class="btn btn-sm btn-success btn-save-commission-role m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Delete') . '">
+							<i class="fa fa-save"></i>
+						</button>';
             }
 
             //nếu role TO thi moi hiện
@@ -84,9 +98,7 @@ class CommissionRoleTable extends DataTable
                 $roleDealCompleted = $commissionRole ? $commissionRole->deal_completed : '';
                 $dealCompleted     = '<input class="form-control txt-deal-completed" value="' . $roleDealCompleted . '"/>';
             }
-
-            $percentCommission = $commissionRole ? $commissionRole->percent_commission : '';
-            $dataArray[]       = [
+            $dataArray[] = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $contract->id . '"><span></span></label>',
                 $roleData['name'],
                 $spec ? CommissionRoleSpecification::getDescription($spec) : '',
