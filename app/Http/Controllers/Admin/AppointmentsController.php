@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\LeadState;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\EventData;
@@ -188,6 +189,10 @@ class AppointmentsController extends Controller
     public function cancel(Appointment $appointment)
     {
         $appointment->cancel();
+
+        //note: * Sau khi Appointment bị hủy, chuyển trạng thái lead lại thành no interest
+        $lead = $appointment->lead;
+        $lead->update(['state' => LeadState::NO_INTERESTED]);
 
         return response()->json([
             'message' => __('Data edited successfully'),

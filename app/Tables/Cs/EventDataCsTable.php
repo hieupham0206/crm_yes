@@ -39,27 +39,27 @@ class EventDataCsTable extends DataTable
         $this->column = $this->getColumn();
         $eventDatas   = $this->getModels();
         $dataArray    = [];
-        $modelName    = (new EventData)->classLabel(true);
+//        $modelName    = (new EventData)->classLabel(true);
 
-        $canUpdateEventData = can('update-eventData');
-        $canDeleteEventData = can('delete-eventData');
+//        $canUpdateEventData = can('update-eventData');
+//        $canDeleteEventData = can('delete-eventData');
 
         /** @var EventData[] $eventDatas */
         foreach ($eventDatas as $eventData) {
-            $btnEdit = $btnDelete = '';
-
-            if ($canUpdateEventData) {
-                $btnEdit = ' <a href="' . route('event_data_receps.edit', $eventData, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Edit') . '">
-					<i class="fa fa-edit"></i>
-				</a>';
-            }
-
-            if ($canDeleteEventData) {
-                $btnDelete = ' <button type="button" data-title="' . __('Delete') . ' ' . $modelName . ' ' . $eventData->name . ' !!!" class="btn btn-sm btn-danger btn-delete m-btn m-btn--icon m-btn--icon-only m-btn--pill"
-                data-url="' . route('event_data_receps.destroy', $eventData, false) . '" title="' . __('Delete') . '">
-                    <i class="fa fa-trash"></i>
-                </button>';
-            }
+//            $btnEdit = $btnDelete = '';
+//
+//            if ($canUpdateEventData) {
+//                $btnEdit = ' <a href="' . route('event_data_receps.edit', $eventData, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Edit') . '">
+//					<i class="fa fa-edit"></i>
+//				</a>';
+//            }
+//
+//            if ($canDeleteEventData) {
+//                $btnDelete = ' <button type="button" data-title="' . __('Delete') . ' ' . $modelName . ' ' . $eventData->name . ' !!!" class="btn btn-sm btn-danger btn-delete m-btn m-btn--icon m-btn--icon-only m-btn--pill"
+//                data-url="' . route('event_data_receps.destroy', $eventData, false) . '" title="' . __('Delete') . '">
+//                    <i class="fa fa-trash"></i>
+//                </button>';
+//            }
 
             $lead        = $eventData->lead;
             $leadName    = $lead->name;

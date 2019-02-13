@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
 use App\Models\EventData;
-use App\Tables\TableFacade;
 use App\Tables\Business\EventDataRecepTable;
+use App\Tables\TableFacade;
 use Illuminate\Http\Request;
 
 class EventDataRecepsController extends Controller
 {
-     /**
-      * Tên dùng để phân quyền
-      * @var string
-      */
-	 protected $name = 'eventData';
+    /**
+     * Tên dùng để phân quyền
+     * @var string
+     */
+    protected $name = 'eventData';
 
     /**
      * Hiển thị trang danh sách EventData.
@@ -23,15 +23,16 @@ class EventDataRecepsController extends Controller
      */
     public function index()
     {
-        return view( 'business.event_datas.index' )->with('eventData', new EventData);
+        return view('business.event_datas.index')->with('eventData', new EventData);
     }
 
     /**
      * Lấy danh sách EventData cho trang table ở trang index
      * @return string
      */
-    public function table() {
-    	return ( new TableFacade( new EventDataRecepTable() ) )->getDataTable();
+    public function table()
+    {
+        return (new TableFacade(new EventDataRecepTable()))->getDataTable();
     }
 
     /**
@@ -43,7 +44,7 @@ class EventDataRecepsController extends Controller
     {
         return view('business.event_datas.create', [
             'eventData' => new EventData,
-            'action' => route('event_datas.store')
+            'action'    => route('event_datas.store'),
         ]);
     }
 
@@ -58,24 +59,25 @@ class EventDataRecepsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required'
-		]);
+            'name' => 'required',
+        ]);
         $requestData = $request->all();
-        $eventData = EventData::create($requestData);
+        $eventData   = EventData::create($requestData);
 
         if ($request->wantsJson()) {
             return $this->asJson([
-                'message' => __('Data created successfully')
+                'message' => __('Data created successfully'),
             ]);
         }
 
-        return redirect(route('event_datas.show', $eventData))->with('message', __( 'Data created successfully' ));
+        return redirect(route('event_datas.show', $eventData))->with('message', __('Data created successfully'));
     }
 
     /**
      * Trang xem chi tiết EventData.
      *
      * @param  EventData $eventData
+     *
      * @return \Illuminate\View\View
      */
     public function show(EventData $eventData)
@@ -94,8 +96,8 @@ class EventDataRecepsController extends Controller
     {
         return view('business.event_datas.edit', [
             'eventData' => $eventDataRecep,
-            'method' => 'put',
-            'action' => route('event_datas.update', $eventDataRecep)
+            'method'    => 'put',
+            'action'    => route('event_datas.update', $eventDataRecep),
         ]);
     }
 
@@ -111,11 +113,11 @@ class EventDataRecepsController extends Controller
     public function update(Request $request, EventData $eventData)
     {
         $this->validate($request, [
-			'name' => 'required'
-		]);
+            'name' => 'required',
+        ]);
         $requestData = $request->all();
 
-        if (! $request->has('hot_bonus')) {
+        if ( ! $request->has('hot_bonus')) {
             $requestData['hot_bonus'] = -1;
         }
 
@@ -123,32 +125,38 @@ class EventDataRecepsController extends Controller
 
         if ($request->wantsJson()) {
             return $this->asJson([
-                'message' => __('Data edited successfully')
+                'message' => __('Data edited successfully'),
             ]);
         }
 
-        return redirect(route('event_datas.show', $eventData))->with('message', __( 'Data edited successfully' ));
+        return redirect(route('event_datas.show', $eventData))->with('message', __('Data edited successfully'));
     }
 
     /**
      * Xóa EventData.
      *
      * @param EventData $eventData
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy(EventData $eventData)
     {
         try {
-        	  $eventData->delete();
-        } catch ( \Exception $e ) {
-            return $this->asJson( [
-                'message' => "Error: {$e->getMessage()}"
-            ], $e->getCode() );
+            $eventData->delete();
+
+            //note: * Sau khi EventData bị hủy, chuyển trạng thái lead lại thành no interest
+            $lead = $eventData->lead;
+            $lead->update(['state' => LeadState::NO_INTERESTED]);
+
+        } catch (\Exception $e) {
+            return $this->asJson([
+                'message' => "Error: {$e->getMessage()}",
+            ], $e->getCode());
         }
 
-        return $this->asJson( [
-            'message' => __('Data deleted successfully')
-        ] );
+        return $this->asJson([
+            'message' => __('Data deleted successfully'),
+        ]);
     }
 
     /**
@@ -157,19 +165,20 @@ class EventDataRecepsController extends Controller
      * @return mixed|\Symfony\Component\HttpFoundation\ParameterBag
      * @throws \Exception
      */
-    public function destroys() {
+    public function destroys()
+    {
         try {
-            $ids = \request()->get( 'ids' );
-            EventData::destroy( $ids );
-        } catch ( \Exception $e ) {
-            return $this->asJson( [
-                'message' => "Error: {$e->getMessage()}"
-            ], $e->getCode() );
+            $ids = \request()->get('ids');
+            EventData::destroy($ids);
+        } catch (\Exception $e) {
+            return $this->asJson([
+                'message' => "Error: {$e->getMessage()}",
+            ], $e->getCode());
         }
 
-        return $this->asJson( [
-            'message' => __( 'Data deleted successfully' )
-        ] );
+        return $this->asJson([
+            'message' => __('Data deleted successfully'),
+        ]);
     }
 
     /**
@@ -177,24 +186,25 @@ class EventDataRecepsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function eventData() {
-        $query  = request()->get( 'query', '' );
-        $page   = request()->get( 'page', 1 );
-        $excludeIds = request()->get( 'excludeIds', [] );
-        $offset = ( $page - 1 ) * 10;
-        $eventData  = EventData::query()->select( [ 'id', 'name' ] );
+    public function eventData()
+    {
+        $query      = request()->get('query', '');
+        $page       = request()->get('page', 1);
+        $excludeIds = request()->get('excludeIds', []);
+        $offset     = ($page - 1) * 10;
+        $eventData  = EventData::query()->select(['id', 'name']);
 
-        $eventData->andFilterWhere( [
-            [ 'name', 'like', $query ],
-            ['id', '!=', $excludeIds]
+        $eventData->andFilterWhere([
+            ['name', 'like', $query],
+            ['id', '!=', $excludeIds],
         ]);
 
         $totalCount = $eventData->count();
-        $eventData = $eventData->offset($offset)->limit(10)->get();
+        $eventData  = $eventData->offset($offset)->limit(10)->get();
 
-        return $this->asJson( [
+        return $this->asJson([
             'total_count' => $totalCount,
             'items'       => $eventData->toArray(),
-        ] );
+        ]);
     }
 }
