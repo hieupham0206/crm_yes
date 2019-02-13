@@ -143,7 +143,7 @@ class PaymentDetailsController extends Controller
             Commission::create([
                 'contract_id' => $contract->id,
                 'user_id'     => $userId ?? null,
-                'net_total'   => 0,
+                'net_total'   => $contract->net_amount,
             ]);
         }
 

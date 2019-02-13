@@ -129,7 +129,7 @@
         "route": "contracts.index"
       },
       "payment_detail": {
-        "icon": "fa fa-user",
+        "icon": "fa fa-calendar",
         "parent": "",
         "route": "payment_details.index"
       },

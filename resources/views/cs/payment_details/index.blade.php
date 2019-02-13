@@ -20,6 +20,7 @@ $breadcrumbs = ['breadcrumb' => 'payment_details.index'];
                     <thead>
                         <tr>
                             {{--<th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
+                            <th>Mã hợp đồng</th>
                             <th>{{ $paymentDetail->label('pay_date') }}</th>
                             <th>{{ $paymentDetail->label('amount') }}</th>
                             <th>{{ $paymentDetail->label('pay_date_real') }}</th>

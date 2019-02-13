@@ -47,12 +47,13 @@ class PaymentDetailTable extends DataTable
 
             if ($canUpdatePaymentDetail && ! $paymentDetail->pay_date_real) {
                 $btnEdit = ' <a href="' . route('payment_details.edit', $paymentDetail, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Edit') . '">
-					<i class="fa fa-check"></i>
+					<i class="fa fa-edit"></i>
 				</a>';
             }
 
             $dataArray[] = [
 //				'<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="'.$paymentDetail->id.'"><span></span></label>',
+                optional($paymentDetail->contract)->contract_no,
                 optional($paymentDetail->pay_date)->format('d-m-Y'),
                 number_format($paymentDetail->total_paid_deal),
                 optional($paymentDetail->pay_date_real)->format('d-m-Y'),
