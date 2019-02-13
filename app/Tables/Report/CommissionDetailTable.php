@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tables\Cs;
+namespace App\Tables\Report;
 
 use App\Models\Commission;
 use App\Tables\DataTable;

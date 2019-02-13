@@ -10,9 +10,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\Commission;
-use App\Models\User;
-use App\Tables\Cs\CommissionDetailTable;
-use App\Tables\Report\DailyTeleReportTable;
+use App\Tables\Report\CommissionDetailTable;
 use App\Tables\TableFacade;
 
 class CommissionDetailsController extends Controller
@@ -26,7 +24,7 @@ class CommissionDetailsController extends Controller
     public function index()
     {
         return view('report.commission_details.index', [
-            'contract' => new Commission()
+            'contract' => new Commission(),
         ]);
     }
 
