@@ -153,6 +153,8 @@ class ContractsController extends Controller
             PaymentDetail::create([
                 'pay_date'        => $payDate,
                 'total_paid_deal' => str_replace(',', '', $totalPaidDeal),
+                'pay_date_real'   => $payDate,
+                'total_paid_real' => str_replace(',', '', $totalPaidDeal),
                 'contract_id'     => $contract->id,
                 'payment_cost_id' => optional($paymentCost)->id,
 
@@ -174,8 +176,6 @@ class ContractsController extends Controller
                 $paymentDetailDatas[] = [
                     'pay_date'        => date('Y-m-d', strtotime($paymentDate)),
                     'total_paid_deal' => str_replace(',', '', $totalPaidDeals[$key]),
-                    'pay_date_real'   => date('Y-m-d', strtotime($paymentDate)),
-                    'total_paid_real' => str_replace(',', '', $totalPaidDeals[$key]),
                     'contract_id'     => $contract->id,
                     'payment_cost_id' => optional($paymentCost)->id,
 
