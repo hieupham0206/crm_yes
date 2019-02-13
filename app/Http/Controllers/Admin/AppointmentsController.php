@@ -122,6 +122,11 @@ class AppointmentsController extends Controller
     {
         try {
             $appointment->delete();
+
+            //note: * Sau khi Appointment bị hủy, chuyển trạng thái lead lại thành no interest
+            $lead = $appointment->lead;
+            $lead->update(['state' => LeadState::NO_INTERESTED]);
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => "Error: {$e->getMessage()}",
