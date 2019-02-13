@@ -112,6 +112,7 @@ $(function () {
 	$body.on('click', '.btn-save-commission-role', function () {
 		var url = $(this).data('url');
 		var roleId = $(this).data('role-id');
+		var spec = $(this).data('spec');
 		var commissionRoleId = $(this).data('commission-role-id');
 		var tr = $(this).parents('tr');
 
@@ -126,7 +127,8 @@ $(function () {
 			bonusCommission: bonusCommission,
 			dealCompleted: dealCompleted,
 			roleId: roleId,
-			commissionRoleId: commissionRoleId
+			commissionRoleId: commissionRoleId,
+			spec: spec
 		}).then(function (result) {
 			var obj = result['data'];
 			if (obj.message) {

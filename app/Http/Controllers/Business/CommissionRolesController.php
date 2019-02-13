@@ -9,8 +9,8 @@
 namespace App\Http\Controllers\Business;
 
 use App\Http\Controllers\Controller;
-use App\Models\CommissionRole;
 use App\Models\Commission;
+use App\Models\CommissionRole;
 use App\Tables\Business\CommissionRoleTable;
 use App\Tables\Cs\CommissionTable;
 use App\Tables\TableFacade;
@@ -43,12 +43,14 @@ class CommissionRolesController extends Controller
         $dealCompleted     = request()->get('dealCompleted');
         $roleId            = request()->get('roleId');
         $commissionRoleId  = request()->get('commissionRoleId');
-        $attributes = [
+        $spec              = request()->get('spec');
+        $attributes        = [
             'level'                    => $level,
             'percent_commission'       => $percentCommission,
             'percent_commission_bonus' => $bonusCommission,
             'deal_completed'           => $dealCompleted,
             'role_id'                  => $roleId,
+            'specification'            => $spec ?: 1,
         ];
 
         if ($commissionRoleId) {
@@ -57,7 +59,6 @@ class CommissionRolesController extends Controller
         } else {
             CommissionRole::create($attributes);
         }
-
 
         return response()->json([
             'message' => __('Data created successfully'),

@@ -34,6 +34,7 @@ $(function() {
 	$body.on('click', '.btn-save-commission-role', function() {
 		let url = $(this).data('url')
 		let roleId = $(this).data('role-id')
+		let spec = $(this).data('spec')
 		let commissionRoleId = $(this).data('commission-role-id')
 		let tr = $(this).parents('tr')
 
@@ -49,6 +50,7 @@ $(function() {
 			dealCompleted: dealCompleted,
 			roleId: roleId,
 			commissionRoleId: commissionRoleId,
+			spec: spec,
 		}).then(result => {
 			let obj = result['data']
 			if (obj.message) {
