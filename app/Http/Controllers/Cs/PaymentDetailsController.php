@@ -123,6 +123,16 @@ class PaymentDetailsController extends Controller
         $requestData                    = $request->all();
         $requestData['total_paid_real'] = str_replace(',', '', $requestData['total_paid_real']);
         $requestData['pay_date_real']   = date('Y-m-d', strtotime($requestData['pay_date_real']));
+
+        //note: nếu số tiền trả thực tế chênh lệch với tiền hẹn trả thì dồn vào lần cuối
+        $diffAmount = $requestData['total_paid_real'] - $paymentDetail->total_paid_deal;
+        if ($diffAmount != 0) {
+            $lastPay = PaymentDetail::whereContractId($paymentDetail->contract_id)->where('total_paid_real', 0)->whereNull('pay_date_real')->orderBy('pay_date', 'desc')->first();
+            if ($lastPay) {
+                $leftAmount = $lastPay->total_paid_deal - $diffAmount;
+                $lastPay->update(['total_paid_deal' => $leftAmount]);
+            }
+        }
         $paymentDetail->update($requestData);
 
         //note: nếu thanh toán hop dong done thi tao commisison
