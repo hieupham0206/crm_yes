@@ -73,7 +73,7 @@ class CallbackTable extends DataTable
 //            }
 
             $dataArray[] = [
-                $callBack->lead->title,
+                $callBack->lead->phone,
 //                "<a class='link-lead-name m-link m--font-brand' href='javascript:void(0)' data-lead-id='{$callBack->lead_id}'>{$callBack->lead->name}</a>",
                 $callBack->lead->name,
                 "<span class='span-datetime'>" . optional($callBack->callback_datetime)->format('d-m-Y H:i') . '</span>',

@@ -221,7 +221,7 @@
                                 <table class="table table-borderless table-hover" id="table_callback" width="100%">
                                     <thead>
                                     <tr>
-                                        <th width="5%">{{ $lead->label('title') }}</th>
+                                        <th width="5%">{{ $lead->label('phone') }}</th>
                                         <th width="25%">{{ $lead->label('name') }}</th>
                                         <th width="15%">{{ $lead->label('callback_datetime') }}</th>
                                         <th width="40%">{{ $lead->label('comment') }}</th>

@@ -1,6 +1,6 @@
 <form id="change_state_leads_form" class="m-form m-form--state" method="post" action="{{ route('leads.change_state', $lead) }}">
     <div class="modal-header">
-        <h5 class="modal-title">@lang('Change status'): {{ $lead->name }}</h5>
+        <h5 class="modal-title">@lang('Change status'): {{ $lead->phone }}</h5>
         <button type="button" class="close btn-close-modal-change-state" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
