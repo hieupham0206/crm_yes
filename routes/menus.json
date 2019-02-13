@@ -69,7 +69,7 @@
     },
     "icon": "fa fa-chart-area"
   },
-  "management_report": {
+  "management": {
     "modules": {
       "callbacks": {
         "icon": "fa fa-phone-volume",
