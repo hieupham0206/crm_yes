@@ -19,7 +19,7 @@ class CommissionUsersController extends Controller
      * Tên dùng để phần quyền
      * @var string
      */
-    protected $name = 'commission';
+    protected $name = 'commissionUser';
 
     public function index()
     {

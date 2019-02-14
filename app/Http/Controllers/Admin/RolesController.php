@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Tables\Admin\RoleTable;
 use App\Tables\TableFacade;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class RolesController extends Controller
 {
@@ -73,6 +74,22 @@ class RolesController extends Controller
         $permissions = $request->get('permissions', []);
         $roleName    = $request->get('name');
 
+        $currentPermissions = Permission::all()->pluck('name');
+        $diffPermissions    = collect($permissions)->diff($currentPermissions);
+        if ($diffPermissions) {
+            $newPermissions = [];
+            foreach ($diffPermissions as $diffPermission) {
+                [$action, $moduleName] = explode('-', $diffPermission);
+                $newPermissions[] = [
+                    'name'       => "{$action}-{$moduleName}",
+                    'guard_name' => 'web',
+                    'module'     => $moduleName,
+                    'action'     => $action,
+                ];
+            }
+            Permission::insert($newPermissions);
+        }
+
         $role = Role::create(['name' => $roleName]);
         $role->givePermissionTo($permissions);
 
@@ -134,12 +151,12 @@ class RolesController extends Controller
             $role->delete();
         } catch (\Exception $e) {
             return response()->json([
-                'message' => "Error: {$e->getMessage()}"
+                'message' => "Error: {$e->getMessage()}",
             ], $e->getCode());
         }
 
         return response()->json([
-            'message' => __('Data deleted successfully')
+            'message' => __('Data deleted successfully'),
         ]);
     }
 
@@ -156,12 +173,12 @@ class RolesController extends Controller
             Role::destroy($ids);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => "Error: {$e->getMessage()}"
+                'message' => "Error: {$e->getMessage()}",
             ], $e->getCode());
         }
 
         return response()->json([
-            'message' => __('Data deleted successfully')
+            'message' => __('Data deleted successfully'),
         ]);
     }
 

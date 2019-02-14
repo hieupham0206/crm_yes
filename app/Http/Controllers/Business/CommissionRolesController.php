@@ -21,7 +21,7 @@ class CommissionRolesController extends Controller
      * Tên dùng để phần quyền
      * @var string
      */
-    protected $name = 'commission';
+    protected $name = 'commissionRole';
 
     public function index()
     {

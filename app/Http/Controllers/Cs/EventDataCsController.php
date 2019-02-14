@@ -14,7 +14,7 @@ class EventDataCsController extends Controller
      * Tên dùng để phân quyền
      * @var string
      */
-    protected $name = 'eventData';
+    protected $name = 'eventDataCs';
 
     /**
      * Hiển thị trang danh sách EventData.
