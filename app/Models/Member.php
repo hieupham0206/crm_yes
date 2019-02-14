@@ -182,12 +182,12 @@ class Member extends \App\Models\Base\Member
         return $this->belongsTo(\App\Models\Province::class, 'city', 'id');
     }
 
-    public function identityAddress()
+    public function identityProvince()
     {
         return $this->belongsTo(\App\Models\Province::class, 'identity_address', 'id');
     }
 
-    public function spouseIdentityAddress()
+    public function spouseIdentityProvince()
     {
         return $this->belongsTo(\App\Models\Province::class, 'spouse_identity_address', 'id');
     }

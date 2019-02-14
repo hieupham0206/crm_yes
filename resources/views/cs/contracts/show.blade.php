@@ -48,7 +48,7 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('identity_address') ? 'has-danger' : ''}}">
                                 <label for="txt_identity_address">{{ $member->label('identity_address') }}</label>
-                                <input disabled class="form-control" name="name" type="text" id="txt_identity_address" value="{{ optional($member->identityAddress)->name }}">
+                                <input disabled class="form-control" name="name" type="text" id="txt_identity_address" value="{{ optional($member->identityProvince)->name }}">
                                 <span class="m-form__help"></span>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('identity_date') ? 'has-danger' : ''}}">
@@ -93,7 +93,7 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('spouse_identity_address') ? 'has-danger' : ''}}">
                                 <label for="txt_spouse_identity_address">{{ $member->label('spouse_identity_address') }}</label>
-                                <input disabled class="form-control" name="name" type="text" id="txt_spouse_identity_address" value="{{ optional($member->spouseIdentityAddress)->name }}">
+                                <input disabled class="form-control" name="name" type="text" id="txt_spouse_identity_address" value="{{ optional($member->spouseIdentityProvince)->name }}">
                                 <span class="m-form__help"></span>
                                 {!! $errors->first('spouse_identity_address', '<div class="form-control-feedback">:message</div>') !!}
                             </div>
@@ -104,13 +104,18 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
                                 {!! $errors->first('spouse_identity_date', '<div class="form-control-feedback">:message</div>') !!}
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('address') ? 'has-danger' : ''}}">
-                            <label for="txt_address">{{ $member->label('address') }}</label>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+                            <label for="txt_address">Địa chỉ liên lạc</label>
                             <input disabled class="form-control" name="address" type="text" id="txt_address" value="{{ $member->address}}">
                             <span class="m-form__help"></span>
                         </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+                            <label for="txt_address">Địa chỉ thường trú</label>
+                            <input disabled class="form-control" name="address" type="text" id="txt_address" value="{{ $member->temp_address}}">
+                            <span class="m-form__help"></span>
+                        </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('state') ? 'has-danger' : ''}}">
-                            <label for="txt_city">{{ $member->label('province') }}</label>
+                            <label for="txt_city">Chi nhánh</label>
                             <input disabled class="form-control" type="text" id="txt_city" value="{{ optional($member->province)->name}}">
                             <span class="m-form__help"></span>
                         </div>

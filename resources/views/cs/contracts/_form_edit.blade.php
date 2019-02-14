@@ -59,7 +59,7 @@
                     <select name="identity_address" class="form-control select2-ajax" id="select_identity_address" data-url="{{ route('leads.provinces.table') }}">
                         <option></option>
                         @if($member->identity_address)
-                            <option value="{{ $member->identity_address }}" selected>{{ optional($member->identity_address)->name }}</option>
+                            <option value="{{ $member->identity_address }}" selected>{{ optional($member->identityProvince)->name }}</option>
                         @endif
                     </select>
                     <span class="m-form__help"></span>
@@ -125,7 +125,7 @@
                     <select name="spouse_identity_address" class="form-control select2-ajax" id="select_spouse_identity_address" data-url="{{ route('leads.provinces.table') }}">
                         <option></option>
                         @if($member->spouse_identity_address)
-                            <option value="{{ $member->spouse_identity_address }}" selected>{{ $member->spouse_identity_address->name }}</option>
+                            <option value="{{ $member->spouse_identity_address }}" selected>{{ optional($member->spouseIdentityProvince)->name }}</option>
                         @endif
                     </select>
                     <span class="m-form__help"></span>
@@ -141,13 +141,19 @@
             </div>
 
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('address') ? 'has-danger' : ''}}">
-                <label for="txt_address">{{ $member->label('address') }}</label>
+                <label for="txt_address">Địa chỉ liên lạc</label>
                 <input class="form-control" name="address" type="text" id="txt_address" value="{{ $member->address ?? old('address')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('address', '<div class="form-control-feedback">:message</div>') !!}
             </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('temp_address') ? 'has-danger' : ''}}">
+                <label for="txt_temp_address">Địa chỉ thường trú</label>
+                <input class="form-control" name="temp_address" type="text" id="txt_temp_address" value="{{ $member->temp_address ?? old('temp_address')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <span class="m-form__help"></span>
+                {!! $errors->first('temp_address', '<div class="form-control-feedback">:message</div>') !!}
+            </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('city') ? 'has-danger' : ''}}">
-                <label for="select_province">{{ $member->label('province') }}</label>
+                <label for="select_province">Chi nhánh</label>
                 <select name="city" class="form-control" id="select_province" data-url="{{ route('leads.provinces.table') }}">
                     <option></option>
                     @if ($member->city)
