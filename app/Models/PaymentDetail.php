@@ -100,6 +100,13 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
         }
     }
 
+    public function setPayDateRealAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['pay_date_real'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+        }
+    }
+
     public function payment_cost()
     {
         return $this->belongsTo(\App\Models\PaymentCost::class);

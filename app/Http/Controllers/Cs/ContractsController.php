@@ -60,19 +60,19 @@ class ContractsController extends Controller
         $lead        = $appointment->lead;
 
         $contract = new Contract;
-//        $contract->fill([
-////            'contract_no'    => time(),
+        $contract->fill([
+            'contract_no'    => time(),
 //            'contract_no'    => '1548129013',
-//            'amount'         => '1000000',
-//            'signed_date'    => '22-01-2019',
-//            'start_date'     => '22-01-2019',
-//            'membership'     => 1,
-//            'room_type'      => 1,
-//            'limit'          => 1,
-//            'end_time'       => 1,
-//            'num_of_payment' => 2,
-//            'pay_date'       => '22-01-2019',
-//        ]);
+            'amount'         => '1000000',
+            'signed_date'    => '22-01-2019',
+            'start_date'     => '22-01-2019',
+            'membership'     => 1,
+            'room_type'      => 1,
+            'limit'          => 1,
+            'end_time'       => 1,
+            'num_of_payment' => 2,
+            'pay_date'       => '22-01-2019',
+        ]);
         return view('cs.contracts.create', [
             'contract'    => $contract,
             'eventData'   => $eventData,
@@ -99,105 +99,113 @@ class ContractsController extends Controller
             'contract_no' => 'required',
         ]);
 
-        //note: check kiem tra sdt hoac email da lam member chua
-        $identityHusband = $requestData['identity'];
-        $identityWife    = $requestData['spouse_identity'];
+        \DB::beginTransaction();
+        try {
+//note: check kiem tra sdt hoac email da lam member chua
+            $identityHusband = $requestData['identity'];
+            $identityWife    = $requestData['spouse_identity'];
 
-        if ( ! $member = Member::isMember($identityHusband, $identityWife)) {
-            $member = Member::create($requestData);
-        } else {
+            if ( ! $member = Member::isMember($identityHusband, $identityWife)) {
+                $member = Member::create($requestData);
+            } else {
 //            $validator = \Validator::make([], []); // Empty data and rules fields
 //            $validator->errors()->add('identity', 'Thông tin member đã tồn tại');
 //
 //            throw new ValidationException($validator);
-        }
-        $requestData['contract_no'] = Contract::createContractNo($requestData['contract_no'], $requestData['city']);
+            }
+            $requestData['contract_no'] = Contract::createContractNo($requestData['contract_no'], $requestData['city']);
 
-        if (Contract::checkContractNoExists($requestData['contract_no'])) {
-            $validator = \Validator::make([], []); // Empty data and rules fields
-            $validator->errors()->add('contract_no', 'Số hợp đồng đã tồn tại');
+            if (Contract::checkContractNoExists($requestData['contract_no'])) {
+                $validator = \Validator::make([], []); // Empty data and rules fields
+                $validator->errors()->add('contract_no', 'Số hợp đồng đã tồn tại');
 
-            throw new ValidationException($validator);
-        }
+                throw new ValidationException($validator);
+            }
 
-        $feeCosts = PaymentCost::where('payment_method', 5)->get(['cost'])->sum('cost');
+            $feeCosts = PaymentCost::where('payment_method', 5)->get(['cost'])->sum('cost');
 
-        $requestData['member_id']  = $member->id;
-        $requestData['amount']     = str_replace(',', '', $requestData['amount']);
-        $requestData['net_amount'] = $requestData['amount'] - $feeCosts;
-        $requestData['year_cost']  = str_replace(',', '', $requestData['year_cost']);
-        ++$requestData['num_of_payment'];
-        $contract = Contract::create($requestData);
+            $requestData['member_id']  = $member->id;
+            $requestData['amount']     = str_replace(',', '', $requestData['amount']);
+            $requestData['net_amount'] = $requestData['amount'] - $feeCosts;
+            $requestData['year_cost']  = str_replace(',', '', $requestData['year_cost']);
+            ++$requestData['num_of_payment'];
+            $contract = Contract::create($requestData);
 
-        //note: cập nhật state của lead thành member
-        $leadId = $requestData['lead_id'];
-        $lead   = Lead::find($leadId);
-        if ($lead) {
-            $lead->update(['state' => LeadState::MEMBER]);
-        }
+            //note: cập nhật state của lead thành member
+            $leadId = $requestData['lead_id'];
+            $lead   = Lead::find($leadId);
+            if ($lead) {
+                $lead->update(['state' => LeadState::MEMBER]);
+            }
 
-        //note: tạo payment_detail
+            //note: tạo payment_detail
 
-        //1. PaymentDetail dau tien
-        $totalPaidDeal = $requestData['total_paid_deal'];
-        $payDate       = $requestData['pay_date'];
-        $bankName      = $requestData['bank_name'];
-        $paymentMethod = $requestData['payment_method'];
+            //1. PaymentDetail dau tien
+            $totalPaidDeal = $requestData['total_paid_deal'];
+            $payDate       = $requestData['pay_date'];
+            $bankName      = $requestData['bank_name'];
+            $paymentMethod = $requestData['payment_method'];
 
-        $paymentCost = PaymentCost::where([
-            'bank_name'      => $bankName,
-            'payment_method' => $paymentMethod,
-        ])->first();
-        $payTime     = 1;
-        if ($totalPaidDeal) {
-            PaymentDetail::create([
-                'pay_date'        => $payDate,
-                'total_paid_deal' => str_replace(',', '', $totalPaidDeal),
-                'pay_date_real'   => $payDate,
-                'total_paid_real' => str_replace(',', '', $totalPaidDeal),
-                'contract_id'     => $contract->id,
-                'payment_cost_id' => optional($paymentCost)->id,
-
-                'bank_name'  => $bankName,
-                'bank_no'    => $requestData['bank_no'],
-                'note'       => $requestData['note'],
-                'pay_time'   => $payTime,
-                'created_at' => now()->toDateTimeString(),
-            ]);
-        }
-
-        if ($request->has('PaymentDetail')) {
-            $paymentDates   = collect($requestData['PaymentDetail']['pay_date'])->flatten()->toArray();
-            $totalPaidDeals = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
-
-            $paymentDetailDatas = [];
-
-            foreach ($paymentDates as $key => $paymentDate) {
-                $paymentDetailDatas[] = [
-                    'pay_date'        => date('Y-m-d', strtotime($paymentDate)),
-                    'total_paid_deal' => str_replace(',', '', $totalPaidDeals[$key]),
+            $paymentCost = PaymentCost::where([
+                'bank_name'      => $bankName,
+                'payment_method' => $paymentMethod,
+            ])->first();
+            $payTime     = 1;
+            if ($totalPaidDeal) {
+                PaymentDetail::create([
+                    'pay_date'        => $payDate,
+                    'total_paid_deal' => str_replace(',', '', $totalPaidDeal),
+                    'pay_date_real'   => $payDate,
+                    'total_paid_real' => str_replace(',', '', $totalPaidDeal),
                     'contract_id'     => $contract->id,
                     'payment_cost_id' => optional($paymentCost)->id,
 
                     'bank_name'  => $bankName,
                     'bank_no'    => $requestData['bank_no'],
                     'note'       => $requestData['note'],
-                    'pay_time'   => ++$payTime,
+                    'pay_time'   => $payTime,
                     'created_at' => now()->toDateTimeString(),
-                ];
+                ]);
             }
 
-            PaymentDetail::insert($paymentDetailDatas);
-        }
+            if ($request->has('PaymentDetail')) {
+                $paymentDates   = collect($requestData['PaymentDetail']['pay_date'])->flatten()->toArray();
+                $totalPaidDeals = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
 
-        if ($request->wantsJson()) {
-            return $this->asJson([
-                'message' => __('Data created successfully'),
-            ]);
-        }
+                $paymentDetailDatas = [];
 
-//        return redirect(route('contracts.show', $contract))->with('message', __('Data created successfully'));
-        return redirect(route('contracts.index'))->with('message', __('Data created successfully'));
+                foreach ($paymentDates as $key => $paymentDate) {
+                    $paymentDetailDatas[] = [
+                        'pay_date'        => date('Y-m-d', strtotime($paymentDate)),
+                        'total_paid_deal' => str_replace(',', '', $totalPaidDeals[$key]),
+                        'contract_id'     => $contract->id,
+                        'payment_cost_id' => optional($paymentCost)->id,
+
+                        'bank_name'  => $bankName,
+                        'bank_no'    => $requestData['bank_no'],
+                        'note'       => $requestData['note'],
+                        'pay_time'   => ++$payTime,
+                        'created_at' => now()->toDateTimeString(),
+                    ];
+                }
+
+                PaymentDetail::insert($paymentDetailDatas);
+            }
+
+            \DB::commit();
+            if ($request->wantsJson()) {
+                return $this->asJson([
+                    'message' => __('Data created successfully'),
+                ]);
+            }
+
+            return redirect(route('contracts.index'))->with('message', __('Data created successfully'));
+
+        } catch (Exception $e) {
+            \DB::rollBack();
+
+            return redirect(route('contracts.index'))->with('message', __('Data created unsuccessfully'));
+        }
     }
 
     /**
