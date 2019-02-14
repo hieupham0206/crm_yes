@@ -10,7 +10,7 @@ namespace App\Models;
 
 use App\Traits\{Core\Labelable, Core\Modelable, Core\Queryable, Core\Searchable};
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\{Activitylog\Traits\LogsActivity, Permission\Models\Role as Eloquent};
+use Spatie\{Activitylog\Traits\LogsActivity, Permission\Models\Permission, Permission\Models\Role as Eloquent};
 
 /**
  * App\Models\Role
@@ -118,5 +118,24 @@ class Role extends Eloquent
     public function commissions()
     {
         return $this->hasMany(CommissionRole::class);
+    }
+
+    public static function checkAndCreatePermission($permissions)
+    {
+        $currentPermissions = Permission::all()->pluck('name');
+        $diffPermissions    = collect($permissions)->diff($currentPermissions);
+        if ($diffPermissions) {
+            $newPermissions = [];
+            foreach ($diffPermissions as $diffPermission) {
+                [$action, $moduleName] = explode('-', $diffPermission);
+                $newPermissions[] = [
+                    'name'       => "{$action}-{$moduleName}",
+                    'guard_name' => 'web',
+                    'module'     => $moduleName,
+                    'action'     => $action,
+                ];
+            }
+            Permission::insert($newPermissions);
+        }
     }
 }

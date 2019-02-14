@@ -74,21 +74,9 @@ class RolesController extends Controller
         $permissions = $request->get('permissions', []);
         $roleName    = $request->get('name');
 
-        $currentPermissions = Permission::all()->pluck('name');
-        $diffPermissions    = collect($permissions)->diff($currentPermissions);
-        if ($diffPermissions) {
-            $newPermissions = [];
-            foreach ($diffPermissions as $diffPermission) {
-                [$action, $moduleName] = explode('-', $diffPermission);
-                $newPermissions[] = [
-                    'name'       => "{$action}-{$moduleName}",
-                    'guard_name' => 'web',
-                    'module'     => $moduleName,
-                    'action'     => $action,
-                ];
-            }
-            Permission::insert($newPermissions);
-        }
+
+        //note: check permission nếu chưa tồn tại thì tạo permission
+        Role::checkAndCreatePermission($permissions);
 
         $role = Role::create(['name' => $roleName]);
         $role->givePermissionTo($permissions);
@@ -124,6 +112,9 @@ class RolesController extends Controller
         $newPermissions    = collect($permissions)->diff($currentPermissions);
 
         $role->update(['name' => $roleName]);
+
+        //note: check permission nếu chưa tồn tại thì tạo permission
+        Role::checkAndCreatePermission($permissions);
 
         //add new permission
         if ($newPermissions) {
