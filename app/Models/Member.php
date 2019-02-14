@@ -79,6 +79,7 @@ class Member extends \App\Models\Base\Member
         'gender',
         'birthday',
         'address',
+        'temp_address',
         'city',
         'phone',
         'email',

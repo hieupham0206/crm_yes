@@ -134,12 +134,17 @@
                     {!! $errors->first('spouse_identity_date', '<div class="form-control-feedback">:message</div>') !!}
                 </div>
             </div>
-
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('address') ? 'has-danger' : ''}}">
                 <label for="txt_address">Địa chỉ liên lạc</label>
                 <input class="form-control" name="address" type="text" id="txt_address" value="{{ $member->address ?? old('address')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('address', '<div class="form-control-feedback">:message</div>') !!}
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('temp_address') ? 'has-danger' : ''}}">
+                <label for="txt_temp_address">Địa chỉ thường trú</label>
+                <input class="form-control" name="temp_address" type="text" id="txt_temp_address" value="{{ $member->temp_address ?? old('temp_address')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <span class="m-form__help"></span>
+                {!! $errors->first('temp_address', '<div class="form-control-feedback">:message</div>') !!}
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('city') ? 'has-danger' : ''}}">
                 <label for="select_province">Chi nhánh</label>
