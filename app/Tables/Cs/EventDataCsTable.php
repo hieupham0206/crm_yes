@@ -41,12 +41,12 @@ class EventDataCsTable extends DataTable
         $dataArray    = [];
 //        $modelName    = (new EventData)->classLabel(true);
 
-//        $canUpdateEventData = can('update-eventData');
+        $canCrateEventDataCs = can('create-eventDataCs');
 //        $canDeleteEventData = can('delete-eventData');
 
         /** @var EventData[] $eventDatas */
         foreach ($eventDatas as $eventData) {
-//            $btnEdit = $btnDelete = '';
+            $btnCreate = '';
 //
 //            if ($canUpdateEventData) {
 //                $btnEdit = ' <a href="' . route('event_data_receps.edit', $eventData, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Edit') . '">
@@ -54,12 +54,10 @@ class EventDataCsTable extends DataTable
 //				</a>';
 //            }
 //
-//            if ($canDeleteEventData) {
-//                $btnDelete = ' <button type="button" data-title="' . __('Delete') . ' ' . $modelName . ' ' . $eventData->name . ' !!!" class="btn btn-sm btn-danger btn-delete m-btn m-btn--icon m-btn--icon-only m-btn--pill"
-//                data-url="' . route('event_data_receps.destroy', $eventData, false) . '" title="' . __('Delete') . '">
-//                    <i class="fa fa-trash"></i>
-//                </button>';
-//            }
+            if ($canCrateEventDataCs) {
+                $btnCreate = ' <a href="' . route('contracts.create', ['eventDataId' => $eventData->id], false) . '" class="btn btn-sm btn-primary m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
+						    <i class="fa fa-plus"></i></a>';
+            }
 
             $lead        = $eventData->lead;
             $leadName    = $lead->name;
@@ -75,8 +73,7 @@ class EventDataCsTable extends DataTable
                 optional($eventData->rep)->username,
                 optional($eventData->user)->username,
 //                $lead->state_text,
-                ' <a href="' . route('contracts.create', ['eventDataId' => $eventData->id], false) . '" class="btn btn-sm btn-primary m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
-						    <i class="fa fa-plus"></i></a>'
+                $btnCreate
             ];
         }
 

@@ -155,9 +155,7 @@
       "paymentDetail": {
         "actions": [
           "view",
-          "create",
-          "update",
-          "delete"
+          "update"
         ]
       },
       "paymentCost": {
