@@ -56,7 +56,7 @@ class EventDataRecepTable extends DataTable
 
             if ($canDeleteEventData) {
                 $btnDelete = ' <button type="button" data-title="' . __('Delete') . ' ' . $modelName . ' ' . $eventData->name . ' !!!" class="btn btn-sm btn-danger btn-delete m-btn m-btn--icon m-btn--icon-only m-btn--pill"
-                data-url="' . route('event_data_receps.destroy', $eventData, false) . '" title="' . __('Delete') . '">
+                data-url="' . route('event_datas.destroy', $eventData, false) . '" title="' . __('Delete') . '">
                     <i class="fa fa-trash"></i>
                 </button>';
             }
