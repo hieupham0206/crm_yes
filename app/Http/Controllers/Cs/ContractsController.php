@@ -376,4 +376,31 @@ class ContractsController extends Controller
             'items'       => $contracts->toArray(),
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param Contract $contract
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeState(Request $request, Contract $contract)
+    {
+        $state = $request->post('state');
+
+        try {
+            if ($state !== null && $contract->update(['state' => $state])) {
+                return response()->json([
+                    'message' => __('Data edited successfully'),
+                ]);
+            }
+
+            return response()->json([
+                'message' => __('Data edited unsuccessfully'),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "Error: {$e->getMessage()}",
+            ], $e->getCode());
+        }
+    }
 }

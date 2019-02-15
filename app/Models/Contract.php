@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\ContractLimit;
 use App\Enums\ContractMembership;
 use App\Enums\ContractRoomType;
+use App\Enums\ContractState;
+use App\Enums\PaymentMethod;
 use Carbon\Carbon;
 
 /**
@@ -89,7 +91,7 @@ class Contract extends \App\Models\Base\Contract
         'end_time',
         'year_cost',
         'num_of_payment',
-        'total_payment',
+        'total_payment'
     ];
     public static $logName = 'Contract';
 
@@ -138,6 +140,11 @@ class Contract extends \App\Models\Base\Contract
     public function lead()
     {
         return $this->belongsTo(\App\Models\Lead::class);
+    }
+
+    public function payment_cost()
+    {
+        return $this->belongsTo(\App\Models\PaymentCost::class);
     }
 
     public function getMembershipsAttribute()
@@ -209,5 +216,23 @@ class Contract extends \App\Models\Base\Contract
     public function payment_details()
     {
         return $this->hasMany(PaymentDetail::class);
+    }
+
+    public function changeState($state)
+    {
+        return $this->update(['state' => $state]);
+    }
+
+    public function markContractDone()
+    {
+        $paymentDetails = $this->payment_details()->whereHas('payment_cost', function($q) {
+            $q->where('payment_method', PaymentMethod::AMORTIZATION);
+        })->get();
+
+        if ($paymentDetails->count() > 0) {
+            $this->changeState(ContractState::INSTALLMENT);
+        }
+
+        $this->changeState(ContractState::FULL);
     }
 }

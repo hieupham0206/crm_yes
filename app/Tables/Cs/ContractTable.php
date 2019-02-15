@@ -2,6 +2,7 @@
 
 namespace App\Tables\Cs;
 
+use App\Enums\ContractState;
 use App\Models\Contract;
 use App\Tables\DataTable;
 
@@ -42,7 +43,7 @@ class ContractTable extends DataTable
 
         /** @var Contract[] $contracts */
         foreach ($contracts as $contract) {
-            $btnEdit = $btnDelete = '';
+            $btnEdit = $htmlChangeStatus = $btnDelete = '';
 
             if ($canUpdateContract) {
                 $btnEdit = ' <a href="' . route('contracts.edit', $contract, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Edit') . '">
@@ -56,6 +57,28 @@ class ContractTable extends DataTable
                     <i class="fa fa-trash"></i>
                 </button>';
             }
+
+            $htmlChangeStatus = '
+				<button type="button" data-state="'.ContractState::CANCEL.'" data-message="' . __('Do you want to continue?') . '" data-url="' . route('contracts.change_state', $contract->id, false) . '" 
+				class="btn btn-sm btn-danger btn-change-status m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Cancel') . '">
+							<i class="fa fa-trash"></i>
+						</button>
+				<button type="button" data-state="'.ContractState::REFUND.'" data-message="' . __('Do you want to continue?') . '" data-url="' . route('contracts.change_state', $contract->id, false) . '" 
+				class="btn btn-sm btn-danger btn-change-status m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Refresh') . '">
+							<i class="fa fa-exchange-alt"></i>
+						</button>
+				<button type="button" data-state="'.ContractState::PROBLEM.'" data-message="' . __('Do you want to continue?') . '" data-url="' . route('contracts.change_state', $contract->id, false) . '" 
+				class="btn btn-sm btn-danger btn-change-status m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Problem') . '">
+							<i class="fa fa-bug"></i>
+						</button>
+				<button type="button" data-state="'.ContractState::CREDIT_CARD.'" data-message="' . __('Do you want to continue?') . '" data-url="' . route('contracts.change_state', $contract->id, false) . '" 
+				class="btn btn-sm btn-danger btn-change-status m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Making CreditCard') . '">
+							<i class="fa fa-credit-card"></i>
+						</button>
+				<button type="button" data-state="'.ContractState::DONE.'" data-message="' . __('Do you want to continue?') . '" data-url="' . route('contracts.change_state', $contract->id, false) . '" 
+				class="btn btn-sm btn-success btn-change-status m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Done') . '">
+							<i class="fa fa-check"></i>
+						</button>';
 
             $paid = $contract->payment_details()->sum('total_paid_real');
             $debt = $contract->amount - $paid;
@@ -72,7 +95,7 @@ class ContractTable extends DataTable
 
                 '<a href="' . route('contracts.show', $contract, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
 					<i class="fa fa-eye"></i>
-				</a>' . $btnEdit . $btnDelete,
+				</a>' . $htmlChangeStatus . $btnEdit . $btnDelete,
             ];
         }
 

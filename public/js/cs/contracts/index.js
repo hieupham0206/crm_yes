@@ -102,6 +102,16 @@ $(function () {
     $app.on('click', '.btn-delete', function () {
         tableContract.actionDelete({ btnDelete: $(this) });
     });
+    $app.on('click', '.btn-change-status', function () {
+        var message = $(this).data('message');
+        tableContract.actionEdit({
+            btnEdit: $(this),
+            params: {
+                state: $(this).data('state')
+            },
+            message: message
+        });
+    });
     $('#contracts_search_form').on('submit', function () {
         tableContract.reload();
         return false;

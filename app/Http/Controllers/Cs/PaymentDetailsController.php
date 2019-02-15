@@ -142,7 +142,7 @@ class PaymentDetailsController extends Controller
         $contract->total_payment += $requestData['total_paid_real'];
 
         if ($paymentDetails->count() === 0) {
-            $contract->update(['state' => 1]);
+            $contract->markContractDone();
 
             $eventData   = $contract->event_data;
             $appointment = $eventData->appointment;
