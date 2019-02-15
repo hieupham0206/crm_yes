@@ -60,19 +60,19 @@ class ContractsController extends Controller
         $lead        = $appointment->lead;
 
         $contract = new Contract;
-        $contract->fill([
-            'contract_no'    => time(),
-//            'contract_no'    => '1548129013',
-            'amount'         => '1000000',
-            'signed_date'    => '22-01-2019',
-            'start_date'     => '22-01-2019',
-            'membership'     => 1,
-            'room_type'      => 1,
-            'limit'          => 1,
-            'end_time'       => 1,
-            'num_of_payment' => 2,
-            'pay_date'       => '22-01-2019',
-        ]);
+//        $contract->fill([
+//            'contract_no'    => time(),
+////            'contract_no'    => '1548129013',
+//            'amount'         => '1000000',
+//            'signed_date'    => '22-01-2019',
+//            'start_date'     => '22-01-2019',
+//            'membership'     => 1,
+//            'room_type'      => 1,
+//            'limit'          => 1,
+//            'end_time'       => 1,
+//            'num_of_payment' => 2,
+//            'pay_date'       => '22-01-2019',
+//        ]);
 
         return view('cs.contracts.create', [
             'contract'    => $contract,
@@ -102,17 +102,17 @@ class ContractsController extends Controller
 
         \DB::beginTransaction();
         try {
-//note: check kiem tra sdt hoac email da lam member chua
+            //note: check kiem tra sdt hoac email da lam member chua
             $identityHusband = $requestData['identity'];
             $identityWife    = $requestData['spouse_identity'];
 
             if ( ! $member = Member::isMember($identityHusband, $identityWife)) {
                 $member = Member::create($requestData);
-            } else {
-//            $validator = \Validator::make([], []); // Empty data and rules fields
-//            $validator->errors()->add('identity', 'Thông tin member đã tồn tại');
-//
-//            throw new ValidationException($validator);
+            }
+
+            //note: hạn mức trọn đời
+            if ($request->has('lifetime')) {
+                $requestData['end_time'] = 0;
             }
             $requestData['contract_no'] = Contract::createContractNo($requestData['contract_no'], $requestData['city']);
 

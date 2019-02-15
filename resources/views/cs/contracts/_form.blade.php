@@ -221,11 +221,19 @@
                 <span class="m-form__help"></span>
                 {!! $errors->first('start_date', '<div class="form-control-feedback">:message</div>') !!}
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('end_time') ? 'has-danger' : ''}}">
-                <label for="txt_end_time">{{ $contract->label('end_time') }}</label>
-                <input class="form-control" name="end_time" type="text" id="txt_end_time" value="{{ $contract->end_time ?? old('end_time')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
-                <span class="m-form__help"></span>
-                {!! $errors->first('end_time', '<div class="form-control-feedback">:message</div>') !!}
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub row {{ $errors->has('end_time') ? 'has-danger' : ''}}">
+                <div class="col-6">
+                    <label for="txt_end_time">{{ $contract->label('end_time') }}</label>
+                    <input class="form-control" name="end_time" type="text" id="txt_end_time" value="{{ $contract->end_time ?? old('end_time')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                    <span class="m-form__help"></span>
+                    {!! $errors->first('end_time', '<div class="form-control-feedback">:message</div>') !!}
+                </div>
+                <div class="col-6">
+                    <label class="m-checkbox mt-6">
+                        <input type="checkbox" name="lifetime" value="0" checked> Trọn đời
+                        <span></span>
+                    </label>
+                </div>
             </div>
         </div>
         {{--END CONTRACT--}}
