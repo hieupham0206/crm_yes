@@ -89,9 +89,9 @@ class EventDataTable extends DataTable
             $appointmentId  = $eventData->appointment_id;
             $appIsQueueText = $eventData->appointment->is_queue === 1 ? 'Queue' : 'Not queue';
 
-            $toUsername     = optional($eventData->to)->username;
-            $repUsername    = optional($eventData->rep)->username;
-            $csUsername     = optional($eventData->cs)->username;
+            $toName     = optional($eventData->to)->name;
+            $repName    = optional($eventData->rep)->name;
+            $csName     = optional($eventData->cs)->name;
 
             $dataArray[]    = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $eventData->id . '"><span></span></label>',
@@ -106,9 +106,9 @@ data-has-bonus='{$eventData->hot_bonus}' data-appointment-id='{$appointmentId}' 
                 "<input value='{$eventData->code}' class='txt-event-data-code' type='hidden'/>" .
                 "<input value='{$eventData->state_name}' class='txt-event-data-state' type='hidden'/>" .
                 "<input value='{$appIsQueueText}' class='txt-event-queue-text' type='hidden'/>" .
-                "<input value='{$toUsername}' class='txt-to-username' type='hidden'/>".
-                "<input value='{$repUsername}' class='txt-rep-username' type='hidden'/>".
-                "<input value='{$csUsername}' class='txt-cs-username' type='hidden'/>",
+                "<input value='{$toName}' class='txt-to-name' type='hidden'/>".
+                "<input value='{$repName}' class='txt-rep-name' type='hidden'/>".
+                "<input value='{$csName}' class='txt-cs-name' type='hidden'/>",
                 $eventData->lead->phone,
                 $eventData->voucher_code,
                 $eventData->note,

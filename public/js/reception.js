@@ -230,21 +230,21 @@ $(function () {
 		data: function data(q) {
 			q.roleId = 8;
 		},
-		column: 'username'
+		column: 'name'
 	});
 	$selectRep.select2Ajax({
 		url: route('users.list'),
 		data: function data(q) {
 			q.roleId = 9;
 		},
-		column: 'username'
+		column: 'name'
 	});
 	$selectCs.select2Ajax({
 		url: route('users.list'),
 		data: function data(q) {
 			q.roleId = 12;
 		},
-		column: 'username'
+		column: 'name'
 	});
 
 	$('#modal_lg').on('show.bs.modal', function () {
@@ -335,9 +335,9 @@ $(function () {
 		var repId = $(this).data('rep-id');
 		var appointmentId = $(this).data('appointment-id');
 
-		var toUserName = $tr.find('.txt-to-username').val();
-		var csUserName = $tr.find('.txt-cs-username').val();
-		var repUserName = $tr.find('.txt-rep-username').val();
+		var toName = $tr.find('.txt-to-name').val();
+		var csName = $tr.find('.txt-cs-name').val();
+		var repName = $tr.find('.txt-rep-name').val();
 
 		var hasBonus = $(this).data('has-bonus');
 		var leadName = $tr.find('.txt-lead-name').val();
@@ -352,14 +352,16 @@ $(function () {
 		});
 
 		if (toId !== '') {
-			var $newOption = $("<option selected='selected'></option>").val(toId).text(toUserName);
+			var $newOption = $("<option selected='selected'></option>").val(toId).text(toName);
 			$('#select_to').append($newOption).trigger('change');
 		}
 		if (csId !== '') {
-			$('#select_cs').select2('data', { id: csId, username: csUserName });
+			var _$newOption = $("<option selected='selected'></option>").val(csId).text(csName);
+			$('#select_cs').append(_$newOption).trigger('change');
 		}
 		if (repId !== '') {
-			$('#select_rep').select2('data', { id: repId, username: repUserName });
+			var _$newOption2 = $("<option selected='selected'></option>").val(repId).text(repName);
+			$('#select_rep').append(_$newOption2).trigger('change');
 		}
 
 		$('#span_event_data_status').text(eventStateName);

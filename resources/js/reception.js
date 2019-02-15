@@ -139,21 +139,21 @@ $(function() {
 		data: function(q) {
 			q.roleId = 8
 		},
-		column: 'username',
+		column: 'name',
 	})
 	$selectRep.select2Ajax({
 		url: route('users.list'),
 		data: function(q) {
 			q.roleId = 9
 		},
-		column: 'username',
+		column: 'name',
 	})
 	$selectCs.select2Ajax({
 		url: route('users.list'),
 		data: function(q) {
 			q.roleId = 12
 		},
-		column: 'username',
+		column: 'name',
 	})
 
 	$('#modal_lg').on('show.bs.modal', function() {
@@ -242,9 +242,9 @@ $(function() {
 		let repId = $(this).data('rep-id')
 		let appointmentId = $(this).data('appointment-id')
 
-		let toUserName = $tr.find('.txt-to-username').val()
-		let csUserName = $tr.find('.txt-cs-username').val()
-		let repUserName = $tr.find('.txt-rep-username').val()
+		let toName = $tr.find('.txt-to-name').val()
+		let csName = $tr.find('.txt-cs-name').val()
+		let repName = $tr.find('.txt-rep-name').val()
 
 		let hasBonus = $(this).data('has-bonus')
 		let leadName = $tr.find('.txt-lead-name').val()
@@ -259,14 +259,16 @@ $(function() {
 		})
 
 		if (toId !== '') {
-			let $newOption = $("<option selected='selected'></option>").val(toId).text(toUserName)
+			let $newOption = $("<option selected='selected'></option>").val(toId).text(toName)
 			$('#select_to').append($newOption).trigger('change')
 		}
 		if (csId !== '') {
-			$('#select_cs').select2('data', {id: csId, username: csUserName})
+			let $newOption = $("<option selected='selected'></option>").val(csId).text(csName)
+			$('#select_cs').append($newOption).trigger('change')
 		}
 		if (repId !== '') {
-			$('#select_rep').select2('data', {id: repId, username: repUserName})
+			let $newOption = $("<option selected='selected'></option>").val(repId).text(repName)
+			$('#select_rep').append($newOption).trigger('change')
 		}
 
 		$('#span_event_data_status').text(eventStateName)
