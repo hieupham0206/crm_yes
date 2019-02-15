@@ -81,7 +81,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 m-form__group-sub">
                         <label for="select_by_customer">By customer</label>
-                        <select name="ambassador" id="select_by_customer" data-url="{{ route('users.list') }}">
+                        <select name="ambassador" id="select_by_customer" data-url="{{ route('leads.list') }}">
                             <option></option>
                         </select>
                     </div>

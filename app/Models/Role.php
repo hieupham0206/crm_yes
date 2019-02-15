@@ -127,7 +127,9 @@ class Role extends Eloquent
         if ($diffPermissions) {
             $newPermissions = [];
             foreach ($diffPermissions as $diffPermission) {
-                [$action, $moduleName] = explode('-', $diffPermission);
+                $diffs                = collect(explode('-', $diffPermission));
+                $moduleName           = $diffs->pop();
+                $action               = implode('-', $diffs->toArray());
                 $newPermissions[] = [
                     'name'       => "{$action}-{$moduleName}",
                     'guard_name' => 'web',

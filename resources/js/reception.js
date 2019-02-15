@@ -10,6 +10,7 @@ $(function() {
 		$btnSearch = $('#btn_search'),
 		$btnNewLead = $('#btn_new_lead'),
 		$selectTo = $('#select_to'),
+		$selectCs = $('#select_cs'),
 		$selectRep = $('#select_rep')
 
 	const tableAppointment = $('#table_appointment').DataTable({
@@ -147,6 +148,13 @@ $(function() {
 		},
 		column: 'username',
 	})
+	$selectCs.select2Ajax({
+		url: route('users.list'),
+		data: function(q) {
+			q.roleId = 12
+		},
+		column: 'username',
+	})
 
 	$('#modal_lg').on('show.bs.modal', function() {
 		$('.select').select2()
@@ -198,7 +206,11 @@ $(function() {
 
 	$('#modal_lg').on('shown.bs.modal', function() {
 		$('#select_user').select2Ajax()
-		$('#select_by_customer').select2Ajax()
+		$('#select_by_customer').select2Ajax({
+			data(q) {
+				q.state = 10
+			}
+		})
 	})
 
 	$body.on('click', '#btn_reappointment', function() {

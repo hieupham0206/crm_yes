@@ -15,6 +15,7 @@ class EventData extends \App\Models\Base\EventData
         'state',
         'to_id',
         'rep_id',
+        'cs_id',
         'note',
         'hot_bonus',
     ];

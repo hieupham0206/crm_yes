@@ -211,25 +211,29 @@
                                     @method('put')
                                     <div class="form-group m-form__group row">
                                         <input type="hidden" name="id" id="txt_event_data_id">
-                                        <div class="col-sm-12 col-md-6 m-form__group-sub">
-                                            <label for="txt_event_data_code">{{ $lead->label('Voucher') }}</label>
-                                            <input class="form-control" name="code" type="text" id="txt_event_data_code" value="" placeholder="{{ __('Enter value') }}" disabled>
+                                        <div class="col-sm-12 col-md-4 m-form__group-sub">
+                                            <label for="select_rep">{{ $lead->label('REP') }}</label>
+                                            <select name="rep_id" id="select_rep">
+                                                <option></option>
+                                            </select>
                                         </div>
-                                        <div class="col-sm-12 col-md-6 m-form__group-sub">
+                                        <div class="col-sm-12 col-md-4 m-form__group-sub">
                                             <label for="select_to">{{ $lead->label('TO') }}</label>
-                                            {{--<input class="form-control" name="to" type="text" id="txt_to" value="" placeholder="{{ __('Enter value') }}" disabled>--}}
                                             <select name="to_id" id="select_to">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 m-form__group-sub">
+                                            <label for="select_cs">{{ $lead->label('CS') }}</label>
+                                            <select name="cs_id" id="select_cs">
                                                 <option></option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-12 col-md-6 m-form__group-sub">
-                                            <label for="select_rep">{{ $lead->label('REP') }}</label>
-                                            {{--<input class="form-control" name="rep" type="text" id="txt_rep" value="" placeholder="{{ __('Enter value') }}" disabled>--}}
-                                            <select name="rep_id" id="select_rep">
-                                                <option></option>
-                                            </select>
+                                            <label for="txt_event_data_code">{{ $lead->label('Voucher') }}</label>
+                                            <input class="form-control" name="code" type="text" id="txt_event_data_code" value="" placeholder="{{ __('Enter value') }}" disabled>
                                         </div>
                                         <div class="col-sm-12 col-md-6 m-form__group-sub">
                                             <label for="txt_note">{{ $lead->label('Note') }}</label>

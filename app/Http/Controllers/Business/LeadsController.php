@@ -241,6 +241,7 @@ class LeadsController extends Controller
     {
         $query      = request()->get('query', '');
         $phone      = request()->get('phone', '');
+        $state      = request()->get('state', '');
         $leadId     = request()->get('leadId', '');
         $isNew      = request()->get('isNew', '');
         $page       = request()->get('page', 1);
@@ -251,6 +252,7 @@ class LeadsController extends Controller
         $leads->andFilterWhere([
             ['name', 'like', $query],
             ['phone', 'like', $phone],
+            ['state', '=', $state],
             ['id', '!=', $excludeIds],
         ]);
 
