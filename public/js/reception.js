@@ -328,10 +328,18 @@ $(function () {
 	});
 
 	$body.on('click', '.link-event-data', function () {
-		var eventDataId = $(this).data('event-id');
-		var appointmentId = $(this).data('appointment-id');
-		var hasBonus = $(this).data('has-bonus');
 		var $tr = $(this).parents('tr');
+		var eventDataId = $(this).data('event-id');
+		var toId = $(this).data('to-id');
+		var csId = $(this).data('cs-id');
+		var repId = $(this).data('rep-id');
+		var appointmentId = $(this).data('appointment-id');
+
+		var toUserName = $tr.find('.txt-to-username').val();
+		var csUserName = $tr.find('.txt-cs-username').val();
+		var repUserName = $tr.find('.txt-rep-username').val();
+
+		var hasBonus = $(this).data('has-bonus');
 		var leadName = $tr.find('.txt-lead-name').val();
 		var leadId = $tr.find('.txt-lead-id').val();
 		var eventNote = $tr.find('.txt-event-data-note').val();
@@ -339,11 +347,21 @@ $(function () {
 		var eventStateName = $tr.find('.txt-event-data-state').val();
 		var queueText = $tr.find('.txt-event-queue-text').val();
 
-		console.log(leadName, leadId);
-
 		fetchLead('', 0, appointmentId).then(function () {
 			// toggleShowUpSection(true)
 		});
+
+		if (toId !== '') {
+			var $newOption = $("<option selected='selected'></option>").val(toId).text(toUserName);
+			$('#select_to').append($newOption).trigger('change');
+		}
+		if (csId !== '') {
+			$('#select_cs').select2('data', { id: csId, username: csUserName });
+		}
+		if (repId !== '') {
+			$('#select_rep').select2('data', { id: repId, username: repUserName });
+		}
+
 		$('#span_event_data_status').text(eventStateName);
 		$('#span_appointment_queue').text(queueText);
 		$('#txt_lead_id').val(leadId);

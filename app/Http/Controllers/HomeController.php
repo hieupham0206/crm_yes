@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EventData;
 use App\Models\Lead;
 use App\Models\TimeBreak;
 use App\Models\User;

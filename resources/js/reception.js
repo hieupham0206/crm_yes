@@ -235,10 +235,18 @@ $(function() {
 	})
 
 	$body.on('click', '.link-event-data', function() {
-		let eventDataId = $(this).data('event-id')
-		let appointmentId = $(this).data('appointment-id')
-		let hasBonus = $(this).data('has-bonus')
 		let $tr = $(this).parents('tr')
+		let eventDataId = $(this).data('event-id')
+		let toId = $(this).data('to-id')
+		let csId = $(this).data('cs-id')
+		let repId = $(this).data('rep-id')
+		let appointmentId = $(this).data('appointment-id')
+
+		let toUserName = $tr.find('.txt-to-username').val()
+		let csUserName = $tr.find('.txt-cs-username').val()
+		let repUserName = $tr.find('.txt-rep-username').val()
+
+		let hasBonus = $(this).data('has-bonus')
 		let leadName = $tr.find('.txt-lead-name').val()
 		let leadId = $tr.find('.txt-lead-id').val()
 		let eventNote = $tr.find('.txt-event-data-note').val()
@@ -246,11 +254,21 @@ $(function() {
 		let eventStateName = $tr.find('.txt-event-data-state').val()
 		let queueText = $tr.find('.txt-event-queue-text').val()
 
-		console.log(leadName, leadId)
-
 		fetchLead('', 0, appointmentId).then(() => {
 			// toggleShowUpSection(true)
 		})
+
+		if (toId !== '') {
+			let $newOption = $("<option selected='selected'></option>").val(toId).text(toUserName)
+			$('#select_to').append($newOption).trigger('change')
+		}
+		if (csId !== '') {
+			$('#select_cs').select2('data', {id: csId, username: csUserName})
+		}
+		if (repId !== '') {
+			$('#select_rep').select2('data', {id: repId, username: repUserName})
+		}
+
 		$('#span_event_data_status').text(eventStateName)
 		$('#span_appointment_queue').text(queueText)
 		$('#txt_lead_id').val(leadId)

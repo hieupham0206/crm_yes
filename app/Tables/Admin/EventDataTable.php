@@ -88,18 +88,27 @@ class EventDataTable extends DataTable
             $leadId         = $eventData->lead_id;
             $appointmentId  = $eventData->appointment_id;
             $appIsQueueText = $eventData->appointment->is_queue === 1 ? 'Queue' : 'Not queue';
+
+            $toUsername     = optional($eventData->to)->username;
+            $repUsername    = optional($eventData->rep)->username;
+            $csUsername     = optional($eventData->cs)->username;
+
             $dataArray[]    = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $eventData->id . '"><span></span></label>',
 //                "<a class='m-link m--font-brand' href='javascript:void(0)'>{$eventData->created_at->format('d-m-Y H:i:s')}</a>",
                 $eventData->created_at->format('d-m-Y H:i:s'),
                 $eventData->lead->title,
-                "<a class='link-event-data m-link m--font-brand' href='javascript:void(0)' data-has-bonus='{$eventData->hot_bonus}' data-appointment-id='{$appointmentId}' data-event-id='{$eventData->id}' data-lead-id='{$eventData->lead_id}'>$leadName</a>" .
+                "<a class='link-event-data m-link m--font-brand' href='javascript:void(0)'  data-to-id='{$eventData->to_id}'  data-rep-id='{$eventData->rep_id}'  data-cs-id='{$eventData->cs_id}' 
+data-has-bonus='{$eventData->hot_bonus}' data-appointment-id='{$appointmentId}' data-event-id='{$eventData->id}' data-lead-id='{$eventData->lead_id}'>$leadName</a>" .
                 "<input value='$leadName' class='txt-lead-name' type='hidden'/>" .
                 "<input value='$leadId' class='txt-lead-id' type='hidden'/>" .
                 "<input value='{$eventData->note}' class='txt-event-data-note' type='hidden'/>" .
-                "<input value='{$eventData->code}' class='txt-event-data-code' type='hidden'/>",
-                "<input value='{$eventData->state_name}' class='txt-event-data-state' type='hidden'/>",
-                "<input value='{$appIsQueueText}' class='txt-event-queue-text' type='hidden'/>",
+                "<input value='{$eventData->code}' class='txt-event-data-code' type='hidden'/>" .
+                "<input value='{$eventData->state_name}' class='txt-event-data-state' type='hidden'/>" .
+                "<input value='{$appIsQueueText}' class='txt-event-queue-text' type='hidden'/>" .
+                "<input value='{$toUsername}' class='txt-to-username' type='hidden'/>".
+                "<input value='{$repUsername}' class='txt-rep-username' type='hidden'/>".
+                "<input value='{$csUsername}' class='txt-cs-username' type='hidden'/>",
                 $eventData->lead->phone,
                 $eventData->voucher_code,
                 $eventData->note,
@@ -117,7 +126,7 @@ class EventDataTable extends DataTable
      */
     public function getModels()
     {
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'appointment'])->doesntHave('contracts');
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'cs', 'appointment'])->doesntHave('contracts');
 //                               ->where(function ($q) {
 //                                   return $q->where('state', '!=', EventDataState::NOT_DEAL)->orWhere('state', '=', null);
 //                               });

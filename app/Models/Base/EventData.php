@@ -58,9 +58,4 @@ class EventData extends Eloquent
 	{
 		return $this->hasMany(\App\Models\Contract::class);
 	}
-
-	public function event_data_details()
-	{
-		return $this->hasMany(\App\Models\EventDataDetail::class);
-	}
 }
