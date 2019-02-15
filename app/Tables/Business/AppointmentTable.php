@@ -60,7 +60,7 @@ class AppointmentTable extends DataTable
 
             $dataArray[] = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $appointment->id . '"><span></span></label>',
-                $appointment->user->name,
+                optional($appointment->user)->name,
 //                optional($appointment->user->roles[0])->name,
                 $appointment->appointment_datetime->format('d-m-Y H:i'),
                 $appointment->lead->name,
@@ -68,11 +68,11 @@ class AppointmentTable extends DataTable
                 $appointment->code,
                 $appointment->spouse_name,
                 $appointment->spouse_phone,
-                $appointment->lead->comment,
+                optional($appointment->lead)->comment,
                 $appointment->is_show_up_text,
                 $appointment->is_queue_text,
 
-                $appointment->lead->phone,
+                optional($appointment->lead)->phone,
 //                $appointment->created_at->format('d-m-Y H:i:s'),
                 $appointment->created_at->format('d-m-Y H:i:s'),
                 $appointment->history_calls_count,
