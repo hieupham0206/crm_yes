@@ -141,10 +141,10 @@ class AppointmentTable extends DataTable
 
             $lead        = $appointment->lead;
             $dataArray[] = [
-                $lead->title,
-                $lead->name,
+                optional($lead)->title,
+                optional($lead)->name,
                 $appointmentDateText,
-                $lead->comment,
+                optional($lead)->comment,
 
                 $btnCall . $btnEdit . $btnDelete,
             ];
@@ -179,7 +179,7 @@ class AppointmentTable extends DataTable
                 "<a class='link-lead-name m-link m--font-brand' href='javascript:void(0)' data-appointment-id='{$appointment->id}' data-lead-id='{$appointment->lead_id}'>{$lead->name}</a>",
                 optional($lead)->phone,
                 $appointment->code,
-                $appointment->user->username,
+                optional($appointment->user)->username,
                 optional($lead)->comment,
 
 //                $btnCall . $btnEdit . $btnDelete,
