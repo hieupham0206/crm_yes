@@ -79,12 +79,12 @@ class CommissionRoleTable extends DataTable
 
                 if ($commissionRoleSdm) {
                     $percentCommission = $commissionRoleSdm->percent_commission;
-                }
 
-                $buttonSaveCommission = ' <button type="button" data-spec="' . $spec . '" data-commission-role-id="' . $commissionRoleSdm->id . '" data-role-id="' . $roleId . '" data-url="' . route('commission_roles.store') . '"
+                    $buttonSaveCommission = ' <button type="button" data-spec="' . $spec . '" data-commission-role-id="' . $commissionRoleSdm->id . '" data-role-id="' . $roleId . '" data-url="' . route('commission_roles.store') . '"
             class="btn btn-sm btn-success btn-save-commission-role m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Delete') . '">
 							<i class="fa fa-save"></i>
 						</button>';
+                }
             }
 
             //nếu role TO thi moi hiện
