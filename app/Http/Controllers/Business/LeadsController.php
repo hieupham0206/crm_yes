@@ -86,11 +86,13 @@ class LeadsController extends Controller
 
             if (isset($requestData['form']) && $requestData['form'] === 'reception') {
                 $requestData['lead_id']              = $lead->id;
-                $requestData['user_id']              = auth()->id();
                 $requestData['is_show_up']           = Confirmation::YES;
                 $requestData['appointment_datetime'] = now()->toDateTimeString();
 
-                $appointment = Appointment::create($requestData);
+//                $requestData['user_id']              = auth()->id();
+                $appointment = Appointment::create(array_merge($requestData, [
+                    'user_id' => auth()->id()
+                ]));
 
                 $requestData['appointment_id'] = $appointment->id;
 
@@ -591,7 +593,7 @@ class LeadsController extends Controller
 
         //check thoi gian hẹn hop lệ hay không
         if (($typeCall == 4 || $newState == 8) || $lead->state == 8) {
-            if ($date !== '' && $time !== '') {
+            if ($date && $time) {
                 $datetime = Carbon::createFromFormat('d-m-Y H:i', "$date $time");
 
                 if ($datetime->isPast()) {

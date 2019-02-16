@@ -57,7 +57,7 @@
                                     <th>{{ $lead->label('name') }}</th>
                                     <th>{{ $lead->label('phone') }}</th>
                                     <th>{{ $lead->label('code') }}</th>
-                                    <th>{{ $lead->label('Tele marketer') }}</th>
+                                    <th>Người hẹn</th>
                                     <th>{{ $lead->label('comment') }}</th>
                                 </tr>
                                 </thead>

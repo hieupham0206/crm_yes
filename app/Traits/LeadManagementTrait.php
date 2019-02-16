@@ -19,7 +19,7 @@ trait LeadManagementTrait
         if ($user->isAdmin()) {
             return $builder;
         }
-
+        $builder->where('user_id', $user->id);
         if ($user->isManager()) {
             //1 Manager quan lý nhiều phòng. Xem toàn bộ các báo cáo của TELE_LEADER và TELE_MARKETER cùng phòng
 
@@ -31,7 +31,9 @@ trait LeadManagementTrait
             $managedUserIds = collect($managedUserIds)->flatten()->unique()->toArray();
             $leadIds        = Lead::getLeadOfLeader($managedUserIds)->pluck('id');
 
-            $builder->whereIn('lead_id', $leadIds);
+            if ($leadIds->isNotEmpty()) {
+                $builder->orWhereIn('lead_id', $leadIds->toArray());
+            }
         } elseif ($user->isLeader()) {
             //1 Leader quan lý 1 phòng. Xem toàn bộ các báo cáo của TELE_MARKETER cùng phòng
 
@@ -39,9 +41,9 @@ trait LeadManagementTrait
             $managedUserIds     = $departmentOfLeader->users->pluck('id');
             $leadIds            = Lead::getLeadOfLeader($managedUserIds)->pluck('id');
 
-            $builder->whereIn('lead_id', $leadIds);
-        } else {
-            $builder->where('user_id', $user->id);
+            if ($leadIds->isNotEmpty()) {
+                $builder->orWhereIn('lead_id', $leadIds->toArray());
+            }
         }
 
         return $builder;

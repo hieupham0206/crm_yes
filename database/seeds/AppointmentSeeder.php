@@ -13,7 +13,7 @@ class AppointmentSeeder extends Seeder
     {
 //        factory(\App\Models\Appointment::class, 50)->create();
 
-        factory(\App\Models\Appointment::class, 50)->create([
+        factory(\App\Models\Appointment::class, 150)->create([
             'appointment_datetime' => now()->toDateTimeString(),
             'is_queue'             => 2,
         ]);
