@@ -13,7 +13,7 @@ Route::get('/tele-marketer-console', 'HomeController@teleMarketerConsole')->midd
 Route::get('/dashboard-monitor', 'DashboardController@index')->name('dashboard_monitor_sale');
 Route::get('/test-api', function() {
     $fptSms = new \App\TechAPI\FptSms();
-    $fptSms->sendBrandnameOtp(\App\Models\Lead::find(1), \App\Models\Appointment::find(1), '0382405889');
+    $fptSms->sendBrandnameOtpTest(\App\Models\Lead::find(1), \App\Models\Appointment::find(1), '0382405889');
 });
 
 Route::get('/monitor-sale', 'HomeController@monitorSale')->middleware(['auth', 'active'])->name('monitor_sale');
