@@ -12,14 +12,8 @@ Route::get('/tele-marketer-console', 'HomeController@teleMarketerConsole')->midd
 
 Route::get('/dashboard-monitor', 'DashboardController@index')->name('dashboard_monitor_sale');
 Route::get('/test-api', function() {
-//    dd(sys_get_temp_dir(), ini_get('upload_tmp_dir'));
-//    dd(
-//        file_exists(ini_get('upload_tmp_dir')),
-//        is_writable(ini_get('upload_tmp_dir')),
-//        file_exists(ini_get('upload_tmp_dir')));
-
-//    $fpt = new \App\TechAPI\FptSms();
-//    $fpt->testApi();
+    $fptSms = new \App\TechAPI\FptSms();
+    $fptSms->sendBrandnameOtp(\App\Models\Lead::find(1), \App\Models\Appointment::find(1), '0382405889');
 });
 
 Route::get('/monitor-sale', 'HomeController@monitorSale')->middleware(['auth', 'active'])->name('monitor_sale');

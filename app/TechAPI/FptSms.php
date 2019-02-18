@@ -48,12 +48,12 @@ class FptSms
         if ( ! $phone || $lead->state == LeadState::MEMBER || $lead->state == LeadState::DEAD_NUMBER || $lead->state == LeadState::WRONG_NUMBER || $env != 'production') {
             return false;
         }
-//        $phone = '0382405889';
+
         //0912136032
         $tech        = new ClientCredentials($this->client);
         $appDatetime = optional($appointment->appointment_datetime)->format('d-m-Y H:i:s');
-        $dayOfWeek = now()->dayOfWeek;
-        $weekMap   = [
+        $dayOfWeek   = now()->dayOfWeek;
+        $weekMap     = [
             0 => 'G',
             1 => 'A',
             2 => 'B',
@@ -62,7 +62,7 @@ class FptSms
             5 => 'E',
             6 => 'F',
         ];
-        $weekCode  = $weekMap[$dayOfWeek];
+        $weekCode    = $weekMap[$dayOfWeek];
         try {
             $code = "YTM{$weekCode}" . random_int(1000, 9999);
         } catch (\Exception $e) {

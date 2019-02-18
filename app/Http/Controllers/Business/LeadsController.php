@@ -638,7 +638,7 @@ class LeadsController extends Controller
             //state = 8: lưu vào bảng appointment
             if ($newState == 8) {
                 //note: chức năng reappointment
-                $appoinmentId = $request->get('appointment_id', null);
+                $appoinmentId = $request->get('appointment_id');
 
                 if ($appoinmentId) {
                     $oldAppointment = Appointment::find($appoinmentId);
