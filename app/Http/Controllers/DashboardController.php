@@ -20,7 +20,7 @@ class DashboardController extends Controller
     public function index()
     {
         $users = User::whereKeyNot(1)->withCount(['appointments'])
-                     ->role([6])->orderBy('username')->get();
+                     ->role([6, 9])->orderBy('username')->get();
 
         return view('dashboard_monitor.monitor_user', ['users' => $users]);
     }
