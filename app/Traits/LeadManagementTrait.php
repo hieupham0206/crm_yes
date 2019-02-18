@@ -29,20 +29,20 @@ trait LeadManagementTrait
                 $managedUserIds[] = $department->users->pluck('id');
             }
             $managedUserIds = collect($managedUserIds)->flatten()->unique()->toArray();
-            $leadIds        = Lead::getLeadOfLeader($managedUserIds)->pluck('id');
+//            $leadIds        = Lead::getLeadOfLeader($managedUserIds)->pluck('id');
 
-            if ($leadIds->isNotEmpty()) {
-                $builder->orWhereIn('lead_id', $leadIds->toArray());
+            if ($managedUserIds) {
+                $builder->orWhereIn('user_id', $managedUserIds);
             }
         } elseif ($user->isLeader()) {
             //1 Leader quan lý 1 phòng. Xem toàn bộ các báo cáo của TELE_MARKETER cùng phòng
 
             $departmentOfLeader = $user->getDepartmentOfLeader();
             $managedUserIds     = $departmentOfLeader->users->pluck('id');
-            $leadIds            = Lead::getLeadOfLeader($managedUserIds)->pluck('id');
+//            $leadIds            = Lead::getLeadOfLeader($managedUserIds)->pluck('id');
 
-            if ($leadIds->isNotEmpty()) {
-                $builder->orWhereIn('lead_id', $leadIds->toArray());
+            if ($managedUserIds) {
+                $builder->orWhereIn('user_id', $managedUserIds);
             }
         }
 
