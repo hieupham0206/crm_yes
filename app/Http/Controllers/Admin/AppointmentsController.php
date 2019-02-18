@@ -214,7 +214,19 @@ class AppointmentsController extends Controller
     public function doQueue(Appointment $appointment)
     {
         $notQueue = request()->get('notQueue', false);
-        $appointment->update(['is_queue' => $notQueue ? -1 : 1]);
+
+        $appAttrs = [
+            'is_queue'   => 1,
+            'is_show_up' => 1,
+        ];
+        if ($notQueue) {
+            $appAttrs = [
+                'is_queue'   => -1,
+                'is_show_up' => -1,
+            ];
+        }
+
+        $appointment->update($appAttrs);
 
         if ( ! $notQueue) {
             //note: lưu event data

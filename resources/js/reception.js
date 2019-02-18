@@ -433,8 +433,8 @@ $(function() {
 				$('#modal_md').showModal({
 					url: route('leads.form_change_state', leadId), params: {
 						typeCall: 4,
-						callId: '',
-						table: '',
+						callId: appointmentId,
+						table: 're_app',
 						phone: '',
 					}, method: 'get',
 				})

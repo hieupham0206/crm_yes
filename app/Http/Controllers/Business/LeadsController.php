@@ -648,8 +648,9 @@ class LeadsController extends Controller
                 $appoinmentId = $request->get('appointment_id');
 
                 $oldAppointment = null;
-                if ($appoinmentId) {
-                    $oldAppointment = Appointment::find($appoinmentId);
+                if ($appoinmentId || ($callId && ($table === 'appointments' || $table === 're_app'))) {
+                    $appId          = $appoinmentId ?: $callId;
+                    $oldAppointment = Appointment::find($appId);
                     $oldAppointment->update(['state' => -1]);
                 }
 
