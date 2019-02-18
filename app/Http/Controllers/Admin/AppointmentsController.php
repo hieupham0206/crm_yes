@@ -224,11 +224,7 @@ class AppointmentsController extends Controller
                 'is_queue'   => -1,
                 'is_show_up' => -1,
             ];
-        }
-
-        $appointment->update($appAttrs);
-
-        if ( ! $notQueue) {
+        } else {
             //note: lưu event data
             $requestData['appointment_id'] = $appointment->id;
 
@@ -237,6 +233,8 @@ class AppointmentsController extends Controller
                 'lead_id'        => $appointment->lead_id,
             ]);
         }
+
+        $appointment->update($appAttrs);
 
         return response()->json([
             'message' => __('Data edited successfully'),
