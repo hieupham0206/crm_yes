@@ -336,7 +336,7 @@ $(function() {
 			}
 			updateCallTypeText(callTypeText)
 			fetchLead(leadId, 0).then(() => {
-				showFormChangeState({typeCall: typeCall, url: route('leads.form_change_state', leadId), callId: callId, table: table, modalId: '#modal_recall'})
+				showFormChangeState({typeCall: typeCall, url: route('leads.form_change_state', leadId), callId: callId, table, modalId: '#modal_recall'})
 
 				axios.post(route('leads.put_call_cache', leadId), {
 					typeCall: typeCall,
@@ -801,7 +801,8 @@ $(function() {
 			if (obj.message) {
 				flash(obj.message)
 			}
-			showFormChangeState({url: route('leads.form_change_state', leadId), typeCall: 4})
+			let callId = $('#txt_appointment_id').val()
+			showFormChangeState({url: route('leads.form_change_state', leadId), typeCall: 4, table: 're_app', callId: callId})
 		}).catch(e => console.log(e)).finally(() => {
 			unblock()
 		})

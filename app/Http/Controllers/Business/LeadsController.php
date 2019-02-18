@@ -91,7 +91,7 @@ class LeadsController extends Controller
 
 //                $requestData['user_id']              = auth()->id();
                 $appointment = Appointment::create(array_merge($requestData, [
-                    'user_id' => auth()->id()
+                    'user_id' => auth()->id(),
                 ]));
 
                 $requestData['appointment_id'] = $appointment->id;
@@ -527,8 +527,18 @@ class LeadsController extends Controller
         $customerPhone = request()->get('phone');
 
         $appointment = null;
-        if ($table === 'appointments') {
+
+        $leadStates = $lead->states;
+        unset($leadStates[8], $leadStates[1], $leadStates[9], $leadStates[10], $leadStates[11]);
+
+        if ($table === 'appointments' || $table === 're_app') {
             $appointment = Appointment::find($callId);
+        }
+
+        if ($table === 're_app') {
+            $leadStates = [
+                8 => LeadState::APPOINTMENT,
+            ];
         }
 
         if ( ! $lead->exists) {
@@ -548,9 +558,6 @@ class LeadsController extends Controller
                 $lead->state = 11;
             }
         }
-
-        $leadStates = $lead->states;
-        unset($leadStates[8], $leadStates[1], $leadStates[9], $leadStates[10], $leadStates[11]);
 
         $leadStates = collect($leadStates)->sortKeysDesc();
 
@@ -640,14 +647,20 @@ class LeadsController extends Controller
                 //note: chức năng reappointment
                 $appoinmentId = $request->get('appointment_id');
 
+                $oldAppointment = null;
                 if ($appoinmentId) {
                     $oldAppointment = Appointment::find($appoinmentId);
                     $oldAppointment->update(['state' => -1]);
                 }
 
+                //note: nếu là chức năng re-app
+                if ($table === 're_app') {
+                    EventData::where(['lead_id' => $oldAppointment->lead_id])->update(['state' => -1]);
+                }
+
                 $appointmentDatas = [
                     'lead_id'      => $lead->id,
-                    'user_id'      => $userId,
+                    'user_id'      => $oldAppointment ? $oldAppointment->user_id : $userId,
                     'spouse_phone' => $spousePhone,
                     'spouse_name'  => $spouseName,
                     'code'         => str_random(10),
@@ -657,7 +670,7 @@ class LeadsController extends Controller
                 if ($dateTime) {
                     $appointmentDatas['appointment_datetime'] = $dateTime;
                 }
-                if (! Appointment::checkPhoneIsShowUp($leadPhone)) {
+                if ( ! Appointment::checkPhoneIsShowUp($leadPhone)) {
                     $appointment = Appointment::create($appointmentDatas);
                 }
 

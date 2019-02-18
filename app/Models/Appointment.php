@@ -166,6 +166,6 @@ class Appointment extends \App\Models\Base\Appointment
     {
         return self::whereHas('lead', function($q) use ($phone) {
             $q->where('phone', $phone);
-        })->where('is_show_up', -1)->exists();
+        })->where('is_show_up', 1)->exists();
     }
 }

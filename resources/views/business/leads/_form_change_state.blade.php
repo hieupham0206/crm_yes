@@ -20,7 +20,7 @@
                     <label for="select_state_modal">{{ $lead->label('state') }}</label>
                     <select name="state" class="form-control select" id="select_state_modal">
                         <option></option>
-                        <option value="8" {{ $lead->state == 8 ? ' selected' : '' }}>{{ __('Appointment') }}</option>
+                        <option value="8" {{ $lead->state == 8 || $appointment ? ' selected' : '' }}>{{ __('Appointment') }}</option>
                         @foreach ($leadStates as $key => $state)
                             @if($typeCall == 3)
                                 @if (\in_array($key, [9,10], true))
@@ -43,7 +43,7 @@
                     <input class="form-control" name="phone" type="hidden" value="{{ $lead->phone }}"/>
                 </div>
             </div>
-            <div class="form-group row" id="section_datetime" style="{{ \in_array($lead->state,[7,8], true) ? '' : 'display: none' }}">
+            <div class="form-group row" id="section_datetime" style="{{ \in_array($lead->state,[7,8], true) || $appointment ? '' : 'display: none' }}">
                 <div class="col-sm-12 col-md-6 m-form__group-sub">
                     <label for="txt_date">{{ $lead->label('date') }}</label>
                     <input class="form-control" name="date" id="txt_date" autocomplete="off"/>
@@ -64,7 +64,7 @@
                     </select>
                 </div>
             </div>
-            <div id="appointment_lead_section" style="{{ $lead->state == 8 ? '' : 'display: none' }}">
+            <div id="appointment_lead_section" style="{{ $lead->state == 8 || $appointment ? '' : 'display: none' }}">
                 <div class="form-group row">
                     <div class="col-sm-12 col-md-6 m-form__group-sub">
                         <label for="txt_spouse_name">{{ $lead->label('spouse_name') }}</label>

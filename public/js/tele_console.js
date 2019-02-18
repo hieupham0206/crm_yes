@@ -946,7 +946,8 @@ $(function () {
 			if (obj.message) {
 				flash(obj.message);
 			}
-			showFormChangeState({ url: route('leads.form_change_state', leadId), typeCall: 4 });
+			var callId = $('#txt_appointment_id').val();
+			showFormChangeState({ url: route('leads.form_change_state', leadId), typeCall: 4, table: 're_app', callId: callId });
 		}).catch(function (e) {
 			return console.log(e);
 		}).finally(function () {

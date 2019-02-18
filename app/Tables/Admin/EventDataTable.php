@@ -126,7 +126,7 @@ data-has-bonus='{$eventData->hot_bonus}' data-appointment-id='{$appointmentId}' 
      */
     public function getModels()
     {
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'cs', 'appointment'])->doesntHave('contracts');
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'cs', 'appointment'])->doesntHave('contracts')->where('state', '>', -1);
 //                               ->where(function ($q) {
 //                                   return $q->where('state', '!=', EventDataState::NOT_DEAL)->orWhere('state', '=', null);
 //                               });

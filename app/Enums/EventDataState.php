@@ -6,6 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class EventDataState extends Enum
 {
+    public const CANCEL = -1;
     public const NOT_DEAL = 1;
     public const DEAL = 2;
     public const BUSY = 3;
@@ -13,6 +14,10 @@ final class EventDataState extends Enum
 
     public static function getDescription($value): string
     {
+        if ($value === self::CANCEL) {
+            return 'Hủy';
+        }
+
         if ($value === self::NOT_DEAL) {
             return __('Not deal');
         }
