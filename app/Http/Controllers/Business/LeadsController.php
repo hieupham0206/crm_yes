@@ -89,9 +89,16 @@ class LeadsController extends Controller
                 $requestData['is_show_up']           = Confirmation::YES;
                 $requestData['appointment_datetime'] = now()->toDateTimeString();
 
-//                $requestData['user_id']              = auth()->id();
+                $userId = null;
+                if (! empty($requestData['user_id'])) {
+                    $userId = $requestData['user_id'];
+                } else if (! empty($requestData['ambassador'])) {
+                    $lead = Lead::find($requestData['ambassador']);
+
+                    $userId = $lead->user_id;
+                }
                 $appointment = Appointment::create(array_merge($requestData, [
-                    'user_id' => auth()->id(),
+                    'user_id' => $userId,
                 ]));
 
                 $requestData['appointment_id'] = $appointment->id;
