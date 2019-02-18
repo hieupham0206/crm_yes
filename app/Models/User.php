@@ -385,24 +385,23 @@ class User extends Authenticatable
         } else {
             $totalCall = 1;
         }
-
-        Session::put('UserCall-' . $this->id, [
+        session(['UserCall_' . $this->id => [
             'leadId'    => $lead->id,
             'leadName'  => $lead->name,
             'callAt'    => now(),
             'typeCall'  => HistoryCallType::getDescription($typeCall),
             'totalCall' => $totalCall,
-        ]);
+        ]]);
     }
 
     public function getCallCache()
     {
-        return Session::get('UserCall-' . $this->id);
+        return session('UserCall_' . $this->id);
     }
 
     public function removeCallCache()
     {
-        Session::remove('UserCall-' . $this->id);
+        session()->remove('UserCall_' . $this->id);
     }
 
     public function getBreakCache()

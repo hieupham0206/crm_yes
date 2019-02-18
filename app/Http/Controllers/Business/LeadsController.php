@@ -731,8 +731,8 @@ class LeadsController extends Controller
             ]);
             session(['startCallTime' => now()->addSecond()]);
             /** @var User $user */
-            $user = auth()->user();
-            $user->removeCallCache();
+//            $user = auth()->user();
+//            $user->removeCallCache();
 
             return response()->json([
                 'message' => __('Data edited successfully'),
