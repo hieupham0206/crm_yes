@@ -86,7 +86,7 @@ $(function() {
 							$('#txt_phone_out_call').val('')
 							wantToCallOut = false
 							// autoCall()
-							fetchLead(lead.id, 1).then(() => {
+							fetchLead(lead.id, 0).then(() => {
 								callInterval = setInterval(callClock, 1000)
 								$('#btn_form_change_state').prop('disabled', false)
 
