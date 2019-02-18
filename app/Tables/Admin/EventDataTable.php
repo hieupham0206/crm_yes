@@ -4,6 +4,7 @@ namespace App\Tables\Admin;
 
 use App\Models\EventData;
 use App\Tables\DataTable;
+use Illuminate\Database\Eloquent\Builder;
 
 class EventDataTable extends DataTable
 {
@@ -126,10 +127,9 @@ data-has-bonus='{$eventData->hot_bonus}' data-appointment-id='{$appointmentId}' 
      */
     public function getModels()
     {
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'cs', 'appointment'])->doesntHave('contracts')->where('state', '>', -1);
-//                               ->where(function ($q) {
-//                                   return $q->where('state', '!=', EventDataState::NOT_DEAL)->orWhere('state', '=', null);
-//                               });
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'cs', 'appointment'])->doesntHave('contracts')->where(function(Builder $e) {
+            $e->where('state', '>', -1)->orWhereNull('state');
+        });
 
         $this->totalFilteredRecords = $this->totalRecords = $eventDatas->count();
         if ($this->isFilterNotEmpty) {
