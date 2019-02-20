@@ -35,20 +35,18 @@ $breadcrumbs = ['breadcrumb' => 'appointments.index'];
                     <thead>
                     <tr>
                         {{--<th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
-                        <th>{{ $appointment->label('user') }}</th>
                         <th>{{ 'Ngày hẹn' }}</th>
+                        <th>{{ $appointment->label('user') }}</th>
                         <th>{{ $appointment->label('lead_name') }}</th>
 
-                        <th>{{ $appointment->label('code') }}</th>
                         <th>{{ $appointment->label('spouse_name') }}</th>
-                        <th>{{ $appointment->label('spouse_phone') }}</th>
-                        <th>{{ $appointment->label('note') }}</th>
-                        <th>{{ $appointment->label('is_show_up') }}</th>
-                        <th>{{ $appointment->label('is_queue') }}</th>
-
                         <th>{{ $appointment->label('phone') }}</th>
+                        <th>{{ $appointment->label('spouse_phone') }}</th>
+                        <th>{{ $appointment->label('code') }}</th>
                         <th>{{ $appointment->label('app_date') }}</th>
                         <th>{{ $appointment->label('call_time') }}</th>
+                        <th>{{ $appointment->label('note') }}</th>
+
                         <th>@lang('Actions')</th>
                     </tr>
                     </thead>

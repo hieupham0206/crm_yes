@@ -14,6 +14,12 @@
         </div>
         <div class="col-12 col-md-3 m-form__group-sub">
             <div class="form-group">
+                <label for="txt_created_at">{{ __('Call Date') }}</label>
+                <input class="form-control text-datepicker" name="created_at" id="txt_created_at" value="" autocomplete="off">
+            </div>
+        </div>
+        <div class="col-12 col-md-3 m-form__group-sub">
+            <div class="form-group">
                 <label for="select_user_id">{{ $appointment->label('user') }}</label>
                 <select name="user_id" id="select_user_id" data-url="{{ route('users.list') }}" class="select2-ajax" data-column="name">
                     <option></option>

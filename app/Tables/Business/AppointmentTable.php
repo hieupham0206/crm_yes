@@ -59,27 +59,18 @@ class AppointmentTable extends DataTable
             }
 
             $dataArray[] = [
-//                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $appointment->id . '"><span></span></label>',
-                optional($appointment->user)->name,
-//                optional($appointment->user->roles[0])->name,
                 $appointment->appointment_datetime->format('d-m-Y H:i'),
+                optional($appointment->user)->name,
                 $appointment->lead->name,
 
-                $appointment->code,
                 $appointment->spouse_name,
-                $appointment->spouse_phone,
-                optional($appointment->lead)->comment,
-                $appointment->is_show_up_text,
-                $appointment->is_queue_text,
-
                 optional($appointment->lead)->phone,
-//                $appointment->created_at->format('d-m-Y H:i:s'),
+                $appointment->spouse_phone,
+                $appointment->code,
                 $appointment->created_at->format('d-m-Y H:i:s'),
                 $appointment->history_calls_count,
 
-//                '<a href="' . route('appointments.show', $appointment, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
-//					<i class="fa fa-eye"></i>
-//				</a>' .
+                optional($appointment->lead)->comment,
                 $btnEdit . $btnDelete,
             ];
         }
@@ -104,6 +95,11 @@ class AppointmentTable extends DataTable
                 $appointments->whereHas('user.departments', function ($department) use ($departmentId) {
                     return $department->whereKey($departmentId);
                 });
+            }
+
+            $createdAt = $this->filters['created_at'];
+            if ($createdAt) {
+                $appointments->whereDate('created_at', date('Y-m-d', strtotime($createdAt)));
             }
 
             $this->totalFilteredRecords = $appointments->count();

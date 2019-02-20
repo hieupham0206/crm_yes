@@ -64,11 +64,11 @@ class Contract extends Eloquent
 
 	public function event_data()
 	{
-		return $this->belongsTo(\App\Models\EventData::class);
+		return $this->belongsTo(\App\Models\EventData::class)->withDefault();
 	}
 
 	public function member()
 	{
-		return $this->belongsTo(\App\Models\Member::class);
+		return $this->belongsTo(\App\Models\Member::class)->withDefault();
 	}
 }

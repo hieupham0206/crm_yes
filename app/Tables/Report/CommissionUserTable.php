@@ -47,7 +47,7 @@ class CommissionUserTable extends DataTable
         foreach ($users as $user) {
             $roles                     = $user->roles;
             $totalContractOfUser       = $contracts->filter(function ($contract) use ($user) {
-                return $contract->member->user_id === $user->id;
+                return $contract->user_id === $user->id;
             })->count();
             $totalContractOfPrivate    = $contracts->filter(function ($contract) use ($user) {
                 $eventData = $contract->event_data;
@@ -83,11 +83,7 @@ class CommissionUserTable extends DataTable
      */
     public function getModels()
     {
-        $users = User::query()->with([
-//            'contract' => function ($c) {
-//                return $c->where('state', 1);
-//            },
-        ]);
+        $users = User::query()->with(['roles', 'commissions']);
 
         $this->totalFilteredRecords = $this->totalRecords = $users->count();
 
