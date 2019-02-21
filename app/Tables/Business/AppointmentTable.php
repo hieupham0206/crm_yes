@@ -59,7 +59,7 @@ class AppointmentTable extends DataTable
             }
 
             $dataArray[] = [
-                $appointment->appointment_datetime->format('d-m-Y H:i'),
+                $appointment->created_at->format('d-m-Y H:i:s'),
                 optional($appointment->user)->name,
                 $appointment->lead->name,
 
@@ -67,7 +67,8 @@ class AppointmentTable extends DataTable
                 optional($appointment->lead)->phone,
                 $appointment->spouse_phone,
                 $appointment->code,
-                $appointment->created_at->format('d-m-Y H:i:s'),
+                $appointment->appointment_datetime->format('d-m-Y'),
+                $appointment->appointment_datetime->format('H:i'),
                 $appointment->history_calls_count,
 
                 optional($appointment->lead)->comment,
