@@ -35,7 +35,7 @@ class DashboardController extends Controller
         $filter = request()->get('filter');
 
         $users = User::whereKeyNot(1)->withCount(['appointments'])
-                     ->role([6])->orderBy('last_login', 'desc')->get();
+                     ->role([6, 9])->orderBy('last_login', 'desc')->get();
 
         if ($filter) {
             switch ($filter) {
