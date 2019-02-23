@@ -133,7 +133,7 @@ class HomeController extends Controller
             'appointments' => function ($q) {
                 $q->whereDate('appointment_datetime', Carbon::today());
             },
-        ])->role([6])->get();
+        ])->role([6, 9])->get();
 
         return view('dashboard.monitor_user', ['users' => $users]);
     }
@@ -151,7 +151,7 @@ class HomeController extends Controller
             'appointments' => function ($q) {
                 $q->whereDate('appointment_datetime', Carbon::today());
             },
-        ])->role([6])->get();
+        ])->role([6, 9])->get();
 
         if ($filter) {
             switch ($filter) {
