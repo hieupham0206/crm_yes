@@ -16,7 +16,7 @@
                             $callCache = $user->getCallCache()
                         @endphp
                         <h3 class="text-center">
-                            <a href="javascript:void(0)" class="m-link">{!! $user->name !!}</a>
+                            <a href="javascript:void(0)" class="m-link">{!! $user->name ?: $user->username  !!}</a>
                         </h3>
                         <h4 class="m-widget24__title">
                             Trực: <span class="span-login-time-modal" data-time-in-second="{{ $user->login_time_in_second }}" data-is-online="{{ $user->isOnline() ? 'true' : 'false' }}">

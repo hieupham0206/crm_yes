@@ -486,10 +486,10 @@ class User extends Authenticatable
         return $shortName;
     }
 
-    public function resolveRouteBinding($value)
-    {
-        return $this->withCount(['appointments' => function($query) {
-            $query->whereDate('created_at', Carbon::today());
-        }]);
-    }
+//    public function resolveRouteBinding($value)
+//    {
+//        return $this->withCount(['appointments' => function($query) {
+//            $query->whereDate('created_at', Carbon::today());
+//        }]);
+//    }
 }

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Entities\Core\Menu;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -41,6 +42,11 @@ class AppServiceProvider extends ServiceProvider
             if ($user) {
                 $view->with('isCheckedIn', $user->isCheckedIn());
             }
+        });
+        \Route::bind('user', function ($value) {
+            return User::whereKey($value)->withCount(['appointments' => function($query) {
+                    $query->whereDate('created_at', Carbon::today());
+                }])->first() ?? abort(404);
         });
 
         //force https trong môi trưởng production
