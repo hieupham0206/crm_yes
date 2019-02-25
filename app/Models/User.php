@@ -385,38 +385,38 @@ class User extends Authenticatable
         } else {
             $totalCall = 1;
         }
-        session(['UserCall_' . $this->id => [
+        cache()->set('UserCall_' . $this->id, [
             'leadId'    => $lead->id,
             'leadName'  => $lead->name,
             'callAt'    => now(),
             'typeCall'  => HistoryCallType::getDescription($typeCall),
             'totalCall' => $totalCall,
-        ]]);
+        ], 5);
     }
 
     public function getCallCache()
     {
-        return session('UserCall_' . $this->id);
+        return Cache::get('UserCall_' . $this->id);
     }
 
     public function removeCallCache()
     {
-        session()->remove('UserCall_' . $this->id);
+        Cache::delete('UserCall_' . $this->id);
     }
 
     public function getBreakCache()
     {
-        return Session::get('UserBreak-' . $this->id);
+        return Cache::get('UserBreak-' . $this->id);
     }
 
     public function putBreakCache($datas = [], $minutes = 5)
     {
-        Session::put('UserBreak-' . $this->id, $datas);
+        Cache::set('UserBreak-' . $this->id, $datas, $minutes);
     }
 
     public function removeBreakCache()
     {
-        Session::remove('UserBreak-' . $this->id);
+        Cache::delete('UserBreak-' . $this->id);
     }
 
     public function isPause()
