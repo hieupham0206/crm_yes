@@ -82,7 +82,15 @@ class LeadsController extends Controller
         try {
             DB::beginTransaction();
 
-            $lead = Lead::create($requestData);
+            $phone = $requestData['phone'];
+
+            $currentLead = Lead::where('phone', $phone)->get();
+
+            if ($currentLead->isNotEmpty()) {
+                $lead = $currentLead->first();
+            } else {
+                $lead = Lead::create($requestData);
+            }
 
             if (isset($requestData['form']) && $requestData['form'] === 'reception') {
                 $requestData['lead_id']              = $lead->id;
@@ -90,12 +98,14 @@ class LeadsController extends Controller
                 $requestData['appointment_datetime'] = now()->toDateTimeString();
 
                 $userId = null;
-                if (! empty($requestData['user_id'])) {
+                if ( ! empty($requestData['user_id'])) {
                     $userId = $requestData['user_id'];
-                } else if (! empty($requestData['ambassador'])) {
-                    $lead = Lead::find($requestData['ambassador']);
+                } else {
+                    if ( ! empty($requestData['ambassador'])) {
+                        $lead = Lead::find($requestData['ambassador']);
 
-                    $userId = $lead->user_id;
+                        $userId = $lead->user_id;
+                    }
                 }
                 $appointment = Appointment::create(array_merge($requestData, [
                     'user_id' => $userId,
