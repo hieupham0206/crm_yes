@@ -73,7 +73,7 @@ class EventDataCsTable extends DataTable
                 optional($eventData->rep)->username,
                 optional($eventData->user)->username,
 //                $lead->state_text,
-                $btnCreate
+                $btnCreate,
             ];
         }
 
@@ -85,7 +85,10 @@ class EventDataCsTable extends DataTable
      */
     public function getModels()
     {
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])->doesntHave('contracts')->where('state', EventDataState::DEAL);
+        $userId     = auth()->id();
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])->doesntHave('contracts')->where('state', EventDataState::DEAL)->where(function ($q) use ($userId) {
+            $q->whereNull('cs_id')->orWhere('cs_id', $userId);
+        });
 
         $this->totalFilteredRecords = $this->totalRecords = $eventDatas->count();
 
