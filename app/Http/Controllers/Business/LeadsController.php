@@ -704,7 +704,7 @@ class LeadsController extends Controller
                         $lead->state != LeadState::MEMBER) && isset($appointment)
                 ) {
                     $fptSms = new FptSms();
-                    $fptSms->sendBrandnameOtp($lead, $appointment, $lead->phone);
+                    $fptSms->sendRegisterConfirmation($lead, $appointment, $lead->phone);
                 }
             }
 

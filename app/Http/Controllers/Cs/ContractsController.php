@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cs;
 
 use App\Enums\LeadState;
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeLetter;
 use App\Models\Contract;
 use App\Models\EventData;
 use App\Models\Lead;
@@ -12,6 +13,7 @@ use App\Models\PaymentCost;
 use App\Models\PaymentDetail;
 use App\Tables\Cs\ContractTable;
 use App\Tables\TableFacade;
+use App\TechAPI\FptSms;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -131,6 +133,13 @@ class ContractsController extends Controller
             $requestData['year_cost']  = str_replace(',', '', $requestData['year_cost']);
             ++$requestData['num_of_payment'];
             $contract = Contract::create($requestData);
+
+            //note: gửi sms/email welcome letter
+            $message = (new WelcomeLetter([]))->onConnection('database')->onQueue('notification');
+            \Mail::to($member->email)->queue($message);
+
+            $fptSms = new FptSms();
+            $fptSms->sendWelcome($contract->contract_no,  $member->phone);
 
             //note: cập nhật state của lead thành member
             $leadId = $requestData['lead_id'];

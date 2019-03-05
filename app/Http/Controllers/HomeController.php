@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
+use App\Models\PaymentDetail;
 use App\Models\TimeBreak;
 use App\Models\User;
+use App\TechAPI\FptSms;
 use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
@@ -187,5 +189,21 @@ class HomeController extends Controller
         }
 
         return view('dashboard_monitor._section_monitor', ['users' => $users]);
+    }
+
+    public function checkPaymentNotification()
+    {
+//        $paymentDetails = PaymentDetail::where('pay_date', '<=', now()->addDays(3))
+//                                       ->with(['contract', 'contract.member'])
+//                                       ->get();
+//
+//        //Gửi mail
+//        foreach ($paymentDetails as $paymentDetail) {
+//            $member = $paymentDetail->contract->member;
+//
+//            //Gửi SMS
+//            $fptSms = new FptSms();
+//            $fptSms->sendRemindPayment('', $member->phone);
+//        }
     }
 }

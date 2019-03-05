@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Cs;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PaymentConfirmation;
 use App\Models\Commission;
 use App\Models\Contract;
 use App\Models\PaymentCost;
 use App\Models\PaymentDetail;
 use App\Tables\Cs\PaymentDetailTable;
 use App\Tables\TableFacade;
+use App\TechAPI\FptSms;
 use Illuminate\Http\Request;
 
 class PaymentDetailsController extends Controller
@@ -135,9 +137,11 @@ class PaymentDetailsController extends Controller
         }
         $paymentDetail->update($requestData);
 
-        //note: nếu thanh toán hop dong done thi tao commisison
         /** @var Contract $contract */
-        $contract                = $paymentDetail->contract;
+        $contract = $paymentDetail->contract;
+        $member   = $contract->member;
+
+        //note: nếu thanh toán hop dong done thi tao commisison
         $paymentDetails          = $contract->payment_details()->where('total_paid_real', 0)->whereNull('pay_date_real')->get();
         $contract->total_payment += $requestData['total_paid_real'];
 
@@ -156,6 +160,15 @@ class PaymentDetailsController extends Controller
                 'net_total'   => $contract->net_amount,
             ]);
         }
+
+        //note: Gửi thông báo SMS/Email xac nhan thanh toán
+        $amount = $requestData['total_paid_real'];
+
+        $message = (new PaymentConfirmation(compact( 'contract', 'amount')))->onConnection('database')->onQueue('notification');
+        \Mail::to($member->email)->queue($message);
+
+        $fptSms = new FptSms();
+        $fptSms->sendPaymentConfirmation($amount, $contract->contract_no, $member->phone);
 
         if ($request->wantsJson()) {
             return $this->asJson([

@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AppointmentConfirmation extends Mailable
+class PaymentRemindNotification extends Mailable
 {
     use Queueable, SerializesModels;
     private $params;
@@ -32,8 +32,8 @@ class AppointmentConfirmation extends Mailable
     {
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->subject('Thông báo xác nhận')
-            ->view('emails.appointment_confirmation')
+            ->subject('Thông báo nhắc nhở thanh toán')
+            ->view('emails.payment_remind_notification')
             ->with(['params' => $this->params]);
     }
 }
