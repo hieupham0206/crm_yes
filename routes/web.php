@@ -11,9 +11,11 @@ Route::get('/reception', 'HomeController@reception')->middleware(['auth', 'activ
 Route::get('/tele-marketer-console', 'HomeController@teleMarketerConsole')->middleware(['auth', 'active'])->name('tele_console');
 
 Route::get('/dashboard-monitor', 'DashboardController@index')->name('dashboard_monitor_sale');
-Route::get('/test-api', function() {
+Route::get('/test-api/{phone}', function() {
+    $phone = request()->get('phone', '0382405889');
+
     $fptSms = new \App\TechAPI\FptSms();
-    $fptSms->sendBrandnameOtpTest(\App\Models\Lead::find(1), \App\Models\Appointment::find(215), '0382405889');
+    $fptSms->sendBrandnameOtpTest(\App\Models\Lead::find(1), \App\Models\Appointment::find(1), $phone);
 });
 
 Route::get('/monitor-sale', 'HomeController@monitorSale')->middleware(['auth', 'active'])->name('monitor_sale');
