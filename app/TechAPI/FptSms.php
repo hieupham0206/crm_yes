@@ -41,7 +41,7 @@ class FptSms
         return new ClientCredentials($this->client);
     }
 
-    private function sendBrandNameSms($message, $phone): mixed
+    private function sendBrandNameSms($message, $phone)
     {
         $arrMessage = [
             'BrandName' => 'YesVacation',
