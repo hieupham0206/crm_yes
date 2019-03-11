@@ -129,7 +129,7 @@ class FptSms
         try {
             $code = "YTM{$weekCode}" . random_int(1000, 9999);
         } catch (\Exception $e) {
-            $code = "YTM{$weekCode}" . rand(1000, 9999);
+            $code = "YTM{$weekCode}" . random_int(1000, 9999);
         }
 
         // Khởi tạo các tham số của tin nhắn.

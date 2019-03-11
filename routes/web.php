@@ -15,7 +15,7 @@ Route::get('/test-api/{phone}', function() {
     $phone = request()->get('phone', '0382405889');
 
     $fptSms = new \App\TechAPI\FptSms();
-    $fptSms->sendBrandnameOtpTest(\App\Models\Lead::find(1), \App\Models\Appointment::find(1), $phone);
+    $fptSms->sendBrandnameOtpTest(\App\Models\Lead::first(), \App\Models\Appointment::first(), $phone);
 });
 
 Route::get('/monitor-sale', 'HomeController@monitorSale')->middleware(['auth', 'active'])->name('monitor_sale');
