@@ -62,7 +62,7 @@ class PaymentCostTable extends DataTable
                 $paymentCost->name,
                 $paymentCost->bank_name,
                 $paymentCost->payment_method_text,
-                number_format($paymentCost->cost),
+                number_format($paymentCost->cost, 2),
 
 //                '<a href="' . route('payment_costs.show', $paymentCost, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
 //					<i class="fa fa-eye"></i>

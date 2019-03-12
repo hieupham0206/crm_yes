@@ -58,7 +58,7 @@ class PaymentDetailTable extends DataTable
                 number_format($paymentDetail->total_paid_deal),
                 optional($paymentDetail->pay_date_real)->format('d-m-Y'),
                 number_format($paymentDetail->total_paid_real),
-                $paymentDetail->payment_cost->cost,
+                optional($paymentDetail->payment_cost)->cost,
 
                 $btnEdit,
             ];
