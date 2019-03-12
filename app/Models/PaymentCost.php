@@ -87,7 +87,21 @@ class PaymentCost extends \App\Models\Base\PaymentCost
 
     public function getPaymentMethodsAttribute()
     {
+        return collect(PaymentMethod::toSelectArray())->filter(function($value) {
+            return $value !== PaymentMethod::getDescription(2) && $value !== PaymentMethod::getDescription(5);
+        })->toArray();
+    }
+
+    public function getPaymentMethodAllsAttribute()
+    {
         return PaymentMethod::toSelectArray();
+    }
+
+    public function getPaymentMethodInstallmentsAttribute()
+    {
+        return collect(PaymentMethod::toSelectArray())->filter(function($value) {
+            return $value === PaymentMethod::getDescription(2);
+        })->toArray();
     }
 
     public function getPaymentMethodTextAttribute()

@@ -49,6 +49,8 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
     protected $fillable = [
         'contract_id',
         'payment_cost_id',
+        'payment_fee',
+        'payment_installment_id',
         'pay_time',
         'pay_date',
         'pay_date_real',

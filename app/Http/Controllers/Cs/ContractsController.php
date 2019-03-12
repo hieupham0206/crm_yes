@@ -62,19 +62,19 @@ class ContractsController extends Controller
         $lead        = $appointment->lead;
 
         $contract = new Contract;
-//        $contract->fill([
-//            'contract_no'    => time(),
-////            'contract_no'    => '1548129013',
-//            'amount'         => '1000000',
-//            'signed_date'    => '22-01-2019',
-//            'start_date'     => '22-01-2019',
-//            'membership'     => 1,
-//            'room_type'      => 1,
-//            'limit'          => 1,
-//            'end_time'       => 1,
-//            'num_of_payment' => 2,
-//            'pay_date'       => '22-01-2019',
-//        ]);
+        $contract->fill([
+            'contract_no'    => time(),
+//            'contract_no'    => '1548129013',
+            'amount'         => '1000000',
+            'signed_date'    => '22-01-2019',
+            'start_date'     => '22-01-2019',
+            'membership'     => 1,
+            'room_type'      => 1,
+            'limit'          => 1,
+            'end_time'       => 1,
+            'num_of_payment' => 2,
+            'pay_date'       => '22-01-2019',
+        ]);
 
         return view('cs.contracts.create', [
             'contract'    => $contract,
@@ -127,19 +127,24 @@ class ContractsController extends Controller
 
             $feeCosts = PaymentCost::where('payment_method', 5)->get(['cost'])->sum('cost');
 
-            $requestData['member_id']  = $member->id;
-            $requestData['amount']     = str_replace(',', '', $requestData['amount']);
-            $requestData['net_amount'] = $requestData['amount'] - $feeCosts;
-            $requestData['year_cost']  = str_replace(',', '', $requestData['year_cost']);
+            $requestData['member_id']         = $member->id;
+            $requestData['amount']            = str_replace(',', '', $requestData['amount']);
+            $requestData['cotnract_fee_cost'] = str_replace(',', '', $requestData['cotnract_fee_cost']);
+            $requestData['net_amount']        = $requestData['amount'] - $feeCosts;
+            $requestData['year_cost']         = str_replace(',', '', $requestData['year_cost']);
             ++$requestData['num_of_payment'];
             $contract = Contract::create($requestData);
 
             //note: gửi sms/email welcome letter
-            $message = (new WelcomeLetter([]))->onConnection('database')->onQueue('notification');
-            \Mail::to($member->email)->queue($message);
+            if ($member->email) {
+                $message = (new WelcomeLetter([]))->onConnection('database')->onQueue('notification');
+                \Mail::to($member->email)->queue($message);
+            }
 
-            $fptSms = new FptSms();
-            $fptSms->sendWelcome($contract->contract_no,  $member->phone);
+            if ($member->phone) {
+                $fptSms = new FptSms();
+                $fptSms->sendWelcome($contract->contract_no, $member->phone);
+            }
 
             //note: cập nhật state của lead thành member
             $leadId = $requestData['lead_id'];
@@ -160,15 +165,23 @@ class ContractsController extends Controller
                 'bank_name'      => $bankName,
                 'payment_method' => $paymentMethod,
             ])->first();
-            $payTime     = 1;
+
+            $bankNameInstallment      = $requestData['bank_name_installment'];
+            $paymentMethodInstallment = $requestData['payment_installment_id'];
+            $paymentCostInstallment   = PaymentCost::where([
+                'bank_name'      => $bankNameInstallment,
+                'payment_method' => $paymentMethodInstallment,
+            ])->first();
+            $payTime                  = 1;
             if ($totalPaidDeal) {
                 PaymentDetail::create([
-                    'pay_date'        => $payDate,
-                    'total_paid_deal' => str_replace(',', '', $totalPaidDeal),
-                    'pay_date_real'   => $payDate,
-                    'total_paid_real' => str_replace(',', '', $totalPaidDeal),
-                    'contract_id'     => $contract->id,
-                    'payment_cost_id' => optional($paymentCost)->id,
+                    'pay_date'               => $payDate,
+                    'total_paid_deal'        => str_replace(',', '', $totalPaidDeal),
+                    'pay_date_real'          => $payDate,
+                    'total_paid_real'        => str_replace(',', '', $totalPaidDeal),
+                    'contract_id'            => $contract->id,
+                    'payment_cost_id'        => optional($paymentCost)->id,
+                    'payment_installment_id' => optional($paymentCostInstallment)->id,
 
                     'bank_name'  => $bankName,
                     'bank_no'    => $requestData['bank_no'],
@@ -181,15 +194,25 @@ class ContractsController extends Controller
             if ($request->has('PaymentDetail')) {
                 $paymentDates   = collect($requestData['PaymentDetail']['pay_date'])->flatten()->toArray();
                 $totalPaidDeals = collect($requestData['PaymentDetail']['total_paid_deal'])->flatten()->toArray();
+                $paymentMethods = collect($requestData['PaymentDetail']['payment_method'])->flatten()->toArray();
+                $bankNames      = collect($requestData['PaymentDetail']['bank_name'])->flatten()->toArray();
 
                 $paymentDetailDatas = [];
 
                 foreach ($paymentDates as $key => $paymentDate) {
+                    $paymentFeeCost = PaymentCost::where([
+                        'bank_name'      => $bankNames[$key],
+                        'payment_method' => $paymentMethods[$key],
+                    ])->first();
+
                     $paymentDetailDatas[] = [
-                        'pay_date'        => date('Y-m-d', strtotime($paymentDate)),
-                        'total_paid_deal' => str_replace(',', '', $totalPaidDeals[$key]),
-                        'contract_id'     => $contract->id,
-                        'payment_cost_id' => optional($paymentCost)->id,
+                        'pay_date'               => date('Y-m-d', strtotime($paymentDate)),
+                        'total_paid_deal'        => str_replace(',', '', $totalPaidDeals[$key]),
+                        'contract_id'            => $contract->id,
+//                        'payment_cost_id' => optional($paymentCost)->id,
+                        'payment_cost_id'        => optional($paymentFeeCost)->id,
+                        'payment_installment_id' => optional($paymentCostInstallment)->id,
+                        'payment_fee'            => optional($paymentFeeCost)->cost,
 
                         'bank_name'  => $bankName,
                         'bank_no'    => $requestData['bank_no'],

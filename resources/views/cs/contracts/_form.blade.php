@@ -266,17 +266,37 @@
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name') ? 'has-danger' : ''}}">
                 <label for="select_bank">{{ $paymentCost->label('bank_name') }}</label>
                 <input type="hidden" name="bank_name" id="txt_bank_name">
-                <select name="select_bank_name" id="select_bank" class="select" disabled>
+                <select id="select_bank" class="select" disabled>
                     <option></option>
                 </select>
                 <span class="m-form__help"></span>
                 {!! $errors->first('bank_name', '<div class="form-control-feedback">:message</div>') !!}
             </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_installment_id') ? 'has-danger' : ''}}">
+                <label for="select_payment_installment_id">{{ 'Trả góp' }}</label>
+                <select name="payment_installment_id" id="select_payment_installment_id" class="select" required>
+                    <option></option>
+                    @foreach ($paymentCost->payment_method_installments as $key => $paymentMethod)
+                        <option value="{{ $key }}">{{ $paymentMethod }}</option>
+                    @endforeach
+                </select>
+                <span class="m-form__help"></span>
+                {!! $errors->first('payment_installment_id', '<div class="form-control-feedback">:message</div>') !!}
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name_installment') ? 'has-danger' : ''}}">
+                <label for="select_bank_installment">{{ 'Ngân hàng trả góp' }}</label>
+                <input type="hidden" name="bank_name_installment" id="txt_bank_name_installment">
+                <select id="select_bank_installment" class="select" disabled>
+                    <option></option>
+                </select>
+                <span class="m-form__help"></span>
+                {!! $errors->first('bank_name_installment', '<div class="form-control-feedback">:message</div>') !!}
+            </div>
         </div>
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('cost') ? 'has-danger' : ''}}">
                 <label for="txt_cost">{{ $paymentCost->label('cost') }}</label>
-                <input class="form-control" name="cost" type="text" id="txt_cost" value="{{ $paymentCost->cost ?? old('cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control" name="cotnract_fee_cost" type="text" id="txt_cost" value="{{ $paymentCost->cost ?? old('cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('cost', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -313,6 +333,8 @@
                     <tr>
                         <th>Ngày thanh toán</th>
                         <th>Số tiền thanh toán</th>
+                        <th>Hình thức thanh toán</th>
+                        <th>Ngân hàng</th>
                         {{--<th>@lang('Actions')</th>--}}
                     </tr>
                     </thead>

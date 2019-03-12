@@ -30,7 +30,8 @@ $breadcrumbs = ['breadcrumb' => 'history_calls.index', 'label' => __('History ca
                         <tr>
                             <th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>
                             <th>{{ $historyCall->label('user') }}</th>
-                            <th>{{ $historyCall->label('lead') }}</th>
+                            {{--<th>{{ $historyCall->label('lead') }}</th>--}}
+                            <th>SDT</th>
                             <th>{{ $historyCall->label('start') }}</th>
                             <th>{{ $historyCall->label('call_status') }}</th>
                             <th>{{ $historyCall->label('time_of_call') }}</th>

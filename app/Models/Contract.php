@@ -91,7 +91,8 @@ class Contract extends \App\Models\Base\Contract
         'end_time',
         'year_cost',
         'num_of_payment',
-        'total_payment'
+        'total_payment',
+        'cotnract_fee_cost'
     ];
     public static $logName = 'Contract';
 

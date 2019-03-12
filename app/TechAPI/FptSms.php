@@ -43,6 +43,12 @@ class FptSms
 
     private function sendBrandNameSms($message, $phone)
     {
+        $env = \App::environment();
+
+        if ($env != 'production') {
+            return false;
+        }
+
         $arrMessage = [
             'BrandName' => 'YesVacation',
             'Phone'     => $phone,

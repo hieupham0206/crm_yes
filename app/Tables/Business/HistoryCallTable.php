@@ -52,7 +52,7 @@ class HistoryCallTable extends DataTable {
 			$dataArray[] = [
 				'<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="'.$historyCall->id.'"><span></span></label>',
 				$historyCall->user->name,
-				$historyCall->lead->name,
+				$historyCall->lead->phone,
                 $historyCall->created_at->subSeconds($historyCall->time_of_call)->format('d-m-Y H:i:s'),
 //                $historyCall->created_at->format('d-m-Y H:i:s'),
                 $historyCall->state_text,
