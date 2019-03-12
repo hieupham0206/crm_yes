@@ -182,6 +182,7 @@ class ContractsController extends Controller
                     'contract_id'            => $contract->id,
                     'payment_cost_id'        => optional($paymentCost)->id,
                     'payment_installment_id' => optional($paymentCostInstallment)->id,
+                    'payment_fee'            => optional($paymentCost)->cost,
 
                     'bank_name'  => $bankName,
                     'bank_no'    => $requestData['bank_no'],
@@ -210,8 +211,8 @@ class ContractsController extends Controller
                         'total_paid_deal'        => str_replace(',', '', $totalPaidDeals[$key]),
                         'contract_id'            => $contract->id,
 //                        'payment_cost_id' => optional($paymentCost)->id,
-                        'payment_cost_id'        => optional($paymentFeeCost)->id,
                         'payment_installment_id' => optional($paymentCostInstallment)->id,
+                        'payment_cost_id'        => optional($paymentFeeCost)->id,
                         'payment_fee'            => optional($paymentFeeCost)->cost,
 
                         'bank_name'  => $bankName,
