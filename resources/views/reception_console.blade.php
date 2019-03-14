@@ -138,7 +138,7 @@
                                             <input type="text" name="appointment_datetime" class="text-datetimepicker" id="txt_appointment_datetime" autocomplete="off">
                                         </div>
                                         <div class="col-sm-12 col-md-4 m-form__group-sub">
-                                            <label for="span_tele_marketer">{{ $lead->label('tele_marketer') }}</label>
+                                            <label for="span_tele_marketer">Người hẹn</label>
                                             <span id="span_tele_marketer"></span>
                                         </div>
                                     </div>

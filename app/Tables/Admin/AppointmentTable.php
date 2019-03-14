@@ -44,7 +44,7 @@ class AppointmentTable extends DataTable
             $this->filters['today']         = true;
             $this->filters['is_show_up']    = Confirmation::NO;
             $this->filters['is_not_cancel'] = true;
-            $appointments                   = $this->getModels();
+            $appointments                   = $this->getModels(true);
             $dataArray                      = $this->initTableReceptionConsole($appointments);
         }
 
@@ -52,13 +52,18 @@ class AppointmentTable extends DataTable
     }
 
     /**
+     * @param bool $getAll
+     *
      * @return Appointment[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function getModels()
+    public function getModels($getAll = false)
     {
-        $appointments = Appointment::query()->with(['lead', 'user'])
-                                   ->where('state', Confirmation::YES)
-                                   ->where('is_queue', '>', 1);
+        $appointments = Appointment::query()->with(['lead', 'user']);
+
+        if (! $getAll) {
+            $appointments = $appointments->where('state', Confirmation::YES)
+                ->where('is_queue', '>', 1);
+        }
 
         $this->totalFilteredRecords = $this->totalRecords = $appointments->count();
 
@@ -179,7 +184,7 @@ class AppointmentTable extends DataTable
                 "<a class='link-lead-name m-link m--font-brand' href='javascript:void(0)' data-appointment-id='{$appointment->id}' data-lead-id='{$appointment->lead_id}'>{$lead->name}</a>",
                 optional($lead)->phone,
                 $appointment->code,
-                optional($appointment->user)->username,
+                optional($appointment->user)->name,
                 optional($lead)->comment,
 
 //                $btnCall . $btnEdit . $btnDelete,
