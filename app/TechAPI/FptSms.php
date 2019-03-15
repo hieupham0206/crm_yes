@@ -64,6 +64,11 @@ class FptSms
             // Thực thi API
             $arrResponse = $tech->execute($apiSendBrandName);
 
+            SmsLog::create([
+                'params'   => json_encode($arrMessage, JSON_UNESCAPED_UNICODE),
+                'response' => json_encode($arrResponse, JSON_UNESCAPED_UNICODE),
+            ]);
+
             // kiểm tra kết quả trả về có lỗi hay không
             if ( ! empty($arrResponse['error'])) {
                 // Xóa cache access token khi có lỗi xảy ra từ phía server
@@ -74,11 +79,6 @@ class FptSms
 
                 throw new Exception($arrResponse['error_description'], $arrResponse['error']);
             }
-
-            SmsLog::create([
-                'params'   => json_encode($arrMessage, JSON_UNESCAPED_UNICODE),
-                'response' => json_encode($arrResponse, JSON_UNESCAPED_UNICODE),
-            ]);
 
             return $arrResponse;
         } catch (\Exception $ex) {
