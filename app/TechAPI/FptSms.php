@@ -9,6 +9,7 @@ namespace App\TechAPI;
 use App\Enums\LeadState;
 use App\Models\Appointment;
 use App\Models\Lead;
+use App\Models\SmsLog;
 use App\TechAPI\Api\SendBrandnameOtp;
 use App\TechAPI\Auth\AccessToken;
 use App\TechAPI\Auth\ClientCredentials;
@@ -74,11 +75,24 @@ class FptSms
                 throw new Exception($arrResponse['error_description'], $arrResponse['error']);
             }
 
+            SmsLog::create([
+                'params'   => json_encode($arrMessage),
+                'response' => json_encode($arrResponse),
+            ]);
+
             return $arrResponse;
         } catch (\Exception $ex) {
             echo sprintf('<p>Có lỗi xảy ra:</p>');
             echo sprintf('<p>- Mã lỗi: %s</p>', $ex->getCode());
             echo sprintf('<p>- Mô tả lỗi: %s</p>', $ex->getMessage());
+
+            SmsLog::create([
+                'params'   => json_encode($arrMessage),
+                'response' => json_encode([
+                    'code'    => $ex->getCode(),
+                    'message' => $ex->getMessage(),
+                ]),
+            ]);
 
             return $ex->getMessage();
         }
