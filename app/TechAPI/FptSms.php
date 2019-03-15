@@ -76,8 +76,8 @@ class FptSms
             }
 
             SmsLog::create([
-                'params'   => json_encode($arrMessage),
-                'response' => json_encode($arrResponse),
+                'params'   => json_encode($arrMessage, JSON_UNESCAPED_UNICODE),
+                'response' => json_encode($arrResponse, JSON_UNESCAPED_UNICODE),
             ]);
 
             return $arrResponse;
@@ -87,11 +87,11 @@ class FptSms
             echo sprintf('<p>- Mô tả lỗi: %s</p>', $ex->getMessage());
 
             SmsLog::create([
-                'params'   => json_encode($arrMessage),
+                'params'   => json_encode($arrMessage, JSON_UNESCAPED_UNICODE),
                 'response' => json_encode([
                     'code'    => $ex->getCode(),
                     'message' => $ex->getMessage(),
-                ]),
+                ], JSON_UNESCAPED_UNICODE),
             ]);
 
             return $ex->getMessage();
@@ -219,6 +219,10 @@ Hotline: 02873000887",
                 throw new Exception($arrResponse['error_description'], $arrResponse['error']);
             }
 
+            SmsLog::create([
+                'params'   => json_encode($arrMessage, JSON_UNESCAPED_UNICODE),
+                'response' => json_encode($arrResponse, JSON_UNESCAPED_UNICODE),
+            ]);
             dump($arrResponse, $arrMessage, $env);
 
             return $arrResponse;
@@ -226,6 +230,14 @@ Hotline: 02873000887",
             echo sprintf('<p>Có lỗi xảy ra:</p>');
             echo sprintf('<p>- Mã lỗi: %s</p>', $ex->getCode());
             echo sprintf('<p>- Mô tả lỗi: %s</p>', $ex->getMessage());
+
+            SmsLog::create([
+                'params'   => json_encode($arrMessage, JSON_UNESCAPED_UNICODE),
+                'response' => json_encode([
+                    'code'    => $ex->getCode(),
+                    'message' => $ex->getMessage(),
+                ], JSON_UNESCAPED_UNICODE),
+            ]);
         }
     }
 }
