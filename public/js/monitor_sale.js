@@ -86,7 +86,6 @@ $(function () {
 		});
 
 		var timeInSecond = this.data('time-in-second');
-		console.log(timeInSecond);
 		if (timeInSecond > 0) {
 			loginTimer.start({ precision: 'seconds', startValues: { seconds: timeInSecond } });
 		}
@@ -165,6 +164,12 @@ $(function () {
 	setInterval(function () {
 		loadSectionMonitor();
 	}, 5000);
+
+	//5p load trang 1 lần
+
+	setTimeout(function () {
+		location.reload();
+	}, 1000 * 60 * 5);
 });
 
 /***/ })
