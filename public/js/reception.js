@@ -174,7 +174,7 @@ $(function () {
 
 			$('#txt_lead_title').val(lead.title);
 			if (user) {
-				$('#span_tele_marketer').text(user.username);
+				$('#span_tele_marketer').text(user.name);
 			}
 			$('#span_lead_phone').text(lead.phone);
 
