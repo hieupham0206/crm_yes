@@ -146,7 +146,8 @@ class AppointmentTable extends DataTable
 
             $lead        = $appointment->lead;
             $dataArray[] = [
-                optional($lead)->title,
+//                optional($lead)->title,
+                optional($lead)->phone,
                 optional($lead)->name,
                 $appointmentDateText,
                 optional($lead)->comment,

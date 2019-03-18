@@ -99,7 +99,7 @@ class HistoryCallTable extends DataTable
 //                "<a class='link-lead-name m-link m--font-brand' href='javascript:void(0)' data-lead-id='{$historyCall->lead_id}'>{$historyCall->lead->name}</a>",
                 $historyCall->lead->name,
                 $historyCall->created_at->format('d-m-Y H:i:s'),
-                $historyCall->state_textt,
+                $historyCall->state_text,
                 $historyCall->comment,
                 $btnCall . $btnDelete,
             ];

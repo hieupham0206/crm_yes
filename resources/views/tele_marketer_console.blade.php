@@ -246,7 +246,7 @@
                                 <table class="table table-borderless table-hover" id="table_appointment" width="100%">
                                     <thead>
                                     <tr>
-                                        <th width="5%">{{ $lead->label('title') }}</th>
+                                        <th width="5%">{{ $lead->label('phone') }}</th>
                                         <th width="25%">{{ $lead->label('name') }}</th>
                                         <th width="20%">{{ $lead->label('appointment_datetime') }}</th>
                                         <th width="40%">{{ $lead->label('comment') }}</th>

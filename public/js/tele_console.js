@@ -193,11 +193,16 @@ $(function () {
 					} else {
 						// phone = ''
 						callInterval = setInterval(callClock, 1000);
-						$('#span_lead_name').text('No Name');
 						$('#span_lead_birthday').text('');
 						$('#span_lead_phone').text(phone);
 						$('#span_lead_title').text('');
-						$('#txt_lead_id').val('');
+						if (lead) {
+							$('#txt_lead_id').val(lead.id);
+							$('#span_lead_name').text(lead.name);
+						} else {
+							$('#txt_lead_id').val('');
+							$('#span_lead_name').text('No Name');
+						}
 						wantToCallOut = false;
 						showFormChangeState({ url: route('leads.form_change_state'), phone: phone, modalId: '#modal_outcall' });
 					}
@@ -417,7 +422,12 @@ $(function () {
 
 	function submitLeadForm() {
 		var leadId = $('#txt_lead_id').val();
-		showFormChangeState({ url: route('leads.form_change_state', leadId) });
+		var phone = '';
+
+		if (leadId === '') {
+			phone = $('#span_lead_phone').text();
+		}
+		showFormChangeState({ url: route('leads.form_change_state', leadId), phone: phone });
 		if ($('#span_call_time').text() === '00:00:00') {
 			callInterval = setInterval(callClock, 1000);
 		}
