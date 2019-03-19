@@ -31,7 +31,7 @@
             <td>{{ $callback->user->name }}</td>
             <td>{{ $callback->lead->name }}</td>
             <td>{{ $callback->lead->phone }}</td>
-            <td>{{ $callback->callback_datetime->format('d-m-Y H:i') }}</td>
+            <td>{{ optional($callback->callback_datetime)->format('d-m-Y H:i') }}</td>
             <td>{{ $callback->lead->comment }}</td>
         </tr>
     @endforeach
