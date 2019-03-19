@@ -33,6 +33,7 @@ $breadcrumbs = ['breadcrumb' => 'callbacks.index'];
                         <th>{{ $callback->label('callback_datetime') }}</th>
                         <th>{{ $callback->label('state') }}</th>
                         <th>Comment</th>
+                        <th>Hành động</th>
                     </tr>
                     </thead>
                     <tbody></tbody>

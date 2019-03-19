@@ -46,15 +46,16 @@ class CallbackTable extends DataTable
         /** @var Callback[] $callbacks */
         foreach ($callbacks as $callback) {
             $btnEdit = $btnDelete = '';
+            $lead    = $callback->lead;
 
-            if ($canUpdateCallback) {
-                $btnEdit = ' <a href="' . route('callbacks.edit', $callback, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Edit') . '">
-					<i class="fa fa-edit"></i>
-				</a>';
-            }
+//            if ($canUpdateCallback) {
+//                $btnEdit = ' <a href="' . route('callbacks.edit', $callback, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Edit') . '">
+//					<i class="fa fa-edit"></i>
+//				</a>';
+//            }
 
             if ($canDeleteCallback) {
-                $btnDelete = ' <button type="button" data-title="' . __('Delete') . ' ' . $modelName . ' ' . $callback->name . ' !!!" class="btn btn-sm btn-danger btn-delete m-btn m-btn--icon m-btn--icon-only m-btn--pill"
+                $btnDelete = ' <button type="button" data-title="' . __('Delete') . ' ' . $modelName . ' của ' . $lead->name . ' !!!" class="btn btn-sm btn-danger btn-delete m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                 data-url="' . route('callbacks.destroy', $callback, false) . '" title="' . __('Delete') . '">
                     <i class="fa fa-trash"></i>
                 </button>';
@@ -63,15 +64,15 @@ class CallbackTable extends DataTable
             $dataArray[] = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $callback->id . '"><span></span></label>',
                 $callback->user->name,
-                $callback->lead->name,
-                $callback->lead->phone,
+                $lead->name,
+                $lead->phone,
                 optional($callback->callback_datetime)->format('d-m-Y H:i:s'),
                 $callback->state_text,
-                $callback->lead->comment,
+                $lead->comment,
 //                '<a href="' . route('callbacks.show', $callback, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
 //					<i class="fa fa-eye"></i>
 //				</a>' .
-//                $btnEdit . $btnDelete,
+                $btnDelete,
             ];
         }
 
