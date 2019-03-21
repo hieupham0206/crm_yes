@@ -3,6 +3,13 @@
 @push('scripts')
     <script src="{{ asset('js/reception.js') }}"></script>
 @endpush
+@push('styles')
+    <style>
+        body {
+            font-size: 11px;
+        }
+    </style>
+@endpush
 
 @section('content')
     <div class="m-content my-3">
