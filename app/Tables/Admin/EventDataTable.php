@@ -113,8 +113,8 @@ data-has-bonus='{$eventData->hot_bonus}' data-appointment-id='{$appointmentId}' 
                 $eventData->lead->phone,
                 $eventData->voucher_code,
                 $eventData->note,
-                optional($eventData->to)->username,
-                optional($eventData->rep)->username,
+                optional($eventData->to)->name,
+                optional($eventData->rep)->name,
 //                $btnBusy . $btnOverflow . $btnDeal . $btnNotDeal
             ];
         }
