@@ -135,22 +135,7 @@ class FptSms
 
         //0912136032
         $appDatetime = optional($appointment->appointment_datetime)->format('d-m-Y H:i:s');
-        $dayOfWeek   = now()->dayOfWeek;
-        $weekMap     = [
-            0 => 'G',
-            1 => 'A',
-            2 => 'B',
-            3 => 'C',
-            4 => 'D',
-            5 => 'E',
-            6 => 'F',
-        ];
-        $weekCode    = $weekMap[$dayOfWeek];
-        try {
-            $code = "YTM{$weekCode}" . random_int(1000, 9999);
-        } catch (\Exception $e) {
-            $code = "YTM{$weekCode}" . random_int(1000, 9999);
-        }
+        $code = Appointment::generateCode();
 
         // Khởi tạo các tham số của tin nhắn.
         $message = "Tran trong kinh mời GD {$lead->title}. {$lead->name} tham dự Su Kien Du Lich luc {$appDatetime} tai Toa Indochina, 4 Nguyen Dinh Chieu, P.DaKao, Q1 (Tang 13, Khu A).

@@ -681,7 +681,7 @@ class LeadsController extends Controller
                     'user_id'      => $oldAppointment ? $oldAppointment->user_id : $userId,
                     'spouse_phone' => $spousePhone,
                     'spouse_name'  => $spouseName,
-                    'code'         => str_random(10),
+                    'code'         => Appointment::generateCode(),
                     'is_queue'     => 2,
                 ];
 

@@ -68,7 +68,7 @@ class Appointment extends \App\Models\Base\Appointment
         'is_show_up',
         'is_queue',
         'state',
-        'ambassador'
+        'ambassador',
     ];
     public static $logName = 'Appointment';
 
@@ -164,8 +164,25 @@ class Appointment extends \App\Models\Base\Appointment
 
     public static function checkPhoneIsShowUp($phone)
     {
-        return self::whereHas('lead', function($q) use ($phone) {
+        return self::whereHas('lead', function ($q) use ($phone) {
             $q->where('phone', $phone);
         })->where('is_show_up', 1)->exists();
+    }
+
+    public static function generateCode()
+    {
+        $dayOfWeek = now()->dayOfWeek;
+        $weekMap   = [
+            0 => 'G',
+            1 => 'A',
+            2 => 'B',
+            3 => 'C',
+            4 => 'D',
+            5 => 'E',
+            6 => 'F',
+        ];
+        $weekCode  = $weekMap[$dayOfWeek];
+
+        return "YTM{$weekCode}" . random_int(1000, 9999);
     }
 }
