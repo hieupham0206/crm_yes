@@ -68,10 +68,11 @@ class EventDataCsTable extends DataTable
                 $eventData->created_at->format('d-m-Y H:i:s'),
                 $leadName,
                 $leadPhone,
-                $eventData->voucher_code,
-                optional($eventData->to)->username,
-                optional($eventData->rep)->username,
-                optional($eventData->user)->username,
+                $eventData->code,
+                optional($eventData->to)->name,
+                optional($eventData->cs)->name,
+                optional($eventData->rep)->name,
+                optional($eventData->user)->name,
 //                $lead->state_text,
                 $btnCreate,
             ];
@@ -95,7 +96,7 @@ class EventDataCsTable extends DataTable
         if ($this->isFilterNotEmpty) {
             $eventDatas->filters($this->filters);
 
-            if ($this->filters['phone']) {
+            if (! empty($this->filters['phone'])) {
                 $eventDatas->whereHas('lead', function ($q) {
                     $q->andFilterWhere(['phone', 'like', $this->filters['phone']]);
                 });

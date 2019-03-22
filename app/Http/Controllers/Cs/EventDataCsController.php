@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cs;
 
+use App\Exports\EventDataCsExport;
 use App\Http\Controllers\Controller;
 use App\Models\EventData;
 use App\Tables\Cs\EventDataCsTable;
@@ -201,5 +202,12 @@ class EventDataCsController extends Controller
             'total_count' => $totalCount,
             'items'       => $eventData->toArray(),
         ]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $filters = $request->all();
+
+        return (new EventDataCsExport($filters))->download('event_data_cs_' . time() . '.xlsx');
     }
 }

@@ -5,3 +5,4 @@ Route::post('/contracts/change-state/{contract}', 'ContractsController@changeSta
 
 
 Route::get('/contracts/export/excel', 'ContractsController@exportExcel')->name('contracts.export_excel');
+Route::get('/event_datas/export/excel', 'EventDataCsController@exportExcel')->name('event_data_cs.export_excel');
