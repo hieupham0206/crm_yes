@@ -92,6 +92,7 @@ class ContractTable extends DataTable
                 number_format($debt),
                 optional($contract->created_at)->format('d-m-Y'),
                 $contract->limit,
+                ContractState::getDescription($contract->state),
 
                 '<a href="' . route('contracts.show', $contract, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
 					<i class="fa fa-eye"></i>
