@@ -98,14 +98,14 @@ class PaymentDetail extends \App\Models\Base\PaymentDetail
     public function setPayDateAttribute($value)
     {
         if ($value) {
-            $this->attributes['pay_date'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+            $this->attributes['pay_date'] = date('Y-m-d', strtotime($value));
         }
     }
 
     public function setPayDateRealAttribute($value)
     {
         if ($value) {
-            $this->attributes['pay_date_real'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+            $this->attributes['pay_date_real'] = date('Y-m-d', strtotime($value));
         }
     }
 

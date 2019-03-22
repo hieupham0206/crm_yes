@@ -79,14 +79,15 @@ class PaymentDetailTable extends DataTable
         if ($this->isFilterNotEmpty) {
             $paymentDetails->filters($this->filters)->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
 
-            $contractNo = $this->filters['contract_no'];
+            $contractNo = ! empty($this->filters['contract_no']) ? $this->filters['contract_no'] : '';
             if ($contractNo) {
                 $paymentDetails->whereHas('contract', function (Builder $p) use ($contractNo) {
                     $p->where('contract_no', 'like', "%$contractNo%");
                 });
             }
-            $phone      = $this->filters['phone'];
-            $memberName = $this->filters['name'];
+            $phone      = ! empty($this->filters['phone']) ? $this->filters['phone'] : '';
+            $memberName = ! empty($this->filters['name']) ? $this->filters['name'] : '';
+
             if ($phone || $memberName) {
                 $paymentDetails->whereHas('contract.member', function (Builder $p) use ($phone, $memberName) {
                     $p->where('phone', 'like', "%$phone%");

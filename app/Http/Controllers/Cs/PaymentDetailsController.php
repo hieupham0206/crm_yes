@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cs;
 
+use App\Exports\PaymentDetailExport;
 use App\Http\Controllers\Controller;
 use App\Mail\PaymentConfirmation;
 use App\Models\Commission;
@@ -66,8 +67,9 @@ class PaymentDetailsController extends Controller
         $this->validate($request, [
             'total_paid_deal' => 'required',
         ]);
-        $requestData   = $request->all();
-        $paymentDetail = PaymentDetail::create($requestData);
+        $requestData                = $request->all();
+        $requestData['payment_fee'] = str_replace(',', '', $requestData['payment_fee']);
+        $paymentDetail              = PaymentDetail::create($requestData);
 
         if ($request->wantsJson()) {
             return $this->asJson([
@@ -125,6 +127,7 @@ class PaymentDetailsController extends Controller
         $requestData                    = $request->all();
         $requestData['total_paid_real'] = str_replace(',', '', $requestData['total_paid_real']);
         $requestData['pay_date_real']   = date('Y-m-d', strtotime($requestData['pay_date_real']));
+        $requestData['payment_fee']     = str_replace(',', '', $requestData['payment_fee']);
 
         //note: nếu số tiền trả thực tế chênh lệch với tiền hẹn trả thì dồn vào lần cuối
         $diffAmount = $requestData['total_paid_real'] - $paymentDetail->total_paid_deal;
@@ -135,6 +138,7 @@ class PaymentDetailsController extends Controller
                 $lastPay->update(['total_paid_deal' => $leftAmount]);
             }
         }
+//        dd($requestData);
         $paymentDetail->update($requestData);
 
         /** @var Contract $contract */
@@ -164,11 +168,13 @@ class PaymentDetailsController extends Controller
         //note: Gửi thông báo SMS/Email xac nhan thanh toán
         $amount = $requestData['total_paid_real'];
 
-        $message = (new PaymentConfirmation(compact( 'contract', 'amount')))->onConnection('database')->onQueue('notification');
-        \Mail::to($member->email)->queue($message);
+        if ($member) {
+            $message = (new PaymentConfirmation(compact('contract', 'amount')))->onConnection('database')->onQueue('notification');
+            \Mail::to($member->email)->queue($message);
 
-        $fptSms = new FptSms();
-        $fptSms->sendPaymentConfirmation($amount, $contract->contract_no, $member->phone);
+            $fptSms = new FptSms();
+            $fptSms->sendPaymentConfirmation($amount, $contract->contract_no, $member->phone);
+        }
 
         if ($request->wantsJson()) {
             return $this->asJson([
@@ -249,5 +255,12 @@ class PaymentDetailsController extends Controller
             'total_count' => $totalCount,
             'items'       => $paymentDetails->toArray(),
         ]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $filters = $request->all();
+
+        return (new PaymentDetailExport($filters))->download('payment_details_' . time() . '.xlsx');
     }
 }

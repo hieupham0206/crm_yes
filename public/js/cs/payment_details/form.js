@@ -98,12 +98,12 @@ $(function () {
 		} : false
 	});
 
-	$('#select_payment_method').on('change', function () {
-		if ($(this).val() !== '') {
-			$('#select_bank').prop('disabled', false).empty().trigger('change');
+	function loadBankBasedOnPaymentMethod(paymentMethod, selectSelector, textSelector) {
+		if (paymentMethod !== '') {
+			selectSelector.prop('disabled', false).empty().trigger('change');
 			axios.get(route('payment_costs.get_bank'), {
 				params: {
-					method: $(this).val()
+					method: paymentMethod
 				}
 			}).then(function (result) {
 				var items = result['data']['items'];
@@ -117,8 +117,9 @@ $(function () {
 						var item = _step.value;
 
 						var option = new Option(item.bank_name, item.cost, false, false);
-						$('#select_bank').append(option).trigger('change');
-						$('#txt_bank_name').val($('#select_bank').select2('data')[0]['text']);
+						selectSelector.append(option).trigger('change');
+
+						textSelector.val(selectSelector.select2('data')[0]['text']);
 					}
 				} catch (err) {
 					_didIteratorError = true;
@@ -140,16 +141,31 @@ $(function () {
 				window.unblock();
 			});
 		} else {
-			$('#select_bank').prop('disabled', true);
+			selectSelector.prop('disabled', true);
 		}
+	}
+
+	$('#select_payment_method').on('change', function () {
+		loadBankBasedOnPaymentMethod($(this).val(), $('#select_bank'), $('#txt_bank_name'));
 	});
 
-	$('#select_bank').on('change', function () {
-		if ($(this).val() !== '') {
-			$('#txt_cost').val($(this).val());
-		} else {
-			$('#txt_cost').val('');
+	$('#select_payment_installment_id').on('change', function () {
+		loadBankBasedOnPaymentMethod($(this).val(), $('#select_bank_installment'), $('#txt_bank_name_installment'));
+	});
+
+	$('#select_bank, #select_bank_installment').on('change', function () {
+		var currentCost = $('#txt_cost').val();
+		var newCost = $(this).val();
+
+		if (newCost !== '' && newCost !== null) {
+			if (currentCost !== '') {
+				newCost = parseFloat(newCost) + parseFloat(currentCost);
+			}
+			$('#txt_cost').val(numeral(newCost).format('0,00'));
 		}
+		// else {
+		// 	$('#txt_cost').val('')
+		// }
 	});
 });
 

@@ -13,7 +13,16 @@ $breadcrumbs = ['breadcrumb' => 'payment_details.index'];
 @section('content')
     <div class="m-content">
         <div class="m-portlet">
-            @include('layouts.partials.index_header', ['modelName' => $paymentDetail->classLabel(true), 'model' => 'payment_detail', 'createUrl' => ''])
+            @include('layouts.partials.index_header', ['modelName' => $paymentDetail->classLabel(true), 'model' => 'payment_detail', 'createUrl' => '', 'buttons' => [
+                [
+                    'route' => route('payment_details.export_excel'),
+                    'text'  => __('Export excel'),
+                    'icon'  => 'fa fa-file-excel',
+                    'btnClass' => 'btn-brand btn-export-excel d-none d-sm-block',
+                    'isLink' => true,
+                    'canDo' => true,
+                ],
+            ]])
             <div class="m-portlet__body">
                 @include('layouts.partials.search', ['form' => view('cs.payment_details._search')->with('paymentDetail', $paymentDetail)])
                 <table class="table table-borderless table-hover nowrap" id="table_payment_details" width="100%">
@@ -25,7 +34,7 @@ $breadcrumbs = ['breadcrumb' => 'payment_details.index'];
                             <th>{{ $paymentDetail->label('amount') }}</th>
                             <th>{{ $paymentDetail->label('pay_date_real') }}</th>
                             <th>{{ $paymentDetail->label('amount') }}</th>
-                            <th>{{ $paymentDetail->label('cost') }}</th>
+                            <th>{{ 'Phí' }}</th>
                             <th>@lang('Actions')</th>
                         </tr>
                     </thead>

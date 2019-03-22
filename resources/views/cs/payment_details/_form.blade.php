@@ -41,9 +41,31 @@
                 <span class="m-form__help"></span>
                 {!! $errors->first('bank_name', '<div class="form-control-feedback">:message</div>') !!}
             </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_installment_id') ? 'has-danger' : ''}}">
+                <label for="select_payment_installment_id">{{ 'Trả góp' }}</label>
+                <select name="payment_installment_id" id="select_payment_installment_id" class="select" required>
+                    <option></option>
+                    @foreach ($paymentCost->payment_method_installments as $key => $paymentMethod)
+                        <option value="{{ $key }}" {{ optional($paymentDetail->payment_installment)->payment_method === $key ? 'selected' : '' }}>{{ $paymentMethod }}</option>
+                    @endforeach
+                </select>
+                <span class="m-form__help"></span>
+                {!! $errors->first('payment_installment_id', '<div class="form-control-feedback">:message</div>') !!}
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name_installment') ? 'has-danger' : ''}}">
+                <label for="select_bank_installment">{{ 'Ngân hàng trả góp' }}</label>
+                <input type="hidden" name="bank_name_installment" id="txt_bank_name_installment">
+                <select id="select_bank_installment" class="select" disabled>
+                    <option></option>
+                    <option value="1" {{ optional($paymentDetail->payment_installment)->bank_name ? 'selected' : '' }}>{{ optional($paymentDetail->payment_installment)->bank_name }}</option>
+                </select>
+                <span class="m-form__help"></span>
+                {!! $errors->first('bank_name_installment', '<div class="form-control-feedback">:message</div>') !!}
+            </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('cost') ? 'has-danger' : ''}}">
                 <label for="txt_cost">{{ $paymentCost->label('cost') }}</label>
-                <input class="form-control" name="cost" type="text" id="txt_cost" value="{{ $paymentDetail->payment_cost->cost ?? old('cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control" name="payment_fee" type="text" id="txt_cost" value="{{ $paymentDetail->payment_cost->cost ?? old('cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('cost', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -62,7 +84,6 @@
                 {!! $errors->first('note', '<div class="form-control-feedback">:message</div>') !!}
             </div>
         </div>
-        
     </div>
     <div class="m-portlet__foot m-portlet__foot--fit m-portlet__foot-no-border">
         <div class="m-form__actions m-form__actions--right">
