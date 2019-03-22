@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cs;
 
 use App\Enums\LeadState;
+use App\Exports\ContractExport;
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeLetter;
 use App\Models\Contract;
@@ -435,5 +436,12 @@ class ContractsController extends Controller
                 'message' => "Error: {$e->getMessage()}",
             ], $e->getCode());
         }
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $filters = $request->all();
+
+        return (new ContractExport($filters))->download('contracts_' . time() . '.xlsx');
     }
 }

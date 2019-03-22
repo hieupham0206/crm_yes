@@ -245,6 +245,14 @@ $(function () {
 		}
 		$('#txt_year_cost').val(numeral(amount).format('0,00'));
 	});
+
+	$('#select_room_type').on('change', function () {
+		var roomType = $(this).val();
+
+		if (roomType !== '4') {
+			$('#select_limit').select2('open').val(roomType).trigger('change').select2('close');
+		}
+	});
 });
 
 /***/ })

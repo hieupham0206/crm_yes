@@ -13,7 +13,16 @@ $breadcrumbs = ['breadcrumb' => 'contracts.index'];
 @section('content')
     <div class="m-content">
         <div class="m-portlet">
-            @include('layouts.partials.index_header', ['modelName' => $contract->classLabel(true), 'model' => 'contract', 'createUrl' => ''])
+            @include('layouts.partials.index_header', ['modelName' => $contract->classLabel(true), 'model' => 'contract', 'createUrl' => '', 'buttons' => [
+                [
+                    'route' => route('contracts.export_excel'),
+                    'text'  => __('Export excel'),
+                    'icon'  => 'fa fa-file-excel',
+                    'btnClass' => 'btn-brand btn-export-excel d-none d-sm-block',
+                    'isLink' => true,
+                    'canDo' => true,
+                ],
+            ]])
             <div class="m-portlet__body">
                 @include('layouts.partials.search', ['form' => view('cs.contracts._search')->with('contract', $contract)->with('eventData', $eventData)])
                 <table class="table table-borderless table-hover nowrap" id="table_contracts" width="100%">
