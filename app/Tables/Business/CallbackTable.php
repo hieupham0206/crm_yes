@@ -91,6 +91,13 @@ class CallbackTable extends DataTable
         if ($this->isFilterNotEmpty) {
             $callbacks->filters($this->filters)->dateBetween([$this->filters['from_date'], $this->filters['to_date']], 'callback_datetime');
 
+            if ( ! empty($this->filters['phone'])) {
+                $phone = $this->filters['phone'];
+                $callbacks->whereHas('lead', function ($q) use ($phone) {
+                    $q->where('phone', $phone);
+                });
+            }
+
             $this->totalFilteredRecords = $callbacks->count();
         }
 
