@@ -41,11 +41,11 @@ class AppointmentTable extends DataTable
             $appointments = $this->getModels();
             $dataArray    = $this->initTableTeleConsole($appointments, $canUpdateAppointment, $canDeleteAppointment, $modelName);
         } elseif ($form === 'reception_console') {
-            $this->filters['today']         = true;
-            $this->filters['is_show_up']    = Confirmation::NO;
-            $this->filters['is_not_cancel'] = true;
-            $appointments                   = $this->getModels(true);
-            $dataArray                      = $this->initTableReceptionConsole($appointments);
+//            $this->filters['today']         = true;
+            $this->filters['is_show_up']               = Confirmation::NO;
+            $this->filters['appointment_of_reception'] = true;
+            $appointments                              = $this->getModels(true);
+            $dataArray                                 = $this->initTableReceptionConsole($appointments);
         }
 
         return $dataArray ?? [];
@@ -60,9 +60,9 @@ class AppointmentTable extends DataTable
     {
         $appointments = Appointment::query()->with(['lead', 'user']);
 
-        if (! $getAll) {
+        if ( ! $getAll) {
             $appointments = $appointments->where('state', Confirmation::YES)
-                ->where('is_queue', '>', 1);
+                                         ->where('is_queue', '>', 1);
         }
 
         $this->totalFilteredRecords = $this->totalRecords = $appointments->count();
@@ -85,8 +85,8 @@ class AppointmentTable extends DataTable
             $this->totalFilteredRecords = $appointments->count();
         }
 
-        if (isset($this->filters['is_not_cancel'])) {
-            $appointments->where('state', '!=', Confirmation::NO);
+        if (isset($this->filters['appointment_of_reception'])) {
+            $appointments->where('state', '!=', Confirmation::NO)->whereDoesntHave('event_datas');
 
             $this->totalFilteredRecords = $appointments->count();
         }

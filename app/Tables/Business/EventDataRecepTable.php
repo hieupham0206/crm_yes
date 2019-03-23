@@ -70,7 +70,7 @@ class EventDataRecepTable extends DataTable
                 $eventData->created_at->format('d-m-Y H:i:s'),
                 $leadName,
                 $leadPhone,
-                $eventData->voucher_code,
+                $eventData->code,
                 optional($eventData->to)->name,
                 optional($eventData->rep)->name,
                 optional($eventData->cs)->name,

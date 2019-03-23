@@ -176,6 +176,14 @@ class Appointment extends \App\Models\Base\Appointment
         return $this->morphMany(HistoryCall::class, 'call');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function event_datas()
+    {
+        return $this->hasMany(EventData::class);
+    }
+
     public static function checkPhoneIsShowUp($phone)
     {
         return self::whereHas('lead', function ($q) use ($phone) {

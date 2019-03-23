@@ -111,7 +111,7 @@ data-has-bonus='{$eventData->hot_bonus}' data-appointment-id='{$appointmentId}' 
                 "<input value='{$repName}' class='txt-rep-name' type='hidden'/>".
                 "<input value='{$csName}' class='txt-cs-name' type='hidden'/>",
                 $eventData->lead->phone,
-                $eventData->voucher_code,
+                $eventData->code,
                 $eventData->note,
                 optional($eventData->to)->name,
                 optional($eventData->rep)->name,
