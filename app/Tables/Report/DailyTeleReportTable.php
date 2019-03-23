@@ -81,13 +81,13 @@ class DailyTeleReportTable extends DataTable
                 '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $user->id . '"><span></span></label>',
                 $user->name,
                 optional($user->roles[0])->name,
-                optional($user->first_day_work)->format('d-m-Y'),
+//                optional($user->first_day_work)->format('d-m-Y'),
                 $totalQueue,//queue
                 $totalNotQueue,//not queue
                 $totalNoRep,//queue nhung k co ten rep
                 $totalOverflow,//overflow+
                 $total3pmEvent,//3pm app
-                $totalCancel,//cancel
+//                $totalCancel,//cancel (cxl)
                 $totalReAppointment,//re-app
                 $totalQueue + $totalNotQueue + $totalNoRep + $totalOverflow + $totalCancel + $totalReAppointment + $total3pmEvent,//sum(Q; NQ; No Rep; Overflow; CXL; Re-App; 3PM Event)
                 $totalDeal,//deal
@@ -127,6 +127,11 @@ class DailyTeleReportTable extends DataTable
 
         if ($this->isFilterNotEmpty) {
             $users->filters($this->filters);
+
+            $roleId = $this->filters['role_id'];
+            if (isValueNotEmpty($roleId)) {
+                $users->role($roleId);
+            }
 
             $this->totalFilteredRecords = $users->count();
         }

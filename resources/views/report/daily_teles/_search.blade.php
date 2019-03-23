@@ -16,6 +16,14 @@
                 <input class="form-control text-datepicker" name="to_date" id="txt_to_date" value="" autocomplete="off">
             </div>
         </div>
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+            <div class="form-group">
+                <label for="select_role">{{ $user->label('Role') }}</label>
+                <select name="role_id" id="select_role" class="form-control select2-ajax" data-url="{{ route('roles.list') }}">
+                    <option></option>
+                </select>
+            </div>
+        </div>
         <div class="col-12 col-md-3 m-form__group-sub mt-6">
             <button class="btn btn-brand m-btn m-btn--custom m-btn--icon" id="btn_filter"><span> <i class="fa fa-search"></i> <span>@lang('Search')</span> </span></button>
             <button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" id="btn_reset_filter"><span> <i class="fa fa-undo-alt"></i> <span>@lang('Reset')</span> </span></button>

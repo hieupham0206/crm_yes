@@ -20,19 +20,19 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily tele report'];
                         <th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>
                         <th>{{ $user->label('name') }}</th>
                         <th>{{ $user->label('role') }}</th>
-                        <th>{{ $user->label('created_at') }}</th>
+                        {{--<th>{{ $user->label('created_at') }}</th>--}}
                         <th>{{ $user->label('queue') }}</th>
                         <th>{{ $user->label('not_queue') }}</th>
                         <th>{{ $user->label('no_rep') }}</th>
                         <th>{{ $user->label('overflow') }}</th>
 
                         <th>{{ $user->label('3pm_event') }}</th>
-                        <th>{{ $user->label('cxl') }}</th>
+                        {{--<th>{{ $user->label('cxl') }}</th>--}}
                         <th>{{ $user->label('re_app') }}</th>
 
                         <th>{{ $user->label('total_show') }}</th>
                         <th>{{ $user->label('deal') }}</th>
-                        <th>{{ $user->label('rate') }}</th>
+                        <th>{{ $user->label('rate_deal') }}</th>
                         {{--<th>@lang('Actions')</th>--}}
                     </tr>
                     </thead>
