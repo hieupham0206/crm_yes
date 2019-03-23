@@ -36,7 +36,9 @@
                 <input type="hidden" name="bank_name" id="txt_bank_name" value="{{ $paymentDetail->payment_cost->bank_name }}">
                 <select name="select_bank_name" id="select_bank" class="select" disabled>
                     <option></option>
-                    <option value="1" {{ $paymentDetail->payment_cost->bank_name ? 'selected' : '' }}>{{ $paymentDetail->payment_cost->bank_name }}</option>
+                    <option value="{{ $paymentDetail->payment_cost_id }}" {{ $paymentDetail->payment_cost_id ? 'selected' : '' }}>
+                        {{ $paymentDetail->payment_cost->bank_name }}
+                    </option>
                 </select>
                 <span class="m-form__help"></span>
                 {!! $errors->first('bank_name', '<div class="form-control-feedback">:message</div>') !!}
@@ -56,9 +58,11 @@
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name_installment') ? 'has-danger' : ''}}">
                 <label for="select_bank_installment">{{ 'Ngân hàng trả góp' }}</label>
                 <input type="hidden" name="bank_name_installment" id="txt_bank_name_installment">
-                <select id="select_bank_installment" class="select" disabled>
+                <select id="select_bank_installment" class="select">
                     <option></option>
-                    <option value="1" {{ optional($paymentDetail->payment_installment)->bank_name ? 'selected' : '' }}>{{ optional($paymentDetail->payment_installment)->bank_name }}</option>
+                    <option value="{{ $paymentDetail->payment_installment_id }}" {{ $paymentDetail->payment_installment_id ? 'selected' : '' }}>
+                        {{ optional($paymentDetail->payment_installment)->bank_name }}
+                    </option>
                 </select>
                 <span class="m-form__help"></span>
                 {!! $errors->first('bank_name_installment', '<div class="form-control-feedback">:message</div>') !!}
