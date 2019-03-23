@@ -54,6 +54,9 @@ class DailyTeleReportTable extends DataTable
             $totalQueue         = $appointments->filter(function (Appointment $app) {
                 return $app->is_queue == 1;
             })->count();
+            $totalShow         = $appointments->filter(function (Appointment $app) {
+                return $app->is_show_up == 1;
+            })->count();
             $totalNotQueue      = $appointments->filter(function (Appointment $app) {
                 return $app->is_queue == 0;
             })->count();
@@ -76,7 +79,8 @@ class DailyTeleReportTable extends DataTable
                 return $app->dealEvents->count();
             });
 //            $rate               = $totalQueue > 0 ? $totalDeal / $totalQueue * 0.1 : 0;
-            $rate        = $totalAppointments > 0 ? $totalQueue / $totalAppointments * 0.1 : 0;
+            $rateDeal        = $totalAppointments > 0 ? $totalQueue / $totalAppointments * 0.1 : 0;
+            $rateApp        = $totalAppointments > 0 ? $totalShow / $totalAppointments * 0.1 : 0;
             $dataArray[] = [
                 '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $user->id . '"><span></span></label>',
                 $user->name,
@@ -89,9 +93,11 @@ class DailyTeleReportTable extends DataTable
                 $total3pmEvent,//3pm app
 //                $totalCancel,//cancel (cxl)
                 $totalReAppointment,//re-app
+                $totalAppointments,//total-app
+                $rateApp,
                 $totalQueue + $totalNotQueue + $totalNoRep + $totalOverflow + $totalCancel + $totalReAppointment + $total3pmEvent,//sum(Q; NQ; No Rep; Overflow; CXL; Re-App; 3PM Event)
                 $totalDeal,//deal
-                $rate,//rate: deal/Q
+                $rateDeal,//rate: deal/Q
             ];
         }
 

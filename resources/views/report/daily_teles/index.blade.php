@@ -29,6 +29,8 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily tele report'];
                         <th>{{ $user->label('3pm_event') }}</th>
                         {{--<th>{{ $user->label('cxl') }}</th>--}}
                         <th>{{ $user->label('re_app') }}</th>
+                        <th>{{ $user->label('total_app') }}</th>
+                        <th>{{ $user->label('rate_app') }}</th>
 
                         <th>{{ $user->label('total_show') }}</th>
                         <th>{{ $user->label('deal') }}</th>
