@@ -31,8 +31,17 @@ class CallbackExport implements FromView
      */
     public function view(): View
     {
+        $callbacks = Callback::query()->filters($this->filters)->with(['user', 'lead']);
+
+        if ( ! empty($this->filters['phone'])) {
+            $phone = $this->filters['phone'];
+            $callbacks->whereHas('lead', function ($q) use ($phone) {
+                $q->where('phone', $phone);
+            });
+        }
+
         return view('business.callbacks._template_export', [
-            'callbacks' => Callback::query()->filters($this->filters)->with(['user', 'lead'])->get(),
+            'callbacks' => $callbacks->get(),
             'callback'  => new Callback(),
         ]);
     }

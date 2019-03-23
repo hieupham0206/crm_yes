@@ -8,14 +8,12 @@
                 </select>
             </div>
         </div>
-        {{--<div class="col-12 col-md-3 m-form__group-sub">--}}
-            {{--<div class="form-group">--}}
-                {{--<label for="select_lead_id">{{ $historyCall->label('lead') }}</label>--}}
-                {{--<select name="lead_id" id="select_lead_id" data-url="{{ route('leads.list') }}" class="select2-ajax">--}}
-                    {{--<option></option>--}}
-                {{--</select>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+        <div class="col-12 col-md-3 m-form__group-sub">
+            <div class="form-group">
+                <label for="txt_phone">{{ 'Số điện thoại'  }}</label>
+                <input class="form-control" name="phone" id="txt_phone" value="" autocomplete="off">
+            </div>
+        </div>
         <div class="col-12 col-md-3 m-form__group-sub">
             <div class="form-group">
                 <label for="select_state">{{ $historyCall->label('state') }}</label>
@@ -24,6 +22,14 @@
                     @foreach ($leadStates as $key => $state)
                         <option value="{{ $key }}">{{ $state }}</option>
                     @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+            <div class="form-group">
+                <label for="select_role">{{ 'Vai trò' }}</label>
+                <select name="role_id" id="select_role" class="form-control select2-ajax" data-url="{{ route('roles.list') }}">
+                    <option></option>
                 </select>
             </div>
         </div>

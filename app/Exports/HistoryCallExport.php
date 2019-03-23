@@ -32,8 +32,17 @@ class HistoryCallExport implements FromView
      */
     public function view(): View
     {
+        $historyCalls = HistoryCall::query()->filters($this->filters)->with(['user', 'lead']);
+
+        if ( ! empty($this->filters['phone'])) {
+            $phone = $this->filters['phone'];
+            $historyCalls->whereHas('lead', function ($q) use ($phone) {
+                $q->where('phone', $phone);
+            });
+        }
+
         return view('business.history_calls._template_export', [
-            'historyCalls' => HistoryCall::query()->filters($this->filters)->with(['user', 'lead'])->get(),
+            'historyCalls' => $historyCalls->get(),
             'historyCall'  => new Appointment(),
         ]);
     }
