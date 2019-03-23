@@ -95,10 +95,12 @@ class DailySaleReportTable extends DataTable
             $totalAppointmentRep      = $appointments->filter(function (Appointment $app) {
                 return $app->user->hasRole(['REP']);
             })->count();
-            $totalAppointmentHasEvent = $appointments->filter(function (Appointment $app) {
-                return $app->events;
-            })->count();
-            $totalAppointmentNoRep    = $totalAppointmentHasEvent - ($totalAppointment - $totalAppointmentRep);
+
+//            $totalAppointmentHasEvent = $appointments->filter(function (Appointment $app) {
+//                return $app->events;
+//            })->count();
+
+//            $totalAppointmentNoRep    = $totalAppointmentHasEvent - ($totalAppointment - $totalAppointmentRep);
             $totalAppointmentNQ       = $appointments->filter(function (Appointment $app) {
                 return $app->is_queue == 0;
             })->count();
@@ -112,9 +114,9 @@ class DailySaleReportTable extends DataTable
             $totalEventDataDeal       = $eventDatas->filter(function (EventData $event) {
                 return $event->state == EventDataState::DEAL;
             })->count();
-            $totalEventDataNotDeal    = $eventDatas->filter(function (EventData $event) {
-                return $event->state == EventDataState::NOT_DEAL;
-            })->count();
+//            $totalEventDataNotDeal    = $eventDatas->filter(function (EventData $event) {
+//                return $event->state == EventDataState::NOT_DEAL;
+//            })->count();
             $dealRate                 = ($totalEventDataDeal / $totalEventData) * 100;
             $ambassador               = property_exists($users, 'ambassadors_count') ? $users->ambassadors_count : 0;//Tổng APP của từng nhan viên
 
@@ -128,13 +130,13 @@ class DailySaleReportTable extends DataTable
 //            $totalAppointmentHasEvent,
                 $ambassador,
                 $totalAppointment,
-                $totalAppointmentNoRep,
+//                $totalAppointmentNoRep,
                 $totalAppointmentNQ,
                 $totalAppointmentQueue,
                 $totalAppointmentTo,
                 $toRate,
                 $totalEventDataDeal,
-                $totalEventDataNotDeal,
+//                $totalEventDataNotDeal,
                 $dealRate,
                 'phone SS',
             ];

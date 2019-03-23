@@ -112,7 +112,7 @@ $(function() {
 			rows.push([
 				`<input class="form-control txt-payment-date" name="PaymentDetail[pay_date][${i}][]" type="text" autocomplete="off" required>`,
 				`<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][${i}][]" value="${$leftAmount}" type="text" autocomplete="off">`,
-				`<select name="PaymentDetail[payment_method][${i}][]" class="select-payment-method">
+				`<select name="PaymentDetail[payment_method][${i}][]" class="select-payment-method" required>
 <option></option>
 <option value="1">Tiền mặt</option>
 <option value="2">Trả góp ngân hàng</option>

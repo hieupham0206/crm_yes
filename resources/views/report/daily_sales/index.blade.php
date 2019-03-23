@@ -26,13 +26,13 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily sale report'];
                         <th>SSRef</th>
                         <th>Ambassador</th>
                         <th>Total</th>
-                        <th>{{ $user->label('no_rep') }}</th>
+                        {{--<th>{{ $user->label('no_rep') }}</th>--}}
                         <th>NQ</th>
                         <th>Q</th>
                         <th>TO</th>
                         <th>TO Rate</th>
                         <th>{{ $user->label('deal') }}</th>
-                        <th>{{ $user->label('cxl') }}</th>
+                        {{--<th>{{ $user->label('cxl') }}</th>--}}
                         <th>{{ $user->label('deal_rate') }}</th>
                         <th>{{ $user->label('phone ss') }}</th>
                         {{--<th>@lang('Actions')</th>--}}

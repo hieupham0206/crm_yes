@@ -210,7 +210,7 @@ $(function () {
 		}
 
 		for (var i = 0; i < paymentTime; i++) {
-			rows.push(['<input class="form-control txt-payment-date" name="PaymentDetail[pay_date][' + i + '][]" type="text" autocomplete="off" required>', '<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][' + i + '][]" value="' + $leftAmount + '" type="text" autocomplete="off">', '<select name="PaymentDetail[payment_method][' + i + '][]" class="select-payment-method">\n<option></option>\n<option value="1">Ti\u1EC1n m\u1EB7t</option>\n<option value="2">Tr\u1EA3 g\xF3p ng\xE2n h\xE0ng</option>\n</select>', '\n<select class="select-bank" disabled><option></option></select>\n<input name="PaymentDetail[bank_name][' + i + '][]" class="txt-bank-name" type="hidden" />\n\t\t\t\t']);
+			rows.push(['<input class="form-control txt-payment-date" name="PaymentDetail[pay_date][' + i + '][]" type="text" autocomplete="off" required>', '<input class="form-control txt-total-paid-deal" name="PaymentDetail[total_paid_deal][' + i + '][]" value="' + $leftAmount + '" type="text" autocomplete="off">', '<select name="PaymentDetail[payment_method][' + i + '][]" class="select-payment-method" required>\n<option></option>\n<option value="1">Ti\u1EC1n m\u1EB7t</option>\n<option value="2">Tr\u1EA3 g\xF3p ng\xE2n h\xE0ng</option>\n</select>', '\n<select class="select-bank" disabled><option></option></select>\n<input name="PaymentDetail[bank_name][' + i + '][]" class="txt-bank-name" type="hidden" />\n\t\t\t\t']);
 		}
 		tablePaymentDetail.rows().remove();
 		tablePaymentDetail.rows.add(rows).draw(false);
