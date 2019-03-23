@@ -26,5 +26,6 @@ Route::post('/leads/console/pull-call-cache/{lead}', 'LeadsController@putCallCac
 
 
 Route::get('/event-data/', 'EventDataRecepsController@index')->name('event_data_receps.index');
+Route::get('/event-data/export/excel', 'EventDataRecepsController@exportExcel')->name('event_data_receps.export_excel');
 
 Route::post('/event-data/lists/table', 'EventDataRecepsController@table')->name('event_data_receps.table');

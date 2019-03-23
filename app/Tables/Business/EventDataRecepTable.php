@@ -71,9 +71,13 @@ class EventDataRecepTable extends DataTable
                 $leadName,
                 $leadPhone,
                 $eventData->voucher_code,
-                optional($eventData->to)->username,
-                optional($eventData->rep)->username,
-//                $lead->state_text,
+                optional($eventData->to)->name,
+                optional($eventData->rep)->name,
+                optional($eventData->cs)->name,
+
+                //Q or NQ
+                $eventData->appointment->is_queue_text,
+                $eventData->state_name,
                 ' <a href="' . route('event_data_receps.show', $eventData->id, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
 						    <i class="fa fa-eye"></i></a>' . $btnEdit . $btnDelete,
             ];
@@ -87,7 +91,7 @@ class EventDataRecepTable extends DataTable
      */
     public function getModels()
     {
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])->doesntHave('contracts');
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'appointment'])->doesntHave('contracts');
 
         $this->totalFilteredRecords = $this->totalRecords = $eventDatas->count();
 

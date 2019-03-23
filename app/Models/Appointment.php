@@ -114,6 +114,11 @@ class Appointment extends \App\Models\Base\Appointment
         return $this->contextLabel(Confirmation::getDescription($this->is_queue), $this->is_queue === 1 ? 'success' : 'danger');
     }
 
+    public function getIsQueuePlainTextAttribute()
+    {
+        return Confirmation::getDescription($this->is_queue);
+    }
+
     public function getIsShowUpTextAttribute()
     {
         return $this->contextLabel(Confirmation::getDescription($this->is_show_up), $this->is_show_up === 1 ? 'success' : 'danger');

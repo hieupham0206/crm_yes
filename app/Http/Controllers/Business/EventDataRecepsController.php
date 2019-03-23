@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Business;
 
+use App\Exports\EventDataRecepExport;
 use App\Http\Controllers\Controller;
 use App\Models\EventData;
 use App\Tables\Business\EventDataRecepTable;
@@ -206,5 +207,12 @@ class EventDataRecepsController extends Controller
             'total_count' => $totalCount,
             'items'       => $eventData->toArray(),
         ]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $filters = $request->all();
+
+        return (new EventDataRecepExport($filters))->download('event_datas_' . time() . '.xlsx');
     }
 }
