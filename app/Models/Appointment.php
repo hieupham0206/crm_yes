@@ -119,6 +119,15 @@ class Appointment extends \App\Models\Base\Appointment
         return $this->contextLabel(Confirmation::getDescription($this->is_show_up), $this->is_show_up === 1 ? 'success' : 'danger');
     }
 
+    public function getStateNameAttribute()
+    {
+        if ($this->state === 1) {
+            return 'Sử dụng';
+        }
+
+        return 'Không sử dụng';
+    }
+
     public function cancel()
     {
         return $this->update(['state' => Confirmation::NO]);

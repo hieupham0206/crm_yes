@@ -45,7 +45,8 @@ $breadcrumbs = ['breadcrumb' => 'appointments.index'];
                         <th>{{ $appointment->label('code') }}</th>
                         <th>{{ 'Ngày hẹn' }}</th>
                         <th>{{ 'Giờ hẹn' }}</th>
-                        <th>{{ $appointment->label('call_time') }}</th>
+                        {{--<th>{{ $appointment->label('call_time') }}</th>--}}
+                        <th>{{ $appointment->label('state') }}</th>
                         <th>{{ $appointment->label('note') }}</th>
 
                         <th>@lang('Actions')</th>

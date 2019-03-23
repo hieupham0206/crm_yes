@@ -69,7 +69,8 @@ class AppointmentTable extends DataTable
                 $appointment->code,
                 $appointment->appointment_datetime->format('d-m-Y'),
                 $appointment->appointment_datetime->format('H:i'),
-                $appointment->history_calls_count,
+//                $appointment->history_calls_count,
+                $appointment->state_name,
 
                 optional($appointment->lead)->comment,
                 $btnEdit . $btnDelete,
@@ -84,7 +85,9 @@ class AppointmentTable extends DataTable
      */
     public function getModels()
     {
-        $appointments = Appointment::query()->with(['user', 'lead'])->withCount(['history_calls'])->where('state', Confirmation::YES)->authorize();
+        $appointments = Appointment::query()->with(['user', 'lead'])->withCount(['history_calls'])
+//                                                                    ->where('state', Confirmation::YES)
+                                                                    ->authorize();
 
         $this->totalFilteredRecords = $this->totalRecords = $appointments->count();
 
@@ -101,6 +104,13 @@ class AppointmentTable extends DataTable
             $createdAt = $this->filters['created_at'];
             if ($createdAt) {
                 $appointments->whereDate('created_at', date('Y-m-d', strtotime($createdAt)));
+            }
+
+            if ( ! empty($this->filters['phone'])) {
+                $phone = $this->filters['phone'];
+                $appointments->whereHas('lead', function ($q) use ($phone) {
+                    $q->where('phone', $phone);
+                });
             }
 
             $this->totalFilteredRecords = $appointments->count();
