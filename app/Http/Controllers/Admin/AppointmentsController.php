@@ -228,10 +228,18 @@ class AppointmentsController extends Controller
             //note: lưu event data
             $requestData['appointment_id'] = $appointment->id;
 
-            EventData::create([
-                'appointment_id' => $appointment->id,
-                'lead_id'        => $appointment->lead_id,
-            ]);
+            $eventDataOfLead = EventData::whereLeadId($appointment->lead_id)->first();
+
+            if (! $eventDataOfLead) {
+//                $eventDataOfLead->update([
+//                    'appointment_id' => $appointment->id,
+//                ]);
+
+                EventData::create([
+                    'appointment_id' => $appointment->id,
+                    'lead_id'        => $appointment->lead_id,
+                ]);
+            }
         }
 
         $appointment->update($appAttrs);
