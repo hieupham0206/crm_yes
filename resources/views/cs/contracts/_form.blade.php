@@ -274,7 +274,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_installment_id') ? 'has-danger' : ''}}">
                 <label for="select_payment_installment_id">{{ 'Trả góp' }}</label>
-                <select name="payment_installment_id" id="select_payment_installment_id" class="select" required>
+                <select name="payment_installment_id" id="select_payment_installment_id" class="select">
                     <option></option>
                     @foreach ($paymentCost->payment_method_installments as $key => $paymentMethod)
                         <option value="{{ $key }}">{{ $paymentMethod }}</option>

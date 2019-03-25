@@ -25,7 +25,7 @@
                 <select name="payment_method" id="select_payment_method" class="select" required>
                     <option></option>
                     @foreach ($paymentCost->payment_methods as $key => $paymentMethod)
-                        <option value="{{ $key }}" {{ $paymentDetail->payment_cost->payment_method === $key ? 'selected' : '' }}>{{ $paymentMethod }}</option>
+                        <option value="{{ $key }}" {{ optional($paymentDetail->payment_cost)->payment_method === $key ? 'selected' : '' }}>{{ $paymentMethod }}</option>
                     @endforeach
                 </select>
                 <span class="m-form__help"></span>
@@ -33,11 +33,11 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name') ? 'has-danger' : ''}}">
                 <label for="select_bank">{{ $paymentCost->label('bank_name') }}</label>
-                <input type="hidden" name="bank_name" id="txt_bank_name" value="{{ $paymentDetail->payment_cost->bank_name }}">
+                <input type="hidden" name="bank_name" id="txt_bank_name" value="{{ optional($paymentDetail->payment_cost)->bank_name }}">
                 <select name="select_bank_name" id="select_bank" class="select" disabled>
                     <option></option>
                     <option value="{{ $paymentDetail->payment_cost_id }}" {{ $paymentDetail->payment_cost_id ? 'selected' : '' }}>
-                        {{ $paymentDetail->payment_cost->bank_name }}
+                        {{ optional($paymentDetail->payment_cost)->bank_name }}
                     </option>
                 </select>
                 <span class="m-form__help"></span>
@@ -46,7 +46,7 @@
 
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_installment_id') ? 'has-danger' : ''}}">
                 <label for="select_payment_installment_id">{{ 'Trả góp' }}</label>
-                <select name="payment_installment_id" id="select_payment_installment_id" class="select" required>
+                <select name="payment_installment_id" id="select_payment_installment_id" class="select">
                     <option></option>
                     @foreach ($paymentCost->payment_method_installments as $key => $paymentMethod)
                         <option value="{{ $key }}" {{ optional($paymentDetail->payment_installment)->payment_method === $key ? 'selected' : '' }}>{{ $paymentMethod }}</option>

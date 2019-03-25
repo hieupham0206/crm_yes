@@ -169,11 +169,15 @@ class PaymentDetailsController extends Controller
         $amount = $requestData['total_paid_real'];
 
         if ($member) {
-            $message = (new PaymentConfirmation(compact('contract', 'amount')))->onConnection('database')->onQueue('notification');
-            \Mail::to($member->email)->queue($message);
+            if ($member->email) {
+                $message = (new PaymentConfirmation(compact('contract', 'amount')))->onConnection('database')->onQueue('notification');
+                \Mail::to($member->email)->queue($message);
+            }
 
-            $fptSms = new FptSms();
-            $fptSms->sendPaymentConfirmation($amount, $contract->contract_no, $member->phone);
+            if ($member->phone) {
+                $fptSms = new FptSms();
+                $fptSms->sendPaymentConfirmation($amount, $contract->contract_no, $member->phone);
+            }
         }
 
         if ($request->wantsJson()) {

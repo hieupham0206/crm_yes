@@ -465,10 +465,10 @@ $(function () {
 				axios.post(url, {
 					notQueue: true
 				}).then(function (result) {
-					url = route('appointments.form_change_appointment');
-					$('#modal_md').showModal({
-						url: url, method: 'get'
-					});
+					// url = route('appointments.form_change_appointment')
+					// $('#modal_md').showModal({
+					// 	url: url, method: 'get',
+					// })
 				}).catch(function (e) {
 					return console.log(e);
 				}).finally(function () {
