@@ -174,5 +174,7 @@
   "Value": "Giá trị",
   "Debt": "Nợ",
   "Payment detail": "Lịch thu tiền",
-  "payment detail": "Lịch thu tiền"
+  "payment detail": "Lịch thu tiền",
+  "Callback": "Follow list",
+  "Callback datetime": "Follow list datetime"
 }

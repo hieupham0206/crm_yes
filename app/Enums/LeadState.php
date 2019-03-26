@@ -45,7 +45,7 @@ final class LeadState extends Enum
         }
 
         if ($value === self::CALL_LATER) {
-            return __('Call later');
+            return __('Follow list');
         }
 
         if ($value === self::APPOINTMENT) {
