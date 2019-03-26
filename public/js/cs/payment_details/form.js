@@ -157,15 +157,15 @@ $(function () {
 		var currentCost = $('#txt_cost').val();
 		var newCost = $(this).val();
 
-		if (newCost !== '' && newCost !== null) {
-			if (currentCost !== '') {
-				newCost = parseFloat(newCost) + parseFloat(currentCost);
-			}
+		if (currentCost === '') {
+			$('#txt_cost').val(numeral(newCost).format('0,00'));
+		} else {
+			var bankCost = $('#select_bank').val();
+			var bankInstallmentCost = $('#select_bank_installment').val();
+
+			newCost = numeral(bankCost).value() + numeral(bankInstallmentCost).value();
 			$('#txt_cost').val(numeral(newCost).format('0,00'));
 		}
-		// else {
-		// 	$('#txt_cost').val('')
-		// }
 	});
 });
 

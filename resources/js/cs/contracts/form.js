@@ -42,7 +42,8 @@ $(function() {
 
 	function loadBankBasedOnPaymentMethod(paymentMethod, selectSelector, textSelector) {
 		if (paymentMethod !== '') {
-			selectSelector.prop('disabled', false).empty().trigger('change')
+			selectSelector.prop('disabled', false)
+			.empty().trigger('change')
 			axios.get(route('payment_costs.get_bank'), {
 				params: {
 					method: paymentMethod,
@@ -76,15 +77,16 @@ $(function() {
 		let currentCost = $('#txt_cost').val()
 		let newCost = $(this).val()
 
-		if (newCost !== '' && newCost !== null) {
-			if (currentCost !== '') {
-				newCost = parseFloat(newCost) + parseFloat(currentCost)
-			}
+		if (currentCost === '') {
+			$('#txt_cost').val(numeral(newCost).format('0,00'))
+		} else {
+			let bankCost = $('#select_bank').val()
+			let bankInstallmentCost = $('#select_bank_installment').val()
+
+			newCost = numeral(bankCost).value() + numeral(bankInstallmentCost).value()
 			$('#txt_cost').val(numeral(newCost).format('0,00'))
 		}
-		// else {
-		// 	$('#txt_cost').val('')
-		// }
+
 	})
 
 	let tablePaymentDetail = $('#table_payment_detail').DataTable({
