@@ -382,10 +382,10 @@ $(function () {
 		$('.btn-change-event-status').data('lead-name', leadName);
 
 		var title = $('#btn_busy').data('org-title');
-		$('#btn_busy').data('url', route('event_datas.change_state', eventDataId)).data('title', title + leadName);
+		$('#btn_busy').data('url', route('event_datas.change_state', eventDataId)).data('title', title + leadName + ' cho khách hàng');
 
 		title = $('#btn_overflow').data('org-title');
-		$('#btn_overflow').data('url', route('event_datas.change_state', eventDataId)).data('title', title + leadName);
+		$('#btn_overflow').data('url', route('event_datas.change_state', eventDataId)).data('title', title + leadName + ' cho khách hàng');
 
 		title = $('#btn_deal').data('org-title');
 		$('#btn_deal').data('url', route('event_datas.change_state', eventDataId)).data('title', title + leadName);

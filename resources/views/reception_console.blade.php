@@ -185,11 +185,14 @@
                                             <button type="button" class="btn btn-sm btn-danger m-btn m-btn--icon m-btn--custom" id="btn_not_queue">
                                                 <span><i class="fa fa-ban"></i><span>@lang('Not queue')</span></span>
                                             </button>
-                                            <button type="button" id="btn_busy" data-state="{{ \App\Enums\EventDataState::BUSY }}" data-message="" title="Busy" data-tile="" data-org-title="Hủy deal khách hàng " data-url="" data-lead-name=""
+                                            <button type="button" id="btn_busy" data-state="{{ \App\Enums\EventDataState::BUSY }}" data-message="" title="Busy" data-tile="" data-org-title="Cập nhật trạng thái busy " data-url=""
+                                                    data-lead-name=""
                                                     class="btn btn-sm btn-success btn-change-event-status m-btn m-btn--icon m-btn--icon-only m-btn--pill">
                                                 <i class="fa fa-street-view"></i>
                                             </button>
-                                            <button type="button" id="btn_overflow" data-state="{{ \App\Enums\EventDataState::OVERFLOW }}" data-message="" title="Overflow" data-tile="" data-org-title="Hủy deal khách hàng " data-url="" data-lead-name=""
+                                            <button type="button" id="btn_overflow" data-state="{{ \App\Enums\EventDataState::OVERFLOW }}" data-message="" title="Overflow" data-tile="" data-org-title="Cập nhật trạng thái overflow "
+                                                    data-url=""
+                                                    data-lead-name=""
                                                     class="btn btn-sm btn-danger btn-change-event-status m-btn m-btn--icon m-btn--icon-only m-btn--pill">
                                                 <i class="fa fa-ban"></i>
                                             </button>
