@@ -71,9 +71,10 @@ class DailySaleReportTable extends DataTable
                              $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
                          },
                          'roles',
-                     ])->withCount(['appointments', 'ambassadors'])->role(['REP'])->get();
-        
-        $datas = [];
+                     ])->withCount(['appointments', 'ambassadors'])->role(['REP'])->filters($this->filters)->get();
+
+        $datas       = [];
+        $currentUser = auth()->user();
 
         foreach ($users as $user) {
             $appointments = $user->appointments();
@@ -89,54 +90,59 @@ class DailySaleReportTable extends DataTable
             $totalAppointment = $user->appointments_count;
             $totalEventData   = $eventDatas->count();
 
-            $totalAppointmentTele     = $appointments->filter(function (Appointment $app) {
+            $totalAppointmentTele    = $appointments->filter(function (Appointment $app) {
                 return $app->user->hasRole(['Tele Marketer', 'Tele Leader']);
             })->count();
-            $totalAppointmentRep      = $appointments->filter(function (Appointment $app) {
-                return $app->user->hasRole(['REP']);
+            $totalPrivateAppointment = $appointments->filter(function (Appointment $app) use ($currentUser) {
+                return $app->user_id === $currentUser->id;
             })->count();
-
-//            $totalAppointmentHasEvent = $appointments->filter(function (Appointment $app) {
-//                return $app->events;
+//            $totalAppointmentRep     = $appointments->filter(function (Appointment $app) {
+//                return $app->user->hasRole(['REP']);
 //            })->count();
 
-//            $totalAppointmentNoRep    = $totalAppointmentHasEvent - ($totalAppointment - $totalAppointmentRep);
-            $totalAppointmentNQ       = $appointments->filter(function (Appointment $app) {
-                return $app->is_queue == 0;
+            $totalAppointmentNQ         = $appointments->filter(function (Appointment $app) use ($currentUser) {
+                return $app->is_queue == 0 &&
+                       ($app->user_id === $currentUser->id ||
+                        $app->event_datas()->get()->filter(function ($event) use ($currentUser) {
+                            return $event->rep_id === $currentUser->id;
+                        })->isNotEmpty()
+                       );
             })->count();
-            $totalAppointmentQueue    = $appointments->filter(function (Appointment $app) {
-                return $app->is_queue == 1;
+            $totalAppointmentQueue      = $appointments->filter(function (Appointment $app) use ($currentUser) {
+                return $app->is_queue == 1 &&
+                       ($app->user_id === $currentUser->id ||
+                        $app->event_datas()->get()->filter(function ($event) use ($currentUser) {
+                            return $event->rep_id === $currentUser->id;
+                        })->isNotEmpty()
+                       );
             })->count();
-            $totalAppointmentTo       = $appointments->filter(function (Appointment $app) {
-                return $app->user->hasRole(['SALE DECK MANAGER (SDM)', 'TO']);
+            $totalEventDataRep          = $eventDatas->filter(function (EventData $event) use ($currentUser) {
+                return $event->rep_id === $currentUser->id;
             })->count();
-            $toRate                   = ($totalAppointmentTo / $totalEventData) * 100;
-            $totalEventDataDeal       = $eventDatas->filter(function (EventData $event) {
-                return $event->state == EventDataState::DEAL;
+            $totalAppointmentTo = $eventDatas->filter(function (EventData $event) use ($currentUser) {
+                return $event->rep_id === $currentUser->id && $event->to_id === null;
             })->count();
-//            $totalEventDataNotDeal    = $eventDatas->filter(function (EventData $event) {
-//                return $event->state == EventDataState::NOT_DEAL;
-//            })->count();
-            $dealRate                 = ($totalEventDataDeal / $totalEventData) * 100;
-            $ambassador               = property_exists($users, 'ambassadors_count') ? $users->ambassadors_count : 0;//Tổng APP của từng nhan viên
+            $toRate                     = $totalEventDataRep ? ($totalAppointmentTo / $totalEventDataRep) * 100 : 0;
+            $totalEventDataDeal         = $eventDatas->filter(function (EventData $event) use ($currentUser) {
+                return $event->state == EventDataState::DEAL && $event->rep_id === $currentUser->id;
+            })->count();
+            $dealRate                   = $totalEventData ? ($totalEventDataDeal / $totalEventData) * 100 : 0;
+            $ambassador                 = property_exists($users, 'ambassadors_count') ? $users->ambassadors_count : 0;//Tổng APP của từng nhan viên
 
             $datas[] = [
                 $user->name,
                 $totalAppointmentTele,
                 'digital',
                 'opc',
-                $totalAppointmentRep,
+                $totalPrivateAppointment,
                 'ssref',
-//            $totalAppointmentHasEvent,
                 $ambassador,
                 $totalAppointment,
-//                $totalAppointmentNoRep,
                 $totalAppointmentNQ,
                 $totalAppointmentQueue,
                 $totalAppointmentTo,
                 $toRate,
                 $totalEventDataDeal,
-//                $totalEventDataNotDeal,
                 $dealRate,
                 'phone SS',
             ];
