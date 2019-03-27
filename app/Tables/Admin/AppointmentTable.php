@@ -64,9 +64,7 @@ class AppointmentTable extends DataTable
         if ( ! $getAll) {
             $appointments = $appointments->where('state', Confirmation::YES)
                                          ->where('is_queue', '>', 1);
-        }
-
-        if (! empty($this->filters['not_qa_and_not_has_deal'])) {
+        } elseif (! empty($this->filters['not_qa_and_not_has_deal'])) {
             $appointments = $appointments->doesntHave('event_datas')
                                          ->where('is_queue', '>', 1);
         }

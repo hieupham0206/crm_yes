@@ -91,7 +91,7 @@
                     <span class="m-form__help"></span>
                 </div>
             </div>
-            <div class="form-group row" id="comment_section" style="display: none">
+            <div class="form-group row" id="comment_section" style="{{ $table === 're_app' ? 'display: inherit' : 'display: none' }}">
                 <div class="col-md-12 m-form__group-sub">
                     <label for="textarea_comment">{{ $lead->label('comment') }}</label>
                     <textarea class="form-control" rows="5" name="comment" id="textarea_comment">{{ $lead->comment ?? ''}}</textarea>
