@@ -55,12 +55,12 @@
                         </div>
                     </div>
                     <div class="m-portlet__body">
-                        <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="300" data-scrollbar-shown="true">
+                        <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="400" data-scrollbar-shown="true">
                             <table class="table table-borderless table-hover nowrap" id="table_appointment" width="100%">
                                 <thead>
                                 <tr>
                                     <th>{{ $lead->label('appointment_datetime') }}</th>
-                                    <th>{{ $lead->label('title') }}</th>
+                                    <th>Chức vụ</th>
                                     <th>{{ $lead->label('name') }}</th>
                                     <th>{{ $lead->label('phone') }}</th>
                                     <th>{{ $lead->label('code') }}</th>
@@ -86,11 +86,11 @@
                             <table class="table table-borderless table-hover nowrap" id="table_event_data" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>{{ $lead->label('Stt') }}</th>
                                     <th>{{ $lead->label('date') }}</th>
-                                    <th>{{ $lead->label('title') }}</th>
                                     <th>{{ $lead->label('name') }}</th>
                                     <th>{{ $lead->label('phone') }}</th>
-                                    <th>{{ $lead->label('code') }}</th>
+                                    <th>{{ $lead->label('voucher') }}</th>
                                     <th>{{ $lead->label('note') }}</th>
                                     <th>{{ $lead->label('TO') }}</th>
                                     <th>{{ $lead->label('REP') }}</th>
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                     <div class="m-portlet__body">
-                        <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="300" data-scrollbar-shown="true">
+                        <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="400" data-scrollbar-shown="true">
                             <form id="leads_form" class="m-form m-form--label-align-right m-form--state form-lead-reception" method="post">
                                 @csrf
                                 @method('put')
@@ -123,42 +123,42 @@
                                     @csrf
                                     @method('put')
                                     <div class="form-group m-form__group row">
-                                        <div class="col-sm-12 col-md-4 m-form__group-sub">
+                                        <div class="col-sm-12 col-md-1 m-form__group-sub">
                                             <label for="txt_lead_title">{{ $lead->label('title') }}</label>
                                             {{--<span id="span_lead_title"></span>--}}
-                                            <input type="text" name="title" id="txt_lead_title">
+                                            <input type="text" class="form-control" name="title" id="txt_lead_title">
                                         </div>
-                                        <div class="col-sm-12 col-md-4 m-form__group-sub">
+                                        <div class="col-sm-12 col-md-7 m-form__group-sub">
                                             <label for="txt_lead_name">{{ $lead->label('name') }}</label>
                                             {{--<span id="span_lead_name"></span>--}}
-                                            <input type="text" name="name" id="txt_lead_name">
+                                            <input type="text" class="form-control" name="name" id="txt_lead_name">
                                         </div>
                                         <div class="col-sm-12 col-md-4 m-form__group-sub">
                                             <label for="span_lead_phone">{{ $lead->label('phone') }}</label>
-                                            <span id="span_lead_phone"></span>
+                                            <span id="span_lead_phone" class="form-control-label d-block"></span>
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-12 col-md-8 m-form__group-sub">
                                             <label for="txt_appointment_datetime">{{ $lead->label('datetime') }}</label>
                                             {{--<span id="span_appointment_datetime"></span>--}}
-                                            <input type="text" name="appointment_datetime" class="text-datetimepicker" id="txt_appointment_datetime" autocomplete="off">
+                                            <input type="text" name="appointment_datetime" class="form-control text-datetimepicker" id="txt_appointment_datetime" autocomplete="off">
                                         </div>
                                         <div class="col-sm-12 col-md-4 m-form__group-sub">
                                             <label for="span_tele_marketer">Người hẹn</label>
-                                            <span id="span_tele_marketer"></span>
+                                            <span id="span_tele_marketer" class="form-control-label d-block"></span>
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-12 col-md-6 m-form__group-sub">
                                             <label for="txt_spouse_name">{{ $lead->label('spouse_name') }}</label>
                                             {{--<span id="span_spouse_name"></span>--}}
-                                            <input type="text" name="spouse_name" id="txt_spouse_name">
+                                            <input type="text" class="form-control" name="spouse_name" id="txt_spouse_name">
                                         </div>
                                         <div class="col-sm-12 col-md-6 m-form__group-sub">
                                             <label for="txt_spouse_phone">{{ $lead->label('spouse_phone') }}</label>
                                             {{--<span id="span_spouse_phone"></span>--}}
-                                            <input type="text" name="spouse_phone" id="txt_spouse_phone">
+                                            <input type="text" class="form-control" name="spouse_phone" id="txt_spouse_phone">
                                         </div>
                                     </div>
                                     {{--<div class="form-group m-form__group row">--}}
@@ -253,11 +253,11 @@
                                     <div class="form-group m-form__group row">
                                         <div class="col-sm-12 col-md-6 m-form__group-sub">
                                             <label for="span_appointment_queue">Is Queue</label>
-                                            <span id="span_appointment_queue"></span>
+                                            <span id="span_appointment_queue" class="form-control-label d-block"></span>
                                         </div>
                                         <div class="col-sm-12 col-md-6 m-form__group-sub">
                                             <label for="span_event_data_status">Event data status</label>
-                                            <span id="span_event_data_status"></span>
+                                            <span id="span_event_data_status" class="form-control-label d-block"></span>
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">

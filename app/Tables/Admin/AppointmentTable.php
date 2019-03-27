@@ -179,13 +179,14 @@ class AppointmentTable extends DataTable
             }
 
             $lead        = $appointment->lead;
+            $user        = $appointment->user;
             $dataArray[] = [
                 $appointmentDateText,
-                optional($lead)->title,
+                $user ? $user->roles[0]->name : '',
                 "<a class='link-lead-name m-link m--font-brand' href='javascript:void(0)' data-appointment-id='{$appointment->id}' data-lead-id='{$appointment->lead_id}'>{$lead->name}</a>",
                 optional($lead)->phone,
                 $appointment->code,
-                optional($appointment->user)->name,
+                optional($user)->name,
                 optional($lead)->comment,
 
 //                $btnCall . $btnEdit . $btnDelete,

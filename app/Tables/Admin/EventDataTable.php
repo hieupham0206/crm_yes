@@ -45,7 +45,7 @@ class EventDataTable extends DataTable
 //        $canDeleteEventData = can('delete-eventData');
 
         /** @var EventData[] $eventDatas */
-        foreach ($eventDatas as $eventData) {
+        foreach ($eventDatas as $key => $eventData) {
 //            $btnEdit = $btnDelete = '';
 //            $btnNotDeal = '
 //				<button type="button" data-state="'.EventDataState::NOT_DEAL.'" data-message="" title="Not deal" data-title="Hủy deal khách hàng ' . $eventData->lead->name . ' !!!"
@@ -95,10 +95,9 @@ class EventDataTable extends DataTable
             $csName     = optional($eventData->cs)->name;
 
             $dataArray[]    = [
-//                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $eventData->id . '"><span></span></label>',
-//                "<a class='m-link m--font-brand' href='javascript:void(0)'>{$eventData->created_at->format('d-m-Y H:i:s')}</a>",
+//                $eventData->lead->title,
+                ++$key,
                 $eventData->created_at->format('d-m-Y H:i:s'),
-                $eventData->lead->title,
                 "<a class='link-event-data m-link m--font-brand' href='javascript:void(0)'  data-to-id='{$eventData->to_id}'  data-rep-id='{$eventData->rep_id}'  data-cs-id='{$eventData->cs_id}' 
 data-has-bonus='{$eventData->hot_bonus}' data-appointment-id='{$appointmentId}' data-event-id='{$eventData->id}' data-lead-id='{$eventData->lead_id}'>$leadName</a>" .
                 "<input value='$leadName' class='txt-lead-name' type='hidden'/>" .
