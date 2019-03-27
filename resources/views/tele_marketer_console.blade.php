@@ -212,7 +212,7 @@
                         <div class="m-portlet__head">
                             <div class="m-portlet__head-caption">
                                 <div class="m-portlet__head-title">
-                                    <h3 class="m-portlet__head-text">Call Back List</h3>
+                                    <h3 class="m-portlet__head-text">Follow List</h3>
                                 </div>
                             </div>
                         </div>
