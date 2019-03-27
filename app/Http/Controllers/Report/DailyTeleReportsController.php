@@ -8,10 +8,12 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\DailyTeleExport;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Tables\Report\DailyTeleReportTable;
 use App\Tables\TableFacade;
+use Illuminate\Http\Request;
 
 class DailyTeleReportsController extends Controller
 {
@@ -31,5 +33,12 @@ class DailyTeleReportsController extends Controller
     public function table()
     {
         return (new TableFacade(new DailyTeleReportTable()))->getDataTable();
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $filters = $request->all();
+
+        return (new DailyTeleExport($filters))->download('daily_tele_' . time() . '.xlsx');
     }
 }
