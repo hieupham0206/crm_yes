@@ -25,7 +25,7 @@ final class LeadState extends Enum
         }
 
         if ($value === self::DEAD_NUMBER) {
-            return __('Dead number');
+            return __('Block list');
         }
 
         if ($value === self::WRONG_NUMBER) {

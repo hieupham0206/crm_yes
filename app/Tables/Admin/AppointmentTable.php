@@ -38,6 +38,7 @@ class AppointmentTable extends DataTable
 
         $form = request()->get('form', 'tele_console');
         if ($form === 'tele_console') {
+            $this->filters['not_qa_and_not_has_deal'] = true;
             $appointments = $this->getModels();
             $dataArray    = $this->initTableTeleConsole($appointments, $canUpdateAppointment, $canDeleteAppointment, $modelName);
         } elseif ($form === 'reception_console') {
@@ -62,6 +63,11 @@ class AppointmentTable extends DataTable
 
         if ( ! $getAll) {
             $appointments = $appointments->where('state', Confirmation::YES)
+                                         ->where('is_queue', '>', 1);
+        }
+
+        if (! empty($this->filters['not_qa_and_not_has_deal'])) {
+            $appointments = $appointments->doesntHave('event_datas')
                                          ->where('is_queue', '>', 1);
         }
 
