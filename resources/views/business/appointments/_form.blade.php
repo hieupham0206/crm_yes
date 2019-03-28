@@ -38,7 +38,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('spouse_name') ? 'has-danger' : ''}}">
                 <label for="txt_callback_datetime">{{ $appointment->label('spouse_name') }}</label>
-                <input class="form-control text-datepicker" name="spouse_name" type="text" id="txt_spouse_name" value="{{ $appointment->spouse_name ?? old('spouse_name')}}" required placeholder="{{ __('Enter value') }}"
+                <input class="form-control" name="spouse_name" type="text" id="txt_spouse_name" value="{{ $appointment->spouse_name ?? old('spouse_name')}}" required placeholder="{{ __('Enter value') }}"
                        autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('spouse_name', '<div class="form-control-feedback">:message</div>') !!}
@@ -47,10 +47,16 @@
         <div class="form-group m-form__group row">
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('spouse_phone') ? 'has-danger' : ''}}">
                 <label for="txt_callback_datetime">{{ $appointment->label('spouse_phone') }}</label>
-                <input class="form-control text-datepicker" name="spouse_phone" type="text" id="txt_spouse_phone" value="{{ $appointment->spouse_phone ?? old('spouse_phone')}}" required placeholder="{{ __('Enter value') }}"
+                <input class="form-control" name="spouse_phone" type="text" id="txt_spouse_phone" value="{{ $appointment->spouse_phone ?? old('spouse_phone')}}" required placeholder="{{ __('Enter value') }}"
                        autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('spouse_phone', '<div class="form-control-feedback">:message</div>') !!}
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('comment') ? 'has-danger' : ''}}">
+                <label for="textarea_comment">{{ $lead->label('comment') }}</label>
+                <textarea class="form-control" rows="5" name="comment" id="textarea_comment">{{ $lead->comment ?? ''}}</textarea>
+                <span class="m-form__help"></span>
+                {!! $errors->first('comment', '<div class="form-control-feedback">:message</div>') !!}
             </div>
         </div>
     </div>

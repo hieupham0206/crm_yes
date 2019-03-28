@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Business;
 use App\Exports\AppointmentExport;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
-use App\Tables\TableFacade;
 use App\Tables\Business\AppointmentTable;
+use App\Tables\TableFacade;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -14,11 +14,11 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class AppointmentsController extends Controller
 {
-     /**
-      * Tên dùng để phân quyền
-      * @var string
-      */
-	 protected $name = 'appointment';
+    /**
+     * Tên dùng để phân quyền
+     * @var string
+     */
+    protected $name = 'appointment';
 
     /**
      * Hiển thị trang danh sách Appointment.
@@ -27,15 +27,16 @@ class AppointmentsController extends Controller
      */
     public function index()
     {
-        return view( 'business.appointments.index' )->with('appointment', new Appointment);
+        return view('business.appointments.index')->with('appointment', new Appointment);
     }
 
     /**
      * Lấy danh sách Appointment cho trang table ở trang index
      * @return string
      */
-    public function table() {
-    	return ( new TableFacade( new AppointmentTable() ) )->getDataTable();
+    public function table()
+    {
+        return (new TableFacade(new AppointmentTable()))->getDataTable();
     }
 
     /**
@@ -47,7 +48,7 @@ class AppointmentsController extends Controller
     {
         return view('business.appointments.create', [
             'appointment' => new Appointment,
-            'action' => route('appointments.store')
+            'action'      => route('appointments.store'),
         ]);
     }
 
@@ -55,29 +56,31 @@ class AppointmentsController extends Controller
      * Lưu Appointment mới.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required'
-		]);
+            'name' => 'required',
+        ]);
         $requestData = $request->all();
         $appointment = Appointment::create($requestData);
 
         if ($request->wantsJson()) {
             return $this->asJson([
-                'message' => __('Data created successfully')
+                'message' => __('Data created successfully'),
             ]);
         }
 
-        return redirect(route('appointments.show', $appointment))->with('message', __( 'Data created successfully' ));
+        return redirect(route('appointments.show', $appointment))->with('message', __('Data created successfully'));
     }
 
     /**
      * Trang xem chi tiết Appointment.
      *
      * @param  Appointment $appointment
+     *
      * @return \Illuminate\View\View
      */
     public function show(Appointment $appointment)
@@ -89,14 +92,18 @@ class AppointmentsController extends Controller
      * Trang cập nhật Appointment.
      *
      * @param  Appointment $appointment
+     *
      * @return \Illuminate\View\View
      */
     public function edit(Appointment $appointment)
     {
+        $lead = $appointment->lead;
+
         return view('business.appointments.edit', [
             'appointment' => $appointment,
-            'method' => 'put',
-            'action' => route('appointments.update', $appointment)
+            'lead'        => $lead,
+            'method'      => 'put',
+            'action'      => route('appointments.update', $appointment),
         ]);
     }
 
@@ -105,44 +112,51 @@ class AppointmentsController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param  Appointment $appointment
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Appointment $appointment)
     {
         $this->validate($request, [
-			'name' => 'required'
-		]);
+            'lead_id' => 'required',
+        ]);
         $requestData = $request->all();
         $appointment->update($requestData);
 
+        //cập nhật comment của lead
+        $lead = $appointment->lead;
+        $lead->update(['comment' => $requestData['comment']]);
+
         if ($request->wantsJson()) {
             return $this->asJson([
-                'message' => __('Data edited successfully')
+                'message' => __('Data edited successfully'),
             ]);
         }
 
-        return redirect(route('appointments.show', $appointment))->with('message', __( 'Data edited successfully' ));
+        return redirect(route('appointments.index'))->with('message', __('Data edited successfully'));
     }
 
     /**
      * Xóa Appointment.
      *
      * @param Appointment $appointment
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy(Appointment $appointment)
     {
         try {
-        	  $appointment->delete();
-        } catch ( \Exception $e ) {
-            return $this->asJson( [
-                'message' => "Error: {$e->getMessage()}"
-            ], $e->getCode() );
+            $appointment->delete();
+        } catch (\Exception $e) {
+            return $this->asJson([
+                'message' => "Error: {$e->getMessage()}",
+            ], $e->getCode());
         }
 
-        return $this->asJson( [
-            'message' => __('Data deleted successfully')
-        ] );
+        return $this->asJson([
+            'message' => __('Data deleted successfully'),
+        ]);
     }
 
     /**
@@ -151,19 +165,20 @@ class AppointmentsController extends Controller
      * @return mixed|\Symfony\Component\HttpFoundation\ParameterBag
      * @throws \Exception
      */
-    public function destroys() {
+    public function destroys()
+    {
         try {
-            $ids = \request()->get( 'ids' );
-            Appointment::destroy( $ids );
-        } catch ( \Exception $e ) {
-            return $this->asJson( [
-                'message' => "Error: {$e->getMessage()}"
-            ], $e->getCode() );
+            $ids = \request()->get('ids');
+            Appointment::destroy($ids);
+        } catch (\Exception $e) {
+            return $this->asJson([
+                'message' => "Error: {$e->getMessage()}",
+            ], $e->getCode());
         }
 
-        return $this->asJson( [
-            'message' => __( 'Data deleted successfully' )
-        ] );
+        return $this->asJson([
+            'message' => __('Data deleted successfully'),
+        ]);
     }
 
     /**
@@ -171,7 +186,8 @@ class AppointmentsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function appointments() {
+    public function appointments()
+    {
         $query         = request()->get('query', '');
         $page          = request()->get('page', 1);
         $leadId        = request()->get('leadId', '');
@@ -232,7 +248,7 @@ class AppointmentsController extends Controller
         $this->validate($request, [
             'file_import' => 'required',
         ]);
-        $userId    = $request->get('user_id');
+        $userId = $request->get('user_id');
 
         if ($request->hasFile('file_import')) {
             $fileImport = $request->file('file_import');
