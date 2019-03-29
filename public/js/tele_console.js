@@ -266,6 +266,22 @@ $(function () {
 		});
 	}
 
+	//kiểm tra còn lead nào trạng thái la New k
+	function checkAvailableLead() {
+		return axios.get(route('leads.check_available_new'), {
+			params: {}
+		}).then(function (result) {
+			var obj = result['data'];
+			if (obj.message) {
+				flash(obj.message, 'warning', false);
+			}
+		}).catch(function (e) {
+			return console.log(e);
+		}).finally(function () {
+			window.unblock();
+		});
+	}
+
 	function clearLeadInfo() {
 		$('#span_lead_name').text('');
 		$('#span_lead_birthday').text('');
@@ -274,20 +290,22 @@ $(function () {
 	}
 
 	function autoCall() {
-		fetchLead('', 1).then(function () {
-			callInterval = setInterval(callClock, 1000);
-			$('#btn_form_change_state').prop('disabled', false);
+		checkAvailableLead().then(function () {
+			fetchLead('', 1).then(function () {
+				callInterval = setInterval(callClock, 1000);
+				$('#btn_form_change_state').prop('disabled', false);
 
-			var leadId = $('#txt_lead_id').val();
-			if (leadId !== '') {
-				axios.post(route('leads.put_call_cache', leadId), {
-					typeCall: 1
-				}).then(function (result) {}).catch(function (e) {
-					return console.log(e);
-				}).finally(function () {
-					unblock();
-				});
-			}
+				var leadId = $('#txt_lead_id').val();
+				if (leadId !== '') {
+					axios.post(route('leads.put_call_cache', leadId), {
+						typeCall: 1
+					}).then(function (result) {}).catch(function (e) {
+						return console.log(e);
+					}).finally(function () {
+						unblock();
+					});
+				}
+			});
 		});
 	}
 
@@ -1016,13 +1034,13 @@ $(function () {
 		}
 	});
 
-	initLoginClock();
-	initBreakClock();
-
 	if ($('#txt_is_checked_in').val()) {
 		initCallClock();
 		loginInterval = setInterval(loginClock, 1000);
 	}
+
+	initLoginClock();
+	initBreakClock();
 });
 
 /***/ })

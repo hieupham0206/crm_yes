@@ -137,7 +137,7 @@ class LeadsController extends Controller
     /**
      * Trang xem chi tiết Lead.
      *
-     * @param  Lead $lead
+     * @param Lead $lead
      *
      * @return \Illuminate\View\View
      */
@@ -149,7 +149,7 @@ class LeadsController extends Controller
     /**
      * Trang cập nhật Lead.
      *
-     * @param  Lead $lead
+     * @param Lead $lead
      *
      * @return \Illuminate\View\View
      */
@@ -162,7 +162,7 @@ class LeadsController extends Controller
      * Cập nhật Lead tương ứng.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  Lead $lead
+     * @param Lead $lead
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Validation\ValidationException
@@ -841,5 +841,29 @@ class LeadsController extends Controller
 
             $user->putCallCache($lead, $typeCall);
         }
+    }
+
+    public function checkAvailableNewLead()
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $isLoadPrivateOnly = $user->isLoadPrivateOnly();
+
+        if ($isLoadPrivateOnly) {
+            $lead = Lead::where('user_id', $user->id)->where('state', LeadState::NEW_CUSTOMER)->where('is_private', 1)->first();
+        } else {
+            $lead = Lead::where('user_id', $user->id)->where('state', LeadState::NEW_CUSTOMER)->first();
+        }
+
+        if ( ! $lead) {
+            return response()->json([
+                'message' => 'Đã gọi hết khách mới',
+            ]);
+        }
+
+        return response()->json([
+            'message' => '',
+        ]);
     }
 }

@@ -175,6 +175,20 @@ $(function() {
 		})
 	}
 
+	//kiểm tra còn lead nào trạng thái la New k
+	function checkAvailableLead() {
+		return axios.get(route('leads.check_available_new'), {
+			params: {},
+		}).then(result => {
+			let obj = result['data']
+			if (obj.message) {
+				flash(obj.message, 'warning',false)
+			}
+		}).catch(e => console.log(e)).finally(() => {
+			window.unblock()
+		})
+	}
+
 	function clearLeadInfo() {
 		$('#span_lead_name').text('')
 		$('#span_lead_birthday').text('')
@@ -183,20 +197,22 @@ $(function() {
 	}
 
 	function autoCall() {
-		fetchLead('', 1).then(() => {
-			callInterval = setInterval(callClock, 1000)
-			$('#btn_form_change_state').prop('disabled', false)
+		checkAvailableLead().then(() => {
+			fetchLead('', 1).then(() => {
+				callInterval = setInterval(callClock, 1000)
+				$('#btn_form_change_state').prop('disabled', false)
 
-			let leadId = $('#txt_lead_id').val()
-			if (leadId !== '') {
-				axios.post(route('leads.put_call_cache', leadId), {
-					typeCall: 1,
-				}).then(result => {
+				let leadId = $('#txt_lead_id').val()
+				if (leadId !== '') {
+					axios.post(route('leads.put_call_cache', leadId), {
+						typeCall: 1,
+					}).then(result => {
 
-				}).catch(e => console.log(e)).finally(() => {
-					unblock()
-				})
-			}
+					}).catch(e => console.log(e)).finally(() => {
+						unblock()
+					})
+				}
+			})
 		})
 	}
 
@@ -867,11 +883,11 @@ $(function() {
 		}
 	})
 
-	initLoginClock()
-	initBreakClock()
-
 	if ($('#txt_is_checked_in').val()) {
 		initCallClock()
 		loginInterval = setInterval(loginClock, 1000)
 	}
+
+	initLoginClock()
+	initBreakClock()
 })

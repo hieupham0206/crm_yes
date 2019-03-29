@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/leads/import/form', 'LeadsController@formImport')->name('leads.form_import');
+Route::get('/leads/check-lead/new', 'LeadsController@checkAvailableNewLead')->name('leads.check_available_new');
 Route::post('/leads/import/', 'LeadsController@import')->name('leads.import');
 
 Route::get('/leads/change-state/form/{lead?}', 'LeadsController@formChangeState')->name('leads.form_change_state');
