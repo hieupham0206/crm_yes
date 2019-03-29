@@ -377,6 +377,10 @@ class LeadsController extends Controller
         $userId    = $request->get('user_id');
         $state     = $request->get('state', 1);
 
+        if ( ! $state) {
+            $state = 1;
+        }
+
         if ($request->hasFile('file_import')) {
             $fileImport = $request->file('file_import');
             $fileName   = $fileImport->getClientOriginalName();
@@ -853,7 +857,7 @@ class LeadsController extends Controller
         if ($isLoadPrivateOnly) {
             $lead = Lead::where('user_id', $user->id)->where('state', LeadState::NEW_CUSTOMER)->where('is_private', 1)->first();
         } else {
-            $lead = Lead::where('user_id', $user->id)->where('state', LeadState::NEW_CUSTOMER)->first();
+            $lead = Lead::where('state', LeadState::NEW_CUSTOMER)->first();
         }
 
         if ( ! $lead) {
