@@ -2,7 +2,6 @@
 
 namespace App\Tables\Business;
 
-use App\Enums\EventDataState;
 use App\Models\EventData;
 use App\Tables\DataTable;
 
@@ -99,9 +98,17 @@ class EventDataRecepTable extends DataTable
         if ($this->isFilterNotEmpty) {
             $eventDatas->filters($this->filters);
 
-            if ($this->filters['phone']) {
+            if ( ! empty($this->filters['phone'])) {
                 $eventDatas->whereHas('lead', function ($q) {
                     $q->andFilterWhere(['phone', 'like', $this->filters['phone']]);
+                });
+            }
+
+            if ( ! empty($this->filters['is_queue'])) {
+                $isQueue = $this->filters['is_queue'];
+
+                $eventDatas->whereHas('appointment', static function ($q) use ($isQueue) {
+                    $q->where('is_queue', $isQueue);
                 });
             }
             $this->totalFilteredRecords = $eventDatas->count();

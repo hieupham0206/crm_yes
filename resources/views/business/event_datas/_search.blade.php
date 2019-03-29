@@ -35,6 +35,16 @@
                 </select>
             </div>
         </div>
+        <div class="col-12 col-md-3 m-form__group-sub">
+            <div class="form-group">
+                <label for="select_is_queue">{{ 'Trạng thái queue' }}</label>
+                <select name="is_queue" id="select_is_queue" class="select">
+                    <option></option>
+                    <option value="-1">Not queue</option>
+                    <option value="1">Queue</option>
+                </select>
+            </div>
+        </div>
         <div class="col-12 col-md-3 m-form__group-sub mt-6">
             <button class="btn btn-brand m-btn m-btn--custom m-btn--icon" id="btn_filter"><span> <i class="fa fa-search"></i> <span>@lang('Search')</span> </span></button>
             <button type="button" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" id="btn_reset_filter"><span> <i class="fa fa-undo-alt"></i> <span>@lang('Reset')</span> </span></button>
