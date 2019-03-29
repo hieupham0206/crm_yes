@@ -78,8 +78,9 @@ class EventDataRecepTable extends DataTable
                 //Q or NQ
                 $eventData->appointment->is_queue_text,
                 $eventData->state_name,
-                ' <a href="' . route('event_data_receps.show', $eventData->id, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
-						    <i class="fa fa-eye"></i></a>' . $btnEdit . $btnDelete,
+//                ' <a href="' . route('event_data_receps.show', $eventData->id, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
+//						    <i class="fa fa-eye"></i></a>' .
+                $btnEdit . $btnDelete,
             ];
         }
 

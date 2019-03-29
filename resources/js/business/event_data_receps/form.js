@@ -1,7 +1,8 @@
 $(function() {
 	let isConfirm = $('#contracts_form').data('confirm')
 	let $selectTo = $('#select_to'),
-		$selectRep = $('#select_rep')
+		$selectRep = $('#select_rep'),
+		$selectCs = $('#select_cs')
 
     $('#contracts_form').validate({
         submitHandler: isConfirm ? function(form, e) {
@@ -25,13 +26,20 @@ $(function() {
 		data: function(q) {
 			q.roleId = 8
 		},
-		column: 'username',
+		column: 'name',
+	})
+	$selectCs.select2Ajax({
+		url: route('users.list'),
+		data: function(q) {
+			q.roleId = 12
+		},
+		column: 'name',
 	})
 	$selectRep.select2Ajax({
 		url: route('users.list'),
 		data: function(q) {
 			q.roleId = 9
 		},
-		column: 'username',
+		column: 'name',
 	})
 })

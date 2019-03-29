@@ -122,10 +122,12 @@ class EventDatasController extends Controller
      */
     public function update(Request $request, EventData $eventData)
     {
-//        $this->validate($request, [
-//            'name' => 'required',
-//        ]);
         $requestData = $request->all();
+
+        if ( ! $request->has('hot_bonus')) {
+            $requestData['hot_bonus'] = -1;
+        }
+
         $eventData->update($requestData);
 
         if ($request->wantsJson()) {
@@ -134,7 +136,7 @@ class EventDatasController extends Controller
             ]);
         }
 
-        return redirect(route('event_datas.show', $eventData))->with('message', __('Data edited successfully'));
+        return redirect(route('event_data_receps.index'))->with('message', __('Data edited successfully'));
     }
 
     /**

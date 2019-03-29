@@ -79,41 +79,49 @@ module.exports = __webpack_require__(114);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 $(function () {
-				var isConfirm = $('#contracts_form').data('confirm');
-				var $selectTo = $('#select_to'),
-				    $selectRep = $('#select_rep');
+	var isConfirm = $('#contracts_form').data('confirm');
+	var $selectTo = $('#select_to'),
+	    $selectRep = $('#select_rep'),
+	    $selectCs = $('#select_cs');
 
-				$('#contracts_form').validate({
-								submitHandler: isConfirm ? function (form, e) {
-												window.blockPage();
-												e.preventDefault();
+	$('#contracts_form').validate({
+		submitHandler: isConfirm ? function (form, e) {
+			window.blockPage();
+			e.preventDefault();
 
-												$(form).confirmation(function (result) {
-																if (result && (typeof result === 'undefined' ? 'undefined' : _typeof(result)) === 'object' && result.value) {
-																				$(form).submitForm().then(function () {
-																								location.href = route('contracts.index');
-																				});
-																} else {
-																				window.unblock();
-																}
-												});
-								} : false
-				});
+			$(form).confirmation(function (result) {
+				if (result && (typeof result === 'undefined' ? 'undefined' : _typeof(result)) === 'object' && result.value) {
+					$(form).submitForm().then(function () {
+						location.href = route('contracts.index');
+					});
+				} else {
+					window.unblock();
+				}
+			});
+		} : false
+	});
 
-				$selectTo.select2Ajax({
-								url: route('users.list'),
-								data: function data(q) {
-												q.roleId = 8;
-								},
-								column: 'username'
-				});
-				$selectRep.select2Ajax({
-								url: route('users.list'),
-								data: function data(q) {
-												q.roleId = 9;
-								},
-								column: 'username'
-				});
+	$selectTo.select2Ajax({
+		url: route('users.list'),
+		data: function data(q) {
+			q.roleId = 8;
+		},
+		column: 'name'
+	});
+	$selectCs.select2Ajax({
+		url: route('users.list'),
+		data: function data(q) {
+			q.roleId = 12;
+		},
+		column: 'name'
+	});
+	$selectRep.select2Ajax({
+		url: route('users.list'),
+		data: function data(q) {
+			q.roleId = 9;
+		},
+		column: 'name'
+	});
 });
 
 /***/ })
