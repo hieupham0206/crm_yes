@@ -184,11 +184,11 @@ class Appointment extends \App\Models\Base\Appointment
         return $this->hasMany(EventData::class);
     }
 
-    public static function checkPhoneIsShowUp($phone)
+    public static function checkPhoneHasActiveApp($phone)
     {
         return self::whereHas('lead', function ($q) use ($phone) {
             $q->where('phone', $phone);
-        })->where('is_show_up', 1)->exists();
+        })->where('state', 1)->exists();
     }
 
     public static function generateCode()

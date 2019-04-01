@@ -17,10 +17,22 @@ use App\Tables\Business\LeadTable;
 use App\Tables\TableFacade;
 use App\TechAPI\FptSms;
 use Carbon\Carbon;
+use Exception;
+use function get_class;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+use function in_array;
+use Mail;
+use PDO;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Shared\File;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class LeadsController extends Controller
 {
@@ -33,7 +45,7 @@ class LeadsController extends Controller
     /**
      * Hiển thị trang danh sách Lead.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -52,7 +64,7 @@ class LeadsController extends Controller
     /**
      * Trang tạo mới Lead.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function create()
     {
@@ -64,8 +76,8 @@ class LeadsController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Illuminate\Validation\ValidationException
+     * @return RedirectResponse|Redirector
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
@@ -117,7 +129,7 @@ class LeadsController extends Controller
             }
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
@@ -139,7 +151,7 @@ class LeadsController extends Controller
      *
      * @param Lead $lead
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function show(Lead $lead)
     {
@@ -151,7 +163,7 @@ class LeadsController extends Controller
      *
      * @param Lead $lead
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function edit(Lead $lead)
     {
@@ -164,8 +176,8 @@ class LeadsController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param Lead $lead
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Illuminate\Validation\ValidationException
+     * @return RedirectResponse|Redirector
+     * @throws ValidationException
      */
     public function update(Request $request, Lead $lead)
     {
@@ -212,13 +224,13 @@ class LeadsController extends Controller
      *
      * @param Lead $lead
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      */
     public function destroy(Lead $lead)
     {
         try {
             $lead->delete();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => "Error: {$e->getMessage()}",
             ], $e->getCode());
@@ -232,15 +244,15 @@ class LeadsController extends Controller
     /**
      * Xóa nhiều Lead.
      *
-     * @return mixed|\Symfony\Component\HttpFoundation\ParameterBag
-     * @throws \Exception
+     * @return mixed|ParameterBag
+     * @throws Exception
      */
     public function destroys()
     {
         try {
             $ids = \request()->get('ids');
             Lead::destroy($ids);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => "Error: {$e->getMessage()}",
             ], $e->getCode());
@@ -254,7 +266,7 @@ class LeadsController extends Controller
     /**
      * Lấy danh sách Lead theo dạng json
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function leads()
     {
@@ -311,7 +323,7 @@ class LeadsController extends Controller
     /**
      * Lấy danh sách User theo dạng json
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function provinces()
     {
@@ -341,7 +353,7 @@ class LeadsController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function formImport()
     {
@@ -360,10 +372,10 @@ class LeadsController extends Controller
     /**
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function import(Request $request)
     {
@@ -397,7 +409,7 @@ class LeadsController extends Controller
             $currentPhones = $dataFails = [];
 
             $query      = DB::connection()->getPdo()->query('select phone from leads where deleted_at is null');
-            $leadPhones = $query->fetchAll(\PDO::FETCH_COLUMN);
+            $leadPhones = $query->fetchAll(PDO::FETCH_COLUMN);
             $provinces  = Province::get();
 
             $chunks = collect($sheetData)->chunk(1000);
@@ -443,7 +455,7 @@ class LeadsController extends Controller
                             }
                         }
 
-                        if ( ! $isPhoneUnique || \in_array($phone, $currentPhones, true)) {
+                        if ( ! $isPhoneUnique || in_array($phone, $currentPhones, true)) {
                             $totalFail++;
                             $message     = 'Lead đã tồn tại.';
                             $dataFails[] = [
@@ -485,7 +497,7 @@ class LeadsController extends Controller
                             $currentPhones[] = $phone;
 
                             $totalSuccess++;
-                        } catch (\Exception $e) {
+                        } catch (Exception $e) {
                             dd($e->getMessage());
                         }
 
@@ -538,7 +550,7 @@ class LeadsController extends Controller
     /**
      * @param Lead $lead
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function formChangeState(Lead $lead)
     {
@@ -598,7 +610,7 @@ class LeadsController extends Controller
      * @param Lead $lead
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function changeState(Lead $lead, Request $request)
     {
@@ -692,23 +704,23 @@ class LeadsController extends Controller
                 if ($dateTime) {
                     $appointmentDatas['appointment_datetime'] = $dateTime;
                 }
-                if ( ! Appointment::checkPhoneIsShowUp($leadPhone)) {
+                if ( ! Appointment::checkPhoneHasActiveApp($leadPhone)) {
                     $appointment = Appointment::create($appointmentDatas);
-                }
 
-                if ($lead->email) {
-                    $message = (new AppointmentConfirmation(compact('lead', 'appointment')))->onConnection('database')->onQueue('notification');
-                    \Mail::to($email)->queue($message);
-                }
+                    if ($lead->email) {
+                        $message = (new AppointmentConfirmation(compact('lead', 'appointment')))->onConnection('database')->onQueue('notification');
+                        Mail::to($email)->queue($message);
+                    }
 
-                //Gửi sms cho KH
-                if ($lead->phone && (
-                        $lead->state != LeadState::DEAD_NUMBER &&
-                        $lead->state != LeadState::WRONG_NUMBER &&
-                        $lead->state != LeadState::MEMBER) && isset($appointment)
-                ) {
-                    $fptSms = new FptSms();
-                    $fptSms->sendRegisterConfirmation($lead, $appointment, $lead->phone);
+                    //Gửi sms cho KH
+                    if ($lead->phone && (
+                            $lead->state != LeadState::DEAD_NUMBER &&
+                            $lead->state != LeadState::WRONG_NUMBER &&
+                            $lead->state != LeadState::MEMBER) && isset($appointment)
+                    ) {
+                        $fptSms = new FptSms();
+                        $fptSms->sendRegisterConfirmation($lead, $appointment, $lead->phone);
+                    }
                 }
             }
 
@@ -736,7 +748,7 @@ class LeadsController extends Controller
 
             if ( ! empty($caller)) {
                 $callerId = $caller->id;
-                $callType = \get_class($caller);
+                $callType = get_class($caller);
             }
 
             //lưu bảng history_calls
@@ -801,7 +813,7 @@ class LeadsController extends Controller
     {
         if ($lead->email) {
             $message = (new AppointmentConfirmation(compact('lead', 'appointment')))->onConnection('database')->onQueue('notification');
-            \Mail::to($lead->email)->queue($message);
+            Mail::to($lead->email)->queue($message);
 
             return response()->json([
                 'message' => 'Đã gửi lại email',
