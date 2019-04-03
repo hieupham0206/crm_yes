@@ -119,13 +119,23 @@ class LeadsController extends Controller
                         $userId = $lead->user_id;
                     }
                 }
-                $appointment = Appointment::create(array_merge($requestData, [
-                    'user_id' => $userId,
-                ]));
 
-                $requestData['appointment_id'] = $appointment->id;
+                //note: kiem tra lead nay da co app = 1 chua, co r thi khong cho tạo app nữa
+                $activeApp = Appointment::where('lead_id', $lead->id)->where('state', 1)->get();
 
-                EventData::create($requestData);
+                if ($activeApp->isEmpty()) {
+                    $appointment = Appointment::create(array_merge($requestData, [
+                        'user_id' => $userId,
+                    ]));
+
+                    $requestData['appointment_id'] = $appointment->id;
+
+                    EventData::create($requestData);
+                } else {
+                    return response()->json([
+                        'message' => 'Thông tin lead đã tồn tại lịch hẹn.',
+                    ]);
+                }
             }
 
             DB::commit();

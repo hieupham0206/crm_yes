@@ -370,6 +370,12 @@ $(function() {
 					// $('#modal_md').showModal({
 					// 	url: url, method: 'get',
 					// })
+
+					let obj = result['data']
+					flash(obj.message)
+
+					tableEventData.reload()
+					tableAppointment.reload()
 				}).catch(e => console.log(e)).finally(() => {
 					unblock()
 				})

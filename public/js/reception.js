@@ -469,6 +469,12 @@ $(function () {
 					// $('#modal_md').showModal({
 					// 	url: url, method: 'get',
 					// })
+
+					var obj = result['data'];
+					flash(obj.message);
+
+					tableEventData.reload();
+					tableAppointment.reload();
 				}).catch(function (e) {
 					return console.log(e);
 				}).finally(function () {

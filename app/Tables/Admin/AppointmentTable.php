@@ -59,14 +59,13 @@ class AppointmentTable extends DataTable
      */
     public function getModels($getAll = false)
     {
-        $appointments = Appointment::query()->with(['lead', 'user']);
+        $appointments = Appointment::query()->with(['lead', 'user'])
+                                            ->where('is_queue', '>', 1);
 
         if ( ! $getAll) {
-            $appointments = $appointments->where('state', Confirmation::YES)
-                                         ->where('is_queue', '>', 1);
+            $appointments = $appointments->where('state', Confirmation::YES);
         } elseif (! empty($this->filters['not_qa_and_not_has_deal'])) {
-            $appointments = $appointments->doesntHave('event_datas')
-                                         ->where('is_queue', '>', 1);
+            $appointments = $appointments->doesntHave('event_datas');
         }
 
         $this->totalFilteredRecords = $this->totalRecords = $appointments->count();
