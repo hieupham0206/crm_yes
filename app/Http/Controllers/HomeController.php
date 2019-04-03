@@ -71,9 +71,9 @@ class HomeController extends Controller
             }
         } elseif ($isCheckedIn) {
             if ($isLoadPrivateOnly) {
-                $lead = Lead::where('user_id', $user->id)->stateAvailableToCall()->where('is_private', 1)->first();
+                $lead = Lead::where('user_id', $user->id)->orderBy('created_at')->orderBy('state')->stateAvailableToCall()->where('is_private', 1)->first();
             } else {
-                $lead = Lead::where('user_id', $user->id)->stateAvailableToCall()->first();
+                $lead = Lead::where('user_id', $user->id)->orderBy('created_at')->orderBy('state')->stateAvailableToCall()->first();
             }
             $lead = $lead ?? Lead::getAvailable()->first();
             if ($lead) {
