@@ -6,8 +6,7 @@ use App\Enums\Confirmation;
 use App\Enums\HistoryCallType;
 use App\Enums\UserState;
 use App\Traits\{Core\Labelable, Core\Linkable, Core\Modelable, Core\Queryable, Core\Searchable, Core\UserOnlineTrait};
-use Illuminate\{Database\Eloquent\SoftDeletes, Foundation\Auth\User as Authenticatable, Notifications\Notifiable, Support\Carbon, Support\Facades\Cache, Support\Facades\Session};
-use Psr\SimpleCache\InvalidArgumentException;
+use Illuminate\{Database\Eloquent\SoftDeletes, Foundation\Auth\User as Authenticatable, Notifications\Notifiable, Support\Carbon, Support\Facades\Cache};
 use Spatie\{Activitylog\Traits\LogsActivity, Permission\Traits\HasRoles};
 
 /**
@@ -149,7 +148,7 @@ class User extends Authenticatable
             } elseif ($this->isPause()) {
                 $class      = ' m--bg-primary';
                 $classModal = ' modal-primary';
-            } elseif ($this->isOnline()) {
+            } elseif ($this->isCallOvertime()) {
                 $class      = ' m--bg-danger';
                 $classModal = ' modal-danger';
             }
@@ -158,6 +157,16 @@ class User extends Authenticatable
         }
 
         return [$this->bgClassOnDashboard, $this->bgClassModal];
+    }
+
+    public function isCallOvertime()
+    {
+        $callCache = $this->getCallCache();
+        $callAt    = $callCache['callAt'];
+
+        $duration = now()->diffInSeconds($callAt);
+
+        return $duration >= 15 * 60;
     }
 
     public function actor()
@@ -327,32 +336,39 @@ class User extends Authenticatable
 
     public function getLoginTimeStringAttribute()
     {
-//        $lastLoginTime = $this->last_login;
-        $lastAudit = $this->getLatestAudit();
-        if ( ! $lastAudit) {
-            return '0:0:0';
+        $lastLoginTime = $this->last_login;
+//        $lastAudit = $this->getLatestAudit();
+//        if ( ! $lastAudit) {
+//            return '0:0:0';
+//        }
+//
+//        $lastLoginTime = $lastAudit->time_in;
+//        $oldestAudit   = $this->getOldestAuditOffToday();
+//
+//        if ($oldestAudit && $oldestAudit->isNot($lastAudit)) {
+//            $lastLoginTime = $oldestAudit->time_in;
+//        }
+
+        $basetime = Carbon::create(date('Y'), date('m'), date('d'), 9, 0, 0);
+
+        if ($basetime < $lastLoginTime) {
+            $diffTime = now()->diffAsCarbonInterval($lastLoginTime);
+
+            return "{$diffTime->h}:{$diffTime->i}:{$diffTime->s}";
         }
 
-        $lastLoginTime = $lastAudit->time_in;
-        $oldestAudit   = $this->getOldestAuditOffToday();
+        return '0:0:0';
 
-        if ($oldestAudit && $oldestAudit->isNot($lastAudit)) {
-            $lastLoginTime = $oldestAudit->time_in;
-        }
-
-        $diffTime = now()->diffAsCarbonInterval($lastLoginTime);
-
-        return "{$diffTime->h}:{$diffTime->i}:{$diffTime->s}";
     }
 
     public function getLoginTimeInSecondAttribute()
     {
-//        $lastLoginTime = $this->last_login;
-        $lastAudit = $this->getLatestAudit();
-        if ( ! $lastAudit) {
-            return 0;
-        }
-        $lastLoginTime = $lastAudit->time_in;
+        $lastLoginTime = $this->last_login;
+//        $lastAudit = $this->getLatestAudit();
+//        if ( ! $lastAudit) {
+//            return 0;
+//        }
+//        $lastLoginTime = $lastAudit->time_in;
 
         return now()->diffAsCarbonInterval($lastLoginTime)->totalSeconds;
     }
@@ -428,10 +444,13 @@ class User extends Authenticatable
 
     public function isCheckedIn()
     {
-        $lastAudit = $this->getLatestAudit();
+//        $lastAudit = $this->getLatestAudit();
+//
+//        return ! empty($lastAudit);
 
-//        dd($lastAudit);
-        return ! empty($lastAudit);
+        $basetime = Carbon::create(date('Y'), date('m'), date('d'), 9, 0, 0);
+
+        return $this->last_login > $basetime;
     }
 
     public function isLoadPrivateOnly()
@@ -485,11 +504,4 @@ class User extends Authenticatable
 
         return $shortName;
     }
-
-//    public function resolveRouteBinding($value)
-//    {
-//        return $this->withCount(['appointments' => function($query) {
-//            $query->whereDate('created_at', Carbon::today());
-//        }]);
-//    }
 }

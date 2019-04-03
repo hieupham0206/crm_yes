@@ -29,13 +29,13 @@
                             <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_pause" style="display: {{ $isCheckedIn ? 'block' : 'none' }}">
                                 <span><i class="fa fa-pause"></i><span>@lang('Pause')</span></span>
                             </button>
-                            @if ($isCheckedIn)
-                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_check_in" style="display: none">
-                                    <span><i class="fa fa-check"></i><span>@lang('Check in')</span></span>
-                                </button>
-                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_check_out">
-                                    <span><i class="fa fa-sign-out-alt"></i><span>@lang('Check out')</span></span>
-                                </button>
+{{--                            @if ($isCheckedIn)--}}
+{{--                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_check_in" style="display: none">--}}
+{{--                                    <span><i class="fa fa-check"></i><span>@lang('Check in')</span></span>--}}
+{{--                                </button>--}}
+{{--                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_check_out">--}}
+{{--                                    <span><i class="fa fa-sign-out-alt"></i><span>@lang('Check out')</span></span>--}}
+{{--                                </button>--}}
 
                                 @if ($isLoadPrivateOnly)
                                     <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_load_private" style="display: none">
@@ -52,20 +52,20 @@
                                         <span><i class="fa fa-sign-out-alt"></i><span>@lang('Load public')</span></span>
                                     </button>
                                 @endif
-                            @else
-                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_load_private" style="display: none">
-                                    <span><i class="fa fa-check"></i><span>@lang('Load private')</span></span>
-                                </button>
-                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_not_load_private" style="display: none">
-                                    <span><i class="fa fa-sign-out-alt"></i><span>@lang('Load public')</span></span>
-                                </button>
-                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_check_in">
-                                    <span><i class="fa fa-check"></i><span>@lang('Check in')</span></span>
-                                </button>
-                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_check_out" style="display: none">
-                                    <span><i class="fa fa-sign-out-alt"></i><span>@lang('Check out')</span></span>
-                                </button>
-                            @endif
+{{--                            @else--}}
+{{--                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_load_private" style="display: none">--}}
+{{--                                    <span><i class="fa fa-check"></i><span>@lang('Load private')</span></span>--}}
+{{--                                </button>--}}
+{{--                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_not_load_private" style="display: none">--}}
+{{--                                    <span><i class="fa fa-sign-out-alt"></i><span>@lang('Load public')</span></span>--}}
+{{--                                </button>--}}
+{{--                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_check_in">--}}
+{{--                                    <span><i class="fa fa-check"></i><span>@lang('Check in')</span></span>--}}
+{{--                                </button>--}}
+{{--                                <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom mr-2" id="btn_check_out" style="display: none">--}}
+{{--                                    <span><i class="fa fa-sign-out-alt"></i><span>@lang('Check out')</span></span>--}}
+{{--                                </button>--}}
+{{--                            @endif--}}
                             <button class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--custom" id="btn_resume" data-url="{{ route('users.resume') }}" style="display: none">
                                 <span><i class="fa fa-play"></i><span>@lang('Resume')</span></span>
                             </button>
