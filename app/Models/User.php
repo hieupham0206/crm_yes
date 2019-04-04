@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Confirmation;
 use App\Enums\HistoryCallType;
+use App\Enums\LeadState;
 use App\Enums\UserState;
 use App\Traits\{Core\Labelable, Core\Linkable, Core\Modelable, Core\Queryable, Core\Searchable, Core\UserOnlineTrait};
 use Illuminate\{Database\Eloquent\SoftDeletes, Foundation\Auth\User as Authenticatable, Notifications\Notifiable, Support\Carbon, Support\Facades\Cache};
@@ -319,6 +320,19 @@ class User extends Authenticatable
     public function commissions()
     {
         return $this->hasMany(Commission::class);
+    }
+
+    public function privates()
+    {
+        return $this->hasMany(Lead::class)
+                    ->where('is_private', 1);
+    }
+
+    public function private_stills()
+    {
+        return $this->hasMany(Lead::class)
+                    ->where('is_private', 1)
+                    ->where('state', LeadState::NEW_CUSTOMER);
     }
 
     public function ambassadors()

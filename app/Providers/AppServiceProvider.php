@@ -44,9 +44,11 @@ class AppServiceProvider extends ServiceProvider
             }
         });
         \Route::bind('user', function ($value) {
-            return User::whereKey($value)->withCount(['appointments' => function($query) {
+            return User::whereKey($value)->withCount([
+                'appointments' => function($query) {
                     $query->whereDate('created_at', Carbon::today());
-                }])->first() ?? abort(404);
+                }
+                ])->with(['privates', 'private_stills'])->first() ?? abort(404);
         });
 
         //force https trong môi trưởng production

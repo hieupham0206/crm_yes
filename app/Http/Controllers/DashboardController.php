@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
@@ -34,8 +35,12 @@ class DashboardController extends Controller
     {
         $filter = request()->get('filter');
 
-        $users = User::whereKeyNot(1)->withCount(['appointments'])
-                     ->role([6, 9])->orderBy('last_login', 'desc')->get();
+        $users = User::whereKeyNot(1)->withCount([
+            'appointments' => function ($q) {
+                $q->whereDate('appointment_datetime', Carbon::today());
+            },
+            'privates', 'private_stills'
+        ])->role([6, 9])->orderBy('last_login', 'desc')->get();
 
         if ($filter) {
             switch ($filter) {

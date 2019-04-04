@@ -33,6 +33,12 @@
                         <h4 class="m-widget24__title float-right">
                             Appointment: {{ $user->appointments_count }}
                         </h4>
+                        <h4 class="m-widget24__title float-right">
+                            Private: {{ $user->privates->count() }}
+                        </h4>
+                        <h4 class="m-widget24__title float-right">
+                            Still: {{ $user->private_stills->count() }}
+                        </h4>
                         <div class="m--space-10"></div>
                         <br>
                         @if ($user->current_state == 'In call')

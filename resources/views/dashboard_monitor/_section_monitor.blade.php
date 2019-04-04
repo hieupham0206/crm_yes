@@ -13,8 +13,11 @@
                         {{--{{ $user->isOnline() ? $user->login_time_string : '00:00:00' }}--}}
                     {{--</span>--}}
                 {{--</h5>--}}
-                <h5 class="m-widget24__title text-center">
+                <h5 class="m-widget24__title" style="width: 100%">
                     Call: {{ $callCache['totalCall'] }}
+                </h5>
+                <h5 class="m-widget24__title" style="width: 100%">
+                    {!! $user->getShortName()!!}(still): {{ $user->private_stills->count() }}
                 </h5>
                 <br>
                 {{--<span class="m-widget24__stats m--font-danger float-none" style="margin-left: 1.8rem">--}}
