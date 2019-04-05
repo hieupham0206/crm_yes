@@ -32,6 +32,7 @@ $breadcrumbs = ['breadcrumb' => 'event_datas.index'];
                             <th>{{ $eventData->label('date') }}</th>
                             <th>{{ $eventData->label('name') }}</th>
                             <th>{{ $eventData->label('phone') }}</th>
+                            <th>{{ $eventData->label('voucher') }}</th>
                             <th>{{ $eventData->label('code') }}</th>
                             <th>{{ $eventData->label('TO') }}</th>
                             <th>{{ $eventData->label('CS') }}</th>

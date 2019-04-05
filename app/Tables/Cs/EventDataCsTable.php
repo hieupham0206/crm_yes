@@ -69,6 +69,7 @@ class EventDataCsTable extends DataTable
                 $leadName,
                 $leadPhone,
                 $eventData->code,
+                $eventData->appointment->code,
                 optional($eventData->to)->name,
                 optional($eventData->cs)->name,
                 optional($eventData->rep)->name,
