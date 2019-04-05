@@ -6,7 +6,7 @@
                     $callCache = $user->getCallCache()
                 @endphp
                 <h4 class="text-center">
-                    <a href="javascript:void(0)" class="m-link link-form-detail" data-url="{{ route('monitor_sale.form_detail', $user) }}">{!! $user->getShortName()!!}</a>
+                    <a href="javascript:void(0)" class="m-link link-form-detail" data-url="{{ route('monitor_sale.form_detail', $user) }}">{!! $user->getShortName()!!} ({{ $user->private_stills->count() }})</a>
                 </h4>
                 {{--<h5 class="m-widget24__title text-center">--}}
                     {{--<span class="span-login-time" data-time-in-second="{{ $user->login_time_in_second }}" data-is-online="{{ $user->isOnline() ? 'true' : 'false' }}">--}}
@@ -16,9 +16,9 @@
                 <h5 class="m-widget24__title" style="width: 100%">
                     Call: {{ $callCache['totalCall'] }}
                 </h5>
-                <h5 class="m-widget24__title" style="width: 100%">
-                    {!! $user->getShortName()!!}(still): {{ $user->private_stills->count() }}
-                </h5>
+{{--                <h5 class="m-widget24__title" style="width: 100%">--}}
+{{--                    {!! $user->getShortName()!!}(still): {{ $user->private_stills->count() }}--}}
+{{--                </h5>--}}
                 <br>
                 {{--<span class="m-widget24__stats m--font-danger float-none" style="margin-left: 1.8rem">--}}
                     {{--{!! $user->current_state !!}--}}
