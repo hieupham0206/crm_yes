@@ -48,11 +48,11 @@
         </div>
         <div class="col-12 col-md-3 m-form__group-sub">
             <div class="form-group">
-                <label for="select_is_queue">{{ 'Trạng thái queue' }}</label>
-                <select name="is_queue" id="select_is_queue" class="select">
+                <label for="select_state">{{ 'Trạng thái' }}</label>
+                <select name="state" id="select_state" class="select">
                     <option></option>
-                    <option value="-1">Not queue</option>
-                    <option value="1">Queue</option>
+                    <option value="-1">Không sử dụng</option>
+                    <option value="1">Sử dụng</option>
                 </select>
             </div>
         </div>
