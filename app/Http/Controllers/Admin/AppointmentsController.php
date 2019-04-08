@@ -206,15 +206,14 @@ class AppointmentsController extends Controller
 
     public function autoCancel()
     {
-        $time      = Carbon::now();
-        $endOfDate = Carbon::create($time->year, $time->month, $time->day, 23, 0, 0);
+//        $time      = Carbon::now();
+//        $endOfDate = Carbon::create($time->year, $time->month, $time->day, 23, 0, 0);
 
-        if (now() >= $endOfDate) {
-            return Appointment::where('appointment_datetime', '<', Carbon::now()->subHours(2)->toDateTimeString())->update([
+//        if (now() >= $endOfDate) {
+            return Appointment::where('appointment_datetime', '<', Carbon::now()->subHours(12)->toDateTimeString())->update([
                 'state' => -1,
             ]);
-        }
-
+//        }
     }
 
     public function doQueue(Appointment $appointment)
