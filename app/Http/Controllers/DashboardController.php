@@ -39,8 +39,7 @@ class DashboardController extends Controller
             'appointments' => function ($q) {
                 $q->whereDate('appointment_datetime', Carbon::today());
             },
-            'privates', 'private_stills'
-        ])->role([6, 9])->orderBy('last_login', 'desc')->get();
+        ])->with(['privates', 'private_stills', 'call_todays'])->role([6, 9])->orderBy('last_login', 'desc')->get();
 
         if ($filter) {
             switch ($filter) {

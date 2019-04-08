@@ -14,7 +14,8 @@
                     {{--</span>--}}
                 {{--</h5>--}}
                 <h5 class="m-widget24__title" style="width: 100%">
-                    Call: {{ $callCache['totalCall'] }}
+{{--                    Call: {{ $callCache['totalCall'] }}--}}
+                    Call: {{ $user->call_todays->count() }}
                 </h5>
 {{--                <h5 class="m-widget24__title" style="width: 100%">--}}
 {{--                    {!! $user->getShortName()!!}(still): {{ $user->private_stills->count() }}--}}

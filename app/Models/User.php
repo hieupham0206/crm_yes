@@ -335,6 +335,12 @@ class User extends Authenticatable
                     ->where('state', LeadState::NEW_CUSTOMER);
     }
 
+    public function call_todays()
+    {
+        return $this->hasMany(HistoryCall::class)
+                    ->where('created_at', \Carbon\Carbon::today());
+    }
+
     public function ambassadors()
     {
         return $this->hasMany(Appointment::class, 'ambassador', 'id');

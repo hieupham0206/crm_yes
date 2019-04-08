@@ -79,7 +79,7 @@ $(function() {
 
 	setInterval(() => {
 		loadSectionMonitor()
-	}, 5000)
+	}, 1000 * 60 * 5)
 
 	//5p load trang 1 lần
 

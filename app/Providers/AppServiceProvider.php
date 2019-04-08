@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
                 'appointments' => function($query) {
                     $query->whereDate('created_at', Carbon::today());
                 }
-                ])->with(['privates', 'private_stills'])->first() ?? abort(404);
+                ])->with(['privates', 'private_stills', 'call_todays'])->first() ?? abort(404);
         });
 
         //force https trong môi trưởng production
