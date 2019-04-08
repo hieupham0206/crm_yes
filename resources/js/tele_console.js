@@ -764,21 +764,21 @@ $(function() {
 		}
 	})
 
-	$('.m-menu__submenu .m-menu__subnav .m-menu__link').on('click', function(e) {
-		e.preventDefault()
-
-		let url = $(this).attr('href')
-		if (url.includes('business')) {
-			let isCheckedIn = $('#txt_is_checked_in').val()
-			if (isCheckedIn === '1') {
-				flash('Vui lòng checkout để chuyển trang', 'warning')
-			} else {
-				location.href = url
-			}
-		} else {
-			location.href = url
-		}
-	})
+	// $('.m-menu__submenu .m-menu__subnav .m-menu__link').on('click', function(e) {
+	// 	e.preventDefault()
+	//
+	// 	let url = $(this).attr('href')
+	// 	if (url.includes('business')) {
+	// 		let isCheckedIn = $('#txt_is_checked_in').val()
+	// 		if (isCheckedIn === '1') {
+	// 			flash('Vui lòng checkout để chuyển trang', 'warning')
+	// 		} else {
+	// 			location.href = url
+	// 		}
+	// 	} else {
+	// 		location.href = url
+	// 	}
+	// })
 
 	$('#btn_cancel_appointment').on('click', function() {
 		let appointmentId = $('#txt_appointment_id').val()

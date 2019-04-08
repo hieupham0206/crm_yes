@@ -70,7 +70,7 @@ class AppointmentsController extends Controller
     /**
      * Trang xem chi tiết Appointment.
      *
-     * @param  Appointment $appointment
+     * @param Appointment $appointment
      *
      * @return \Illuminate\View\View
      */
@@ -82,7 +82,7 @@ class AppointmentsController extends Controller
     /**
      * Trang cập nhật Appointment.
      *
-     * @param  Appointment $appointment
+     * @param Appointment $appointment
      *
      * @return \Illuminate\View\View
      */
@@ -95,7 +95,7 @@ class AppointmentsController extends Controller
      * Cập nhật Appointment tương ứng.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  Appointment $appointment
+     * @param Appointment $appointment
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Validation\ValidationException
@@ -206,9 +206,15 @@ class AppointmentsController extends Controller
 
     public function autoCancel()
     {
-        return Appointment::where('appointment_datetime', '<', Carbon::now()->subHours(2)->toDateTimeString())->update([
-            'state' => -1,
-        ]);
+        $time      = Carbon::now();
+        $endOfDate = Carbon::create($time->year, $time->month, $time->day, 23, 0, 0);
+
+        if (now() >= $endOfDate) {
+            return Appointment::where('appointment_datetime', '<', Carbon::now()->subHours(2)->toDateTimeString())->update([
+                'state' => -1,
+            ]);
+        }
+
     }
 
     public function doQueue(Appointment $appointment)
@@ -230,7 +236,7 @@ class AppointmentsController extends Controller
 
             $eventDataOfLead = EventData::whereLeadId($appointment->lead_id)->first();
 
-            if (! $eventDataOfLead) {
+            if ( ! $eventDataOfLead) {
 //                $eventDataOfLead->update([
 //                    'appointment_id' => $appointment->id,
 //                ]);
