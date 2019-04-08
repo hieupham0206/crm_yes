@@ -27,6 +27,11 @@ class AdminitrativeUnitSeeder extends Seeder
 
             $datas = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             foreach ($datas as $key => $data) {
+
+                if ($key === 1) {
+                    continue;
+                }
+
                 $cityName = $data['A'];
                 $cityCode = $data['B'];
 

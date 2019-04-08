@@ -100,6 +100,18 @@ $(function () {
 			window.blockPage();
 			e.preventDefault();
 
+			var addVal = $('#txt_address').val();
+			var city = $('#select_address_city').select2('data')[0]['text'];
+			var county = $('#select_address_county').select2('data')[0]['county_name'];
+			var ward = $('#select_address_ward').select2('data')[0]['ward_name'];
+			$('#txt_hidden_address').val(addVal + ' ' + ward + ', ' + county + ', ' + city);
+
+			var addTmpVal = $('#txt_temp_address').val();
+			var cityTmp = $('#select_tmp_address_city').select2('data')[0]['text'];
+			var countyTmp = $('#select_tmp_address_county').select2('data')[0]['county_name'];
+			var wardTmp = $('#select_tmp_address_ward').select2('data')[0]['ward_name'];
+			$('#txt_hidden_temp_address').val(addTmpVal + ' ' + wardTmp + ', ' + countyTmp + ', ' + cityTmp);
+
 			$(form).confirmation(function (result) {
 				if (result && (typeof result === 'undefined' ? 'undefined' : _typeof(result)) === 'object' && result.value) {
 					var fd = new FormData(form);
@@ -152,26 +164,6 @@ $(function () {
 		},
 
 		column: 'ward_name'
-	});
-
-	$('#txt_address').on('change', function () {
-		var addVal = $(this).val();
-		var city = $('#select_address_city').select2('data')[0]['text'];
-		var county = $('#select_address_county').select2('data')[0]['county_name'];
-		var ward = $('#select_address_ward').select2('data')[0]['ward_name'];
-		if (addVal) {
-			$('#txt_hidden_address').val(addVal + ' ' + ward + ' ' + county + ' ' + city);
-		}
-	});
-
-	$('#txt_tmp_address').on('change', function () {
-		var addVal = $(this).val();
-		var city = $('#select_tmp_address_city').select2('data')[0]['text'];
-		var county = $('#select_tmp_address_county').select2('data')[0]['county_name'];
-		var ward = $('#select_tmp_address_ward').select2('data')[0]['ward_name'];
-		if (addVal) {
-			$('#txt_hidden_temp_address').val(addVal + ' ' + ward + ' ' + county + ' ' + city);
-		}
 	});
 
 	function loadBankBasedOnPaymentMethod(paymentMethod, selectSelector, textSelector) {

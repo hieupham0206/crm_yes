@@ -20,6 +20,18 @@ $(function() {
 			window.blockPage()
 			e.preventDefault()
 
+			let addVal = $('#txt_address').val()
+			let city = $('#select_address_city').select2('data')[0]['text']
+			let county = $('#select_address_county').select2('data')[0]['county_name']
+			let ward = $('#select_address_ward').select2('data')[0]['ward_name']
+			$('#txt_hidden_address').val(`${addVal} ${ward}, ${county}, ${city}`)
+
+			let addTmpVal = $('#txt_temp_address').val()
+			let cityTmp = $('#select_tmp_address_city').select2('data')[0]['text']
+			let countyTmp = $('#select_tmp_address_county').select2('data')[0]['county_name']
+			let wardTmp = $('#select_tmp_address_ward').select2('data')[0]['ward_name']
+			$('#txt_hidden_temp_address').val(`${addTmpVal} ${wardTmp}, ${countyTmp}, ${cityTmp}`)
+
 			$(form).confirmation(result => {
 				if (result && (typeof result === 'object' && result.value)) {
 					let fd = new FormData(form)
@@ -44,7 +56,7 @@ $(function() {
 		data(q) {
 			q.cityCode = $('#select_address_city').val()
 		},
-		column: 'county_name'
+		column: 'county_name',
 	})
 
 	$('#select_address_ward').select2Ajax({
@@ -52,14 +64,14 @@ $(function() {
 			q.cityCode = $('#select_address_city').val()
 			q.countyCode = $('#select_address_county').val() ? $('#select_address_county').select2('data')[0]['county_code'] : 0
 		},
-		column: 'ward_name'
+		column: 'ward_name',
 	})
 
 	$('#select_tmp_address_county').select2Ajax({
 		data(q) {
 			q.cityCode = $('#select_tmp_address_city').val()
 		},
-		column: 'county_name'
+		column: 'county_name',
 	})
 
 	$('#select_tmp_address_ward').select2Ajax({
@@ -67,33 +79,12 @@ $(function() {
 			q.cityCode = $('#select_tmp_address_city').val()
 			q.countyCode = $('#select_tmp_address_county').val() ? $('#select_tmp_address_county').select2('data')[0]['county_code'] : 0
 		},
-		column: 'ward_name'
-	})
-
-	$('#txt_address').on('change', function() {
-		let addVal = $(this).val()
-		let city = $('#select_address_city').select2('data')[0]['text']
-		let county = $('#select_address_county').select2('data')[0]['county_name']
-		let ward = $('#select_address_ward').select2('data')[0]['ward_name']
-		if (addVal) {
-			$('#txt_hidden_address').val(`${addVal} ${ward} ${county} ${city}`)
-		}
-	})
-
-	$('#txt_tmp_address').on('change', function() {
-		let addVal = $(this).val()
-		let city = $('#select_tmp_address_city').select2('data')[0]['text']
-		let county = $('#select_tmp_address_county').select2('data')[0]['county_name']
-		let ward = $('#select_tmp_address_ward').select2('data')[0]['ward_name']
-		if (addVal) {
-			$('#txt_hidden_temp_address').val(`${addVal} ${ward} ${county} ${city}`)
-		}
+		column: 'ward_name',
 	})
 
 	function loadBankBasedOnPaymentMethod(paymentMethod, selectSelector, textSelector) {
 		if (paymentMethod !== '') {
-			selectSelector.prop('disabled', false)
-			.empty().trigger('change')
+			selectSelector.prop('disabled', false).empty().trigger('change')
 			axios.get(route('payment_costs.get_bank'), {
 				params: {
 					method: paymentMethod,

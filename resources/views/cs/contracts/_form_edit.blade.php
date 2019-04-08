@@ -140,28 +140,87 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('address') ? 'has-danger' : ''}}">
-                <label for="txt_address">Địa chỉ liên lạc</label>
-                <input class="form-control" name="address" type="text" id="txt_address" value="{{ $member->address ?? old('address')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
-                <span class="m-form__help"></span>
-                {!! $errors->first('address', '<div class="form-control-feedback">:message</div>') !!}
+            <div class="col-12 row">
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+                    <label for="select_province">Tỉnh/Thành phố</label>
+                    <select name="city" class="form-control select" id="select_address_city">
+                        <option></option>
+                        @foreach ($cities as $city)
+                            <option value="{{ $city->city_code }}">{{ $city->city_name }}</option>
+                        @endforeach
+                    </select>
+                    <span class="m-form__help"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+                    <label for="select_province">Quận/huyện</label>
+                    <select name="city" class="form-control select" id="select_address_county" data-url={{ route('contracts.county.list') }}>
+                        <option></option>
+                    </select>
+                    <span class="m-form__help"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+                    <label for="select_province">Phường/xã</label>
+                    <select name="city" class="form-control" id="select_address_ward" data-url={{ route('contracts.ward.list') }}>
+                        <option></option>
+                    </select>
+                    <span class="m-form__help"></span>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('address') ? 'has-danger' : ''}}">
+                    <label for="txt_address">Địa chỉ liên lạc</label>
+                    <input class="form-control" type="text" id="txt_address" value="{{ $member->address ?? old('address')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
+                    <input name="address" type="hidden"  id="txt_hidden_address" value="{{ $member->address ?? old('address')}}">
+                    <span class="m-form__help"></span>
+                    {!! $errors->first('address', '<div class="form-control-feedback">:message</div>') !!}
+                </div>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('temp_address') ? 'has-danger' : ''}}">
-                <label for="txt_temp_address">Địa chỉ thường trú</label>
-                <input class="form-control" name="temp_address" type="text" id="txt_temp_address" value="{{ $member->temp_address ?? old('temp_address')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
-                <span class="m-form__help"></span>
-                {!! $errors->first('temp_address', '<div class="form-control-feedback">:message</div>') !!}
+            <div class="col-12 row">
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+                    <label for="select_province">Tỉnh/Thành phố</label>
+                    <select name="city" class="form-control select" id="select_tmp_address_city">
+                        <option></option>
+                        @foreach ($cities as $city)
+                            <option value="{{ $city->city_code }}">{{ $city->city_name }}</option>
+                        @endforeach
+                    </select>
+                    <span class="m-form__help"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+                    <label for="select_province">Quận/huyện</label>
+                    <select name="city" class="form-control select" id="select_tmp_address_county" data-url={{ route('contracts.county.list') }}>
+                        <option></option>
+                    </select>
+                    <span class="m-form__help"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub">
+                    <label for="select_province">Phường/xã</label>
+                    <select name="city" class="form-control" id="select_tmp_address_ward" data-url={{ route('contracts.ward.list') }}>
+                        <option></option>
+                    </select>
+                    <span class="m-form__help"></span>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('temp_address') ? 'has-danger' : ''}}">
+                    <label for="txt_temp_address">Địa chỉ thường trú</label>
+                    <input class="form-control" name="temp_address" type="text" id="txt_temp_address" value="{{ $member->temp_address ?? old('temp_address')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
+                    <input name="temp_address" type="hidden"  id="txt_hidden_temp_address" value="{{ $member->temp_address ?? old('temp_address')}}">
+                    <span class="m-form__help"></span>
+                    {!! $errors->first('temp_address', '<div class="form-control-feedback">:message</div>') !!}
+                </div>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('city') ? 'has-danger' : ''}}">
-                <label for="select_province">Chi nhánh</label>
-                <select name="city" class="form-control" id="select_province" data-url="{{ route('leads.provinces.table') }}">
-                    <option></option>
-                    @if ($member->city)
-                        <option value="{{ $member->city }}" selected>{{ $member->province->name }}</option>
-                    @endif
-                </select>
-                <span class="m-form__help"></span>
-                {!! $errors->first('city', '<div class="form-control-feedback">:message</div>') !!}
+            <div class="col-12 row">
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('city') ? 'has-danger' : ''}}">
+                    <label for="select_province">Chi nhánh</label>
+                    <select name="city" class="form-control" id="select_province" data-url="{{ route('leads.provinces.table') }}" required>
+                        <option></option>
+                        @if ($member->city)
+                            <option value="{{ $member->city }}" selected>{{ $member->province->name }}</option>
+                        @endif
+                    </select>
+                    <span class="m-form__help"></span>
+                    {!! $errors->first('city', '<div class="form-control-feedback">:message</div>') !!}
+                </div>
+
             </div>
         </div>
         {{--<div class="form-group m-form__group row"></div>--}}

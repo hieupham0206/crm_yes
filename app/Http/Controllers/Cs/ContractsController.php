@@ -280,6 +280,7 @@ class ContractsController extends Controller
     {
         $paymentDetails     = $contract->payment_details;
         $firstPaymentDetail = $paymentDetails->first();
+        $cities             = AdministrativeUnit::select(['city_name', 'city_code'])->groupBy(['city_code'])->get();
 
         return view('cs.contracts.edit', [
             'contract'           => $contract,
@@ -289,6 +290,7 @@ class ContractsController extends Controller
             'member'             => $contract->member,
             'paymentCost'        => new PaymentCost,
             'method'             => 'put',
+            'cities'             => $cities,
             'action'             => route('contracts.update', $contract),
         ]);
     }
