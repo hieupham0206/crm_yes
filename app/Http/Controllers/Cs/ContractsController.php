@@ -64,19 +64,19 @@ class ContractsController extends Controller
         $lead        = $appointment->lead;
 
         $contract = new Contract;
-        $contract->fill([
-            'contract_no'    => time(),
-//            'contract_no'    => '1548129013',
-            'amount'         => '1000000',
-            'signed_date'    => '22-01-2019',
-            'start_date'     => '22-01-2019',
-            'membership'     => 1,
-            'room_type'      => 1,
-            'limit'          => 1,
-            'end_time'       => 1,
-            'num_of_payment' => 2,
-            'pay_date'       => '22-01-2019',
-        ]);
+//        $contract->fill([
+//            'contract_no'    => time(),
+////            'contract_no'    => '1548129013',
+//            'amount'         => '1000000',
+//            'signed_date'    => '22-01-2019',
+//            'start_date'     => '22-01-2019',
+//            'membership'     => 1,
+//            'room_type'      => 1,
+//            'limit'          => 1,
+//            'end_time'       => 1,
+//            'num_of_payment' => 2,
+//            'pay_date'       => '22-01-2019',
+//        ]);
 
         $cities = AdministrativeUnit::select(['city_name', 'city_code'])->groupBy(['city_code'])->get();
 
@@ -143,12 +143,12 @@ class ContractsController extends Controller
             //note: gửi sms/email welcome letter
             if ($member->email) {
                 $message = (new WelcomeLetter([]))->onConnection('database')->onQueue('notification');
-//                \Mail::to($member->email)->queue($message);
+                \Mail::to($member->email)->queue($message);
             }
 
             if ($member->phone) {
                 $fptSms = new FptSms();
-//                $fptSms->sendWelcome($contract->contract_no, $member->phone);
+                $fptSms->sendWelcome($contract->contract_no, $member->phone);
             }
 
             //note: cập nhật state của lead thành member
