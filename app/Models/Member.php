@@ -166,14 +166,14 @@ class Member extends \App\Models\Base\Member
     public function setBirthdayAttribute($value)
     {
         if ($value) {
-            $this->attributes['spouse_birthday'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+            $this->attributes['birthday'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
         }
     }
 
     public function setSpouseBirthdayAttribute($value)
     {
         if ($value) {
-            $this->attributes['birthday'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+            $this->attributes['spouse_birthday'] = $value instanceof DateTime ? $value->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $value)->toDateString();
         }
     }
 

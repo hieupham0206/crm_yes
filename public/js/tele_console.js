@@ -168,6 +168,7 @@ $(function () {
 					var items = result.data.items;
 					var lead = items[0];
 
+					console.log(lead);
 					if (totalCount === 1 && (lead.state === 2 || lead.state === 3 || lead.state === 4 || lead.state === 7 || lead.state === 8 || lead.state === 10)) {
 						swal('', 'Khách hàng đã tồn tại trong hệ thống', 'warning').then(function () {
 							$('#txt_phone_out_call').val('');
@@ -196,15 +197,17 @@ $(function () {
 						$('#span_lead_birthday').text('');
 						$('#span_lead_phone').text(phone);
 						$('#span_lead_title').text('');
+						var url = route('leads.form_change_state');
 						if (lead) {
 							$('#txt_lead_id').val(lead.id);
 							$('#span_lead_name').text(lead.name);
+							url = route('leads.form_change_state', lead.id);
 						} else {
 							$('#txt_lead_id').val('');
 							$('#span_lead_name').text('No Name');
 						}
 						wantToCallOut = false;
-						showFormChangeState({ url: route('leads.form_change_state'), phone: phone, modalId: '#modal_outcall' });
+						showFormChangeState({ url: url, phone: phone, modalId: '#modal_outcall' });
 					}
 				});
 			}
