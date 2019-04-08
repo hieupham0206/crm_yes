@@ -157,18 +157,24 @@ class ContractDataSeeder extends Seeder
                 continue;
             }
 
-            $paymentDetailId = $data['A'];
             $contractId      = $contractIds[$idx];
             $paytime         = $data['C'];
             $totalPaidReal   = $data['F'];
-            $payReal         = $data['G'];
+            $payDateReal     = $data['G'];
 
-            $paymentDetailDatas[] = [
-                'contract_id'     => $contractId,
-                'pay_time'        => $paytime,
-                'pay_date_real'   => str_replace(',', '', $payReal),
-                'total_paid_real' => str_replace(',', '', $totalPaidReal),
-            ];
+            for ($i = 0; $i < 4; $i++) {
+
+                if ( ! $payDateReal && ! $totalPaidReal) {
+                    break;
+                }
+
+                $paymentDetailDatas[] = [
+                    'contract_id'     => $contractId,
+                    'pay_time'        => $paytime,
+                    'pay_date_real'   => $payDateReal ? date('Y-m-d', Date::excelToTimestamp(trim($payDateReal))) : null,
+                    'total_paid_real' => $totalPaidReal ? str_replace(',', '', $totalPaidReal) : 0,
+                ];
+            }
 
             $idx++;
         }

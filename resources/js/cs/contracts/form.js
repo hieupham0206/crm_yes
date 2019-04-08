@@ -40,6 +40,56 @@ $(function() {
 		},
 	})
 
+	$('#select_address_county').select2Ajax({
+		data(q) {
+			q.cityCode = $('#select_address_city').val()
+		},
+		column: 'county_name'
+	})
+
+	$('#select_address_ward').select2Ajax({
+		data(q) {
+			q.cityCode = $('#select_address_city').val()
+			q.countyCode = $('#select_address_county').val() ? $('#select_address_county').select2('data')[0]['county_code'] : 0
+		},
+		column: 'ward_name'
+	})
+
+	$('#select_tmp_address_county').select2Ajax({
+		data(q) {
+			q.cityCode = $('#select_tmp_address_city').val()
+		},
+		column: 'county_name'
+	})
+
+	$('#select_tmp_address_ward').select2Ajax({
+		data(q) {
+			q.cityCode = $('#select_tmp_address_city').val()
+			q.countyCode = $('#select_tmp_address_county').val() ? $('#select_tmp_address_county').select2('data')[0]['county_code'] : 0
+		},
+		column: 'ward_name'
+	})
+
+	$('#txt_address').on('change', function() {
+		let addVal = $(this).val()
+		let city = $('#select_address_city').select2('data')[0]['text']
+		let county = $('#select_address_county').select2('data')[0]['county_name']
+		let ward = $('#select_address_ward').select2('data')[0]['ward_name']
+		if (addVal) {
+			$('#txt_hidden_address').val(`${addVal} ${ward} ${county} ${city}`)
+		}
+	})
+
+	$('#txt_tmp_address').on('change', function() {
+		let addVal = $(this).val()
+		let city = $('#select_tmp_address_city').select2('data')[0]['text']
+		let county = $('#select_tmp_address_county').select2('data')[0]['county_name']
+		let ward = $('#select_tmp_address_ward').select2('data')[0]['ward_name']
+		if (addVal) {
+			$('#txt_hidden_temp_address').val(`${addVal} ${ward} ${county} ${city}`)
+		}
+	})
+
 	function loadBankBasedOnPaymentMethod(paymentMethod, selectSelector, textSelector) {
 		if (paymentMethod !== '') {
 			selectSelector.prop('disabled', false)

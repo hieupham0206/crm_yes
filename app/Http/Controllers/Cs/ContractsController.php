@@ -6,6 +6,7 @@ use App\Enums\LeadState;
 use App\Exports\ContractExport;
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeLetter;
+use App\Models\AdministrativeUnit;
 use App\Models\Contract;
 use App\Models\EventData;
 use App\Models\Lead;
@@ -63,24 +64,27 @@ class ContractsController extends Controller
         $lead        = $appointment->lead;
 
         $contract = new Contract;
-//        $contract->fill([
-//            'contract_no'    => time(),
-////            'contract_no'    => '1548129013',
-//            'amount'         => '1000000',
-//            'signed_date'    => '22-01-2019',
-//            'start_date'     => '22-01-2019',
-//            'membership'     => 1,
-//            'room_type'      => 1,
-//            'limit'          => 1,
-//            'end_time'       => 1,
-//            'num_of_payment' => 2,
-//            'pay_date'       => '22-01-2019',
-//        ]);
+        $contract->fill([
+            'contract_no'    => time(),
+//            'contract_no'    => '1548129013',
+            'amount'         => '1000000',
+            'signed_date'    => '22-01-2019',
+            'start_date'     => '22-01-2019',
+            'membership'     => 1,
+            'room_type'      => 1,
+            'limit'          => 1,
+            'end_time'       => 1,
+            'num_of_payment' => 2,
+            'pay_date'       => '22-01-2019',
+        ]);
+
+        $cities = AdministrativeUnit::select(['city_name', 'city_code'])->groupBy(['city_code'])->get();
 
         return view('cs.contracts.create', [
             'contract'    => $contract,
             'eventData'   => $eventData,
             'lead'        => $lead,
+            'cities'      => $cities,
             'member'      => new Member,
             'paymentCost' => new PaymentCost,
             'appointment' => $appointment,
@@ -139,12 +143,12 @@ class ContractsController extends Controller
             //note: gửi sms/email welcome letter
             if ($member->email) {
                 $message = (new WelcomeLetter([]))->onConnection('database')->onQueue('notification');
-                \Mail::to($member->email)->queue($message);
+//                \Mail::to($member->email)->queue($message);
             }
 
             if ($member->phone) {
                 $fptSms = new FptSms();
-                $fptSms->sendWelcome($contract->contract_no, $member->phone);
+//                $fptSms->sendWelcome($contract->contract_no, $member->phone);
             }
 
             //note: cập nhật state của lead thành member
@@ -246,7 +250,7 @@ class ContractsController extends Controller
     /**
      * Trang xem chi tiết Contract.
      *
-     * @param  Contract $contract
+     * @param Contract $contract
      *
      * @return \Illuminate\View\View
      */
@@ -268,7 +272,7 @@ class ContractsController extends Controller
     /**
      * Trang cập nhật Contract.
      *
-     * @param  Contract $contract
+     * @param Contract $contract
      *
      * @return \Illuminate\View\View
      */
@@ -293,7 +297,7 @@ class ContractsController extends Controller
      * Cập nhật Contract tương ứng.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  Contract $contract
+     * @param Contract $contract
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Validation\ValidationException
@@ -408,6 +412,62 @@ class ContractsController extends Controller
         return $this->asJson([
             'total_count' => $totalCount,
             'items'       => $contracts->toArray(),
+        ]);
+    }
+
+    /**
+     * Lấy danh sách Contract theo dạng json
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function counties()
+    {
+        $query    = request()->get('query', '');
+        $cityCode = request()->get('cityCode', '');
+        $page     = request()->get('page', 1);
+        $offset   = ($page - 1) * 10;
+        $units    = AdministrativeUnit::query()->where('city_code', $cityCode)->selectRaw('id, county_code, county_name')->groupBy('county_name');
+
+        $units->andFilterWhere([
+            ['county_name', 'like', $query],
+        ]);
+
+        $totalCount = $units->distinct()->count();
+        $units      = $units->offset($offset)->limit(10)->get();
+
+        return $this->asJson([
+            'total_count' => $totalCount,
+            'items'       => $units->toArray(),
+        ]);
+    }
+
+    /**
+     * Lấy danh sách Contract theo dạng json
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function wards()
+    {
+        $query      = request()->get('query', '');
+        $cityCode   = request()->get('cityCode', '');
+        $countyCode = request()->get('countyCode', '');
+        $page       = request()->get('page', 1);
+        $offset     = ($page - 1) * 10;
+        $wards      = AdministrativeUnit::query()->where([
+            'city_code'   => $cityCode,
+            'county_code' => $countyCode,
+        ])->select(['id', 'ward_name', 'ward_code'])->groupBy('ward_name');
+
+        $wards->andFilterWhere([
+            ['ward_name', 'like', $query],
+        ]);
+
+        $totalCount = $wards->count();
+        $wards      = $wards->offset($offset)->limit(10)->get();
+
+        return $this->asJson([
+            'total_count' => $totalCount,
+            'items'       => $wards->toArray(),
         ]);
     }
 
