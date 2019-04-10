@@ -642,6 +642,7 @@ $(function () {
 			$(_this2).hide();
 			swal('Cập nhật thành công', '', 'success').then(function () {
 				$('#btn_not_load_private').show();
+				location.reload();
 			});
 		}).catch(function (e) {
 			return console.log(e);
@@ -660,6 +661,7 @@ $(function () {
 			$(_this3).hide();
 			swal('Cập nhật thành công', '', 'success').then(function () {
 				$('#btn_load_private').show();
+				location.reload();
 			});
 		}).catch(function (e) {
 			return console.log(e);

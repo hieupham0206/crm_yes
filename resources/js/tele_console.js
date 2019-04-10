@@ -530,6 +530,7 @@ $(function() {
 			$(this).hide()
 			swal('Cập nhật thành công', '', 'success').then(() => {
 				$('#btn_not_load_private').show()
+				location.reload()
 			})
 		}).catch(e => console.log(e)).finally(() => {
 			unblock()
@@ -544,6 +545,7 @@ $(function() {
 			$(this).hide()
 			swal('Cập nhật thành công', '', 'success').then(() => {
 				$('#btn_load_private').show()
+				location.reload()
 			})
 		}).catch(e => console.log(e)).finally(() => {
 			unblock()

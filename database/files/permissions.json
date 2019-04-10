@@ -95,7 +95,8 @@
       },
       "commissionRole": {
         "actions": [
-          "view"
+          "view",
+          "update"
         ]
       }
     },
