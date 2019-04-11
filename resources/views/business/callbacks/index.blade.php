@@ -30,7 +30,8 @@ $breadcrumbs = ['breadcrumb' => 'callbacks.index'];
                         <th>{{ $callback->label('user') }}</th>
                         <th>{{ $callback->label('lead_name') }}</th>
                         <th>{{ $callback->label('phone') }}</th>
-                        <th>{{ $callback->label('callback_datetime') }}</th>
+                        <th>Giờ</th>
+                        <th>Ngày</th>
                         <th>{{ $callback->label('state') }}</th>
                         <th>Comment</th>
                         <th>Hành động</th>

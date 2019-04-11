@@ -29,7 +29,8 @@ $breadcrumbs = ['breadcrumb' => 'event_datas.index'];
                     <thead>
                         <tr>
                             {{--<th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
-                            <th>{{ $eventData->label('date') }}</th>
+                            <th>{{ 'Giờ' }}</th>
+                            <th>{{ 'Ngày' }}</th>
                             <th>{{ $eventData->label('name') }}</th>
                             <th>{{ $eventData->label('phone') }}</th>
                             <th>{{ $eventData->label('voucher') }}</th>

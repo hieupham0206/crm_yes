@@ -35,7 +35,8 @@ $breadcrumbs = ['breadcrumb' => 'appointments.index'];
                     <thead>
                     <tr>
                         {{--<th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
-                        <th>{{ $appointment->label('app_date') }}</th>
+                        <th>{{ 'Giờ' }}</th>
+                        <th>{{ 'Ngày' }}</th>
                         <th>{{ $appointment->label('user') }}</th>
                         <th>{{ $appointment->label('lead_name') }}</th>
 

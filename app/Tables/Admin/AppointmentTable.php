@@ -143,7 +143,7 @@ class AppointmentTable extends DataTable
                 $dateRemain = now()->diffInDays($appointment->appointment_datetime);
 
                 if ($dateRemain == 1) {
-                    $appointmentDateText = "<span class='span-datetime m--font-danger'>" . optional($appointment->appointment_datetime)->format('d-m-Y H:i') . '</span>';
+                    $appointmentDateText = "<span class='span-datetime m--font-danger'>" . optional($appointment->appointment_datetime)->format('d-m-Y') . '</span>';
                 }
             }
 
@@ -152,6 +152,7 @@ class AppointmentTable extends DataTable
 //                optional($lead)->title,
                 optional($lead)->phone,
                 optional($lead)->name,
+                optional($appointment->appointment_datetime)->format('H:i'),
                 $appointmentDateText,
                 optional($lead)->comment,
 

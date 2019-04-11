@@ -66,7 +66,8 @@ class CallbackTable extends DataTable
                 $callback->user->name,
                 $lead->name,
                 $lead->phone,
-                optional($callback->callback_datetime)->format('d-m-Y H:i:s'),
+                optional($callback->callback_datetime)->format('H:i:s'),
+                optional($callback->callback_datetime)->format('d-m-Y'),
                 $callback->state_text,
                 $lead->comment,
 //                '<a href="' . route('callbacks.show', $callback, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">

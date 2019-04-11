@@ -76,7 +76,8 @@ class CallbackTable extends DataTable
                 $callBack->lead->phone,
 //                "<a class='link-lead-name m-link m--font-brand' href='javascript:void(0)' data-lead-id='{$callBack->lead_id}'>{$callBack->lead->name}</a>",
                 $callBack->lead->name,
-                "<span class='span-datetime'>" . optional($callBack->callback_datetime)->format('d-m-Y H:i') . '</span>',
+                optional($callBack->callback_datetime)->format('H:i:s'),
+                optional($callBack->callback_datetime)->format('d-m-Y'),
                 $callBack->lead->comment,
 
                 $btnCall . $btnEdit . $btnDelete,

@@ -65,7 +65,8 @@ class EventDataCsTable extends DataTable
             $dataArray[] = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $eventData->id . '"><span></span></label>',
 //                "<a class='m-link m--font-brand' href='javascript:void(0)'>{$eventData->created_at->format('d-m-Y H:i:s')}</a>",
-                $eventData->created_at->format('d-m-Y H:i:s'),
+                $eventData->created_at->format('H:i:s'),
+                $eventData->created_at->format('d-m-Y'),
                 $leadName,
                 $leadPhone,
                 $eventData->code,

@@ -195,7 +195,8 @@
                                     <thead>
                                     <tr>
                                         <th width="20%">{{ $lead->label('name') }}</th>
-                                        <th width="15%">{{ $lead->label('created_at') }}</th>
+                                        <th width="15%">Giờ</th>
+                                        <th width="15%">Ngày</th>
                                         <th width="20%">{{ $lead->label('state') }}</th>
                                         <th width="40%">{{ $lead->label('comment') }}</th>
                                         <th width="5%">{{ __('Actions') }}</th>
@@ -223,7 +224,8 @@
                                     <tr>
                                         <th width="5%">{{ $lead->label('phone') }}</th>
                                         <th width="25%">{{ $lead->label('name') }}</th>
-                                        <th width="15%">{{ $lead->label('callback_datetime') }}</th>
+                                        <th width="15%">Giờ</th>
+                                        <th width="15%">Ngày</th>
                                         <th width="40%">{{ $lead->label('comment') }}</th>
                                         <th width="15%">{{ $lead->label('actions') }}</th>
                                     </tr>
@@ -248,7 +250,8 @@
                                     <tr>
                                         <th width="5%">{{ $lead->label('phone') }}</th>
                                         <th width="25%">{{ $lead->label('name') }}</th>
-                                        <th width="20%">{{ $lead->label('appointment_datetime') }}</th>
+                                        <th width="15%">Giờ</th>
+                                        <th width="15%">Ngày</th>
                                         <th width="40%">{{ $lead->label('comment') }}</th>
                                         <th width="10%">{{ $lead->label('actions') }}</th>
                                     </tr>
