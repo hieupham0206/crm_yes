@@ -21,7 +21,7 @@ class ContractDataSeeder extends Seeder
      */
     public function run()
     {
-        $inputFileName = database_path('files/Input_HCM.xlsx');
+        $inputFileName = database_path('files/Input.xlsx');
 
         /** Load $inputFileName to a Spreadsheet Object  **/
         $reader = new Xlsx();
@@ -34,12 +34,12 @@ class ContractDataSeeder extends Seeder
 
             $datas       = $spreadsheet->getSheet(0)->toArray(null, true, true, true);
             $cities      = [
-                'HCM'        => 30,
-                'Vũng Tàu'   => 2,
-                'Bình Dương' => 9,
-                'Đak Lak'    => 16,
-                'Đồng Nai'   => 19,
-                'Long An'    => 40,
+                'Hồ Chí Minh' => 30,
+                'Vũng Tàu'    => 2,
+                'Bình Dương'  => 9,
+                'Đak Lak'     => 16,
+                'Đồng Nai'    => 19,
+                'Long An'     => 40,
             ];
             $memberDatas = $contractDatas = $paymentDetailDatas = $memberIds = $contractIds = [];
             foreach ($datas as $key => $data) {
@@ -56,7 +56,7 @@ class ContractDataSeeder extends Seeder
                 $memberIds[] = (int) $memberId;
                 $title       = $data['B'];
                 $gender      = $data['D'];
-                $birthday    = $data['E'];
+                $birthday    = str_replace('/', '-', $data['E']);
                 $address     = $data['F'];
                 $city        = $data['G'];
 
@@ -72,6 +72,15 @@ class ContractDataSeeder extends Seeder
                 $spouseEmail     = $data['Q'];
                 $tmpAdress       = $data['U'];
 
+                try {
+                    $birthdayVal       = ! empty($birthday) ? date('Y-m-d', Date::excelToTimestamp($birthday)) : '2018-01-01';
+                    $spouseBirthdayVal = ! empty($spouseBirthday) && $spouseBirthday !== '04/11(Lê Thái Hà)' ? date('Y-m-d', Date::excelToTimestamp($spouseBirthday)) : '2018-01-01';
+
+                } catch (Exception $e) {
+                    $birthdayVal       = date('Y-m-d', strtotime($birthday));
+                    $spouseBirthdayVal = date('Y-m-d', strtotime($spouseBirthday));
+                }
+
                 $memberDatas[] = [
                     'id'               => $memberId,
                     'name'             => $name,
@@ -79,7 +88,7 @@ class ContractDataSeeder extends Seeder
                     'email'            => $email,
                     'city'             => $city ? $cities[$city] : null,
                     'gender'           => $gender === 'Female' ? Gender::FEMALE : Gender::MALE,
-                    'birthday'         => $birthday ? date('Y-m-d', Date::excelToTimestamp($birthday)) : '2018-01-01',
+                    'birthday'         => $birthdayVal,
 //                    'birthday'         => $birthday ? Date::excelToTimestamp($birthday) : null,
                     'address'          => $address,
                     'identity'         => $identity,
@@ -89,7 +98,7 @@ class ContractDataSeeder extends Seeder
                     'spouse_title'    => $spouseTitle,
                     'spouse_name'     => $spouseName,
                     'spouse_phone'    => $spousePhone,
-                    'spouse_birthday' => $spouseBirthday && $spouseBirthday !== '04/11(Lê Thái Hà)' ? date('Y-m-d', Date::excelToTimestamp($spouseBirthday)) : '2018-01-01',
+                    'spouse_birthday' => $spouseBirthdayVal,
 //                    'spouse_birthday' => $spouseBirthday ? Date::excelToTimestamp($spouseBirthday) : null,
                     'spouse_email'    => $spouseEmail,
                     'temp_address'    => $tmpAdress,
@@ -107,45 +116,59 @@ class ContractDataSeeder extends Seeder
             $memberships    = ContractMembership::toArray();
             $contract       = Contract::latest()->first();
             $contractLastId = $contract ? $contract->id : 0;
+            $contractStates = [
+                'Full payment' => \App\Enums\ContractState::FULL,
+                'Cancel'       => \App\Enums\ContractState::CANCEL,
+                'Instalment'   => \App\Enums\ContractState::INSTALLMENT,
+                'Problem deal' => \App\Enums\ContractState::PROBLEM,
+                'Upgrade'      => \App\Enums\ContractState::UPGRADE,
+            ];
+
             foreach ($datas as $key => $data) {
                 if ($key === 1) {
                     continue;
                 }
                 $contractLastId++;
 
-                $memberId      = $memberIds[$idx];
+//                $memberId      = $memberIds[$idx];
                 $contractIds[] = $contractLastId;
 
-                $contractNo = $data['C'];
-                $amount     = $data['D'];
-                $netAmount  = $data['E'];
-                $membership = $data['G'];
-                $roomType   = $data['H'];
-                $signedDate = $data['J'];
-                $startDate  = $data['L'];
-                $endTime    = $data['M'];
-                $yearCost   = $data['N'];
+                $memberId            = $data['B'];
+                $contractNo          = $data['C'];
+                $amount              = $data['D'];
+                $amountAfterDiscount = $data['E'];
+                $netAmount           = $data['F'];
+                $membership          = $data['H'];
+                $roomType            = $data['I'];
+                $limit               = $data['J'];
+                $signedDate          = $data['K'];
+                $startDate           = $data['M'];
+                $endTime             = $data['N'];
+                $yearCost            = $data['O'];
+
+                $totalPayment = $data['Q'];
+                $status       = $data['R'];
+                $comment      = $data['S'];
 
                 $signedDate = Date::excelToTimestamp($signedDate);
-                $endTimeVal = '2018';
-
-                if ($endTime) {
-                    $endTimeVal = $endTime === 'Trọn đời' ? 0 : $endTime - date('Y', $signedDate);
-                }
 
                 $contractDatas[] = [
-                    'id'          => $contractLastId,
-                    'member_id'   => $memberId,
-                    'amount'      => str_replace(',', '', $amount),
-                    'net_amount'  => str_replace(',', '', $netAmount),
-                    'state'       => 1,
-                    'contract_no' => $contractNo,
-                    'membership'  => $membership ? $memberships[Str::upper(trim($membership))] : null,
-                    'room_type'   => $roomType === '1PN' ? ContractRoomType::ONE_BED : ContractRoomType::TWO_BED,
-                    'signed_date' => $signedDate ? date('Y-m-d', $signedDate) : null,
-                    'start_date'  => $startDate,
-                    'end_time'    => $endTimeVal,
-                    'year_cost'   => $yearCost,
+                    'id'                    => $contractLastId,
+                    'member_id'             => $memberId,
+                    'amount'                => str_replace(',', '', $amount),
+                    'amount_after_discount' => str_replace(',', '', $amountAfterDiscount),
+                    'net_amount'            => str_replace(',', '', $netAmount),
+                    'contract_no'           => $contractNo,
+                    'membership'            => $membership ? $memberships[Str::upper(trim($membership))] : null,
+                    'room_type'             => $roomType === '1' ? ContractRoomType::ONE_BED : ContractRoomType::TWO_BED,
+                    'limit'                 => $limit,
+                    'signed_date'           => $signedDate ? date('Y-m-d', $signedDate) : null,
+                    'start_date'            => $startDate,
+                    'end_time'              => $endTime,
+                    'year_cost'             => $yearCost,
+                    'total_payment'         => str_replace(',', '', $totalPayment),
+                    'state'                 => $status ? $contractStates[$status] : \App\Enums\ContractState::PROBLEM,
+                    'comment'               => $comment,
                 ];
 
                 $idx++;
@@ -154,9 +177,9 @@ class ContractDataSeeder extends Seeder
             Contract::insert($contractDatas);
 
             $datas = $spreadsheet->getSheet(2)->toArray(null, true, true, true);
-            $idx   = 0;
+            $idx   = -1;
 
-            $paymentCost = \App\Models\PaymentCost::create([
+            $paymentCost = \App\Models\PaymentCost::firstOrCreate([
                 'name'           => 'Tiền mặt',
                 'cost'           => 0,
                 'payment_method' => \App\Enums\PaymentMethod::CASH,
@@ -167,13 +190,17 @@ class ContractDataSeeder extends Seeder
                     continue;
                 }
 
-                $contractId    = $contractIds[$idx / 4];
-                $id            = $data['A'];
+                $contractNo = $data['B'];
+                if ($contractNo) {
+                    $idx++;
+                }
+
+                $contractId    = $contractIds[$idx];
                 $paytime       = $data['C'];
                 $payDateReal   = $data['F'];
                 $totalPaidReal = $data['G'];
 
-                if ( ! $payDateReal && ! $totalPaidReal) {
+                if (( ! $payDateReal && ! $totalPaidReal) || ($payDateReal == 0 && $totalPaidReal == 0) || $payDateReal == '00/01/1900') {
                     continue;
                 }
 
@@ -188,12 +215,8 @@ class ContractDataSeeder extends Seeder
                     'pay_time'        => $paytime,
                     'pay_date_real'   => $payDateReal,
                     'payment_cost_id' => $paymentCost->id,
-                    'total_paid_real' => $totalPaidReal ? str_replace(',', '', $totalPaidReal) : 0,
+                    'total_paid_real' => $totalPaidReal ? str_replace(',.', '', $totalPaidReal) : 0,
                 ];
-
-                if ($id != '' && $id != 1) {
-                    $idx++;
-                }
             }
             PaymentDetail::insert($paymentDetailDatas);
 

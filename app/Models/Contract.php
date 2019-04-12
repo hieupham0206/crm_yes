@@ -79,6 +79,8 @@ class Contract extends \App\Models\Base\Contract
         'member_id',
         'event_data_id',
         'amount',
+        'amount_after_discount',
+        'comment',
         'net_amount',
         'state',
         'contract_no',
@@ -92,7 +94,7 @@ class Contract extends \App\Models\Base\Contract
         'year_cost',
         'num_of_payment',
         'total_payment',
-        'cotnract_fee_cost'
+        'cotnract_fee_cost',
     ];
     public static $logName = 'Contract';
 
@@ -226,7 +228,7 @@ class Contract extends \App\Models\Base\Contract
 
     public function markContractDone()
     {
-        $paymentDetails = $this->payment_details()->whereHas('payment_cost', function($q) {
+        $paymentDetails = $this->payment_details()->whereHas('payment_cost', function ($q) {
             $q->where('payment_method', PaymentMethod::AMORTIZATION);
         })->get();
 

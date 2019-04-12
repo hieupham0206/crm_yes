@@ -14,4 +14,5 @@ final class ContractState extends Enum
     public const PROBLEM = 6;
     public const CREDIT_CARD = 7;
     public const DONE = 8;
+    public const UPGRADE = 9;
 }
