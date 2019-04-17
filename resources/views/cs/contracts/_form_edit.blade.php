@@ -67,8 +67,8 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('identity_date') ? 'has-danger' : ''}}">
                     <label for="txt_identity_date">{{ $member->label('identity_date') }}</label>
-                    <input class="form-control text-datepicker" name="identity_date" type="text" id="txt_identity_date" value="{{ optional($member->identity_date)->format('d-m-Y') ?? old('husband_identity_date')}}" placeholder="{{ __('Enter value') }}"
-                           autocomplete="off">
+                    <input class="form-control text-datepicker" name="identity_date" type="text" id="txt_identity_date" value="{{ $member->identity_date && $member->identity_date->timestamp > 0 ?
+                    optional($member->identity_date)->format('d-m-Y') : old('husband_identity_date')}}" placeholder="{{ __('Enter value') }}" autocomplete="off">
                     <span class="m-form__help"></span>
                     {!! $errors->first('husband_identity_date', '<div class="form-control-feedback">:message</div>') !!}
                 </div>
