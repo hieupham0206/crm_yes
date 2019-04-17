@@ -21,7 +21,7 @@ class ContractDataSeeder extends Seeder
      */
     public function run()
     {
-        $inputFileName = database_path('files/Input.xlsx');
+        $inputFileName = database_path('files/Input_v2.xlsx');
 
         /** Load $inputFileName to a Spreadsheet Object  **/
         $reader = new Xlsx();
@@ -52,13 +52,13 @@ class ContractDataSeeder extends Seeder
                     break;
                 }
 
-                $memberId    = $data['A'];
-                $memberIds[] = (int) $memberId;
-                $title       = $data['B'];
-                $gender      = $data['D'];
-                $birthday    = str_replace('/', '-', $data['E']);
-                $address     = $data['F'];
-                $city        = $data['G'];
+                $memberId = $data['A'];
+//                $memberIds[] = (int) $memberId;
+                $title    = $data['B'];
+                $gender   = $data['D'];
+                $birthday = str_replace('/', '-', $data['E']);
+                $address  = $data['F'];
+                $city     = $data['G'];
 
                 $phone           = $data['H'];
                 $email           = $data['I'];
@@ -128,47 +128,50 @@ class ContractDataSeeder extends Seeder
                 if ($key === 1) {
                     continue;
                 }
+                $contractNo = $data['C'];
+                if ( ! $contractNo) {
+                    break;
+                }
                 $contractLastId++;
 
 //                $memberId      = $memberIds[$idx];
                 $contractIds[] = $contractLastId;
 
-                $memberId            = $data['B'];
-                $contractNo          = $data['C'];
-                $amount              = $data['D'];
-                $amountAfterDiscount = $data['E'];
-                $netAmount           = $data['F'];
-                $membership          = $data['H'];
-                $roomType            = $data['I'];
-                $limit               = $data['J'];
-                $signedDate          = $data['K'];
-                $startDate           = $data['M'];
-                $endTime             = $data['N'];
-                $yearCost            = $data['O'];
+                $memberId = $data['B'];
+                $amount   = $data['D'];
+//                $amountAfterDiscount = $data['E'];
+                $netAmount  = $data['E'];
+                $membership = $data['G'];
+                $roomType   = $data['H'];
+                $limit      = $data['I'];
+                $signedDate = $data['J'];
+                $startDate  = $data['L'];
+                $endTime    = $data['M'];
+                $yearCost   = 4400000;
 
-                $totalPayment = $data['Q'];
-                $status       = $data['R'];
-                $comment      = $data['S'];
+                $totalPayment = $data['P'];
+                $status       = $data['Q'];
+                $comment      = $data['R'];
 
                 $signedDate = Date::excelToTimestamp($signedDate);
 
                 $contractDatas[] = [
-                    'id'                    => $contractLastId,
-                    'member_id'             => $memberId,
-                    'amount'                => str_replace(',', '', $amount),
-                    'amount_after_discount' => str_replace(',', '', $amountAfterDiscount),
-                    'net_amount'            => str_replace(',', '', $netAmount),
-                    'contract_no'           => $contractNo,
-                    'membership'            => $membership ? $memberships[Str::upper(trim($membership))] : null,
-                    'room_type'             => $roomType === '1' ? ContractRoomType::ONE_BED : ContractRoomType::TWO_BED,
-                    'limit'                 => $limit,
-                    'signed_date'           => $signedDate ? date('Y-m-d', $signedDate) : null,
-                    'start_date'            => "$startDate-01-01",
-                    'end_time'              => $endTime,
-                    'year_cost'             => $yearCost,
-                    'total_payment'         => str_replace(',', '', $totalPayment),
-                    'state'                 => $status ? $contractStates[$status] : \App\Enums\ContractState::PROBLEM,
-                    'comment'               => $comment,
+                    'id'            => $contractLastId,
+                    'member_id'     => $memberId,
+                    'amount'        => str_replace(',', '', $amount),
+//                    'amount_after_discount' => str_replace(',', '', $amountAfterDiscount),
+                    'net_amount'    => str_replace(',', '', $netAmount),
+                    'contract_no'   => $contractNo,
+                    'membership'    => $membership ? $memberships[Str::upper(trim($membership))] : null,
+                    'room_type'     => $roomType === '1' ? ContractRoomType::ONE_BED : ContractRoomType::TWO_BED,
+                    'limit'         => $limit,
+                    'signed_date'   => $signedDate ? date('Y-m-d', $signedDate) : null,
+                    'start_date'    => "$startDate-01-01",
+                    'end_time'      => $endTime,
+                    'year_cost'     => $yearCost,
+                    'total_payment' => str_replace(',', '', $totalPayment),
+                    'state'         => $status ? $contractStates[$status] : \App\Enums\ContractState::PROBLEM,
+                    'comment'       => $comment,
                 ];
 
                 $idx++;
@@ -190,15 +193,20 @@ class ContractDataSeeder extends Seeder
                     continue;
                 }
 
-                $contractNo = $data['B'];
+                $contractNo    = $data['B'];
+                $paytime       = $data['C'];
+                $payDateReal   = $data['F'];
+                $totalPaidReal = $data['G'];
+
+                if ( ! $contractNo && ! $paytime && ! $payDateReal && ! $totalPaidReal) {
+                    break;
+                }
+
                 if ($contractNo) {
                     $idx++;
                 }
 
-                $contractId    = $contractIds[$idx];
-                $paytime       = $data['C'];
-                $payDateReal   = $data['F'];
-                $totalPaidReal = $data['G'];
+                $contractId = $contractIds[$idx];
 
                 if (( ! $payDateReal && ! $totalPaidReal) || ($payDateReal == 0 && $totalPaidReal == 0) || $payDateReal == '00/01/1900') {
                     continue;
@@ -210,14 +218,18 @@ class ContractDataSeeder extends Seeder
                     $payDateReal = '';
                 }
 
-                $paymentDetailDatas[] = [
-                    'contract_id'     => $contractId,
-                    'pay_time'        => $paytime,
-                    'pay_date_real'   => $payDateReal,
-                    'pay_date'        => $payDateReal,
-                    'payment_cost_id' => $paymentCost->id,
-                    'total_paid_real' => $totalPaidReal ? str_replace([',', '.'], '', $totalPaidReal) : 0,
-                ];
+                $paidValue            = $totalPaidReal ? str_replace([',', '.'], '', $totalPaidReal) : 0;
+                if (is_numeric($paidValue) && $paidValue > 0) {
+                    $paymentDetailDatas[] = [
+                        'contract_id'     => $contractId,
+                        'pay_time'        => $paytime,
+                        'pay_date_real'   => $payDateReal,
+                        'pay_date'        => $payDateReal,
+                        'payment_cost_id' => $paymentCost->id,
+                        'total_paid_real' => $paidValue,
+                        'total_paid_deal' => $paidValue,
+                    ];
+                }
             }
             PaymentDetail::insert($paymentDetailDatas);
 
