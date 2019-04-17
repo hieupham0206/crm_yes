@@ -115,6 +115,13 @@ class ContractTable extends DataTable
         if ($this->isFilterNotEmpty) {
             $contracts->filters($this->filters);
 
+            if ( ! empty($this->filters['phone'])) {
+                $phone = $this->filters['phone'];
+                $contracts->whereHas('member', function ($q) use ($phone) {
+                    $q->where('phone', $phone);
+                });
+            }
+
             $this->totalFilteredRecords = $contracts->count();
         }
 

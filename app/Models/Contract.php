@@ -118,8 +118,8 @@ class Contract extends \App\Models\Base\Contract
 
     public $filters = [
         'contract_no' => 'like',
-        'phone'       => 'like',
-        'lead_id'     => '=',
+//        'phone'       => 'like',
+        'member_id'   => '=',
         'membership'  => '=',
     ];
 

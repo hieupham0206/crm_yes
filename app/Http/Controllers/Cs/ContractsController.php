@@ -422,6 +422,33 @@ class ContractsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function members()
+    {
+        $query      = request()->get('query', '');
+        $page       = request()->get('page', 1);
+        $excludeIds = request()->get('excludeIds', []);
+        $offset     = ($page - 1) * 10;
+        $contracts  = Member::query()->select(['id', 'name']);
+
+        $contracts->andFilterWhere([
+            ['name', 'like', $query],
+            ['id', '!=', $excludeIds],
+        ]);
+
+        $totalCount = $contracts->count();
+        $contracts  = $contracts->offset($offset)->limit(10)->get();
+
+        return $this->asJson([
+            'total_count' => $totalCount,
+            'items'       => $contracts->toArray(),
+        ]);
+    }
+
+    /**
+     * Lấy danh sách Contract theo dạng json
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function counties()
     {
         $query    = request()->get('query', '');

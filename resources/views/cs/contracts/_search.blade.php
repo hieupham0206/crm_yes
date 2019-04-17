@@ -14,8 +14,8 @@
         </div>
         <div class="col-12 col-md-3 m-form__group-sub">
             <div class="form-group">
-                <label for="select_lead">{{ $eventData->label('lead') }}</label>
-                <select name="lead_id" id="select_lead" class="select2-ajax" data-url="{{ route('leads.list') }}">
+                <label for="select_member">{{ $eventData->label('lead') }}</label>
+                <select name="member_id" id="select_member" class="select2-ajax" data-url="{{ route('contracts.member.list') }}">
                     <option></option>
                 </select>
             </div>

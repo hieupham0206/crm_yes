@@ -11,3 +11,4 @@ Route::get('/event_datas/export/excel', 'EventDataCsController@exportExcel')->na
 
 Route::get('/contracts/lists/county/list', 'ContractsController@counties')->name('contracts.county.list');
 Route::get('/contracts/lists/ward/list', 'ContractsController@wards')->name('contracts.ward.list');
+Route::get('/contracts/lists/member/list', 'ContractsController@members')->name('contracts.member.list');
