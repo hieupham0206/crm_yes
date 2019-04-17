@@ -351,7 +351,7 @@
                     @isset ($paymentDetails)
                         @foreach ($paymentDetails as $paymentDetail)
                             <tr>
-                                <td>{{ $paymentDetail->pay_date->format('d-m-Y') }}</td>
+                                <td>{{ optional($paymentDetail->pay_date)->format('d-m-Y') }}</td>
                                 <td>{{ number_format($paymentDetail->total_paid_deal) }}</td>
                                 {{--<td>--}}
                                     {{--<input type="hidden" name="PaymentDetail[id][{{ $loop->index }}][]" value="{{ $paymentDetail->id }}">--}}

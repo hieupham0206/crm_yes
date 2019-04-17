@@ -163,7 +163,7 @@ class ContractDataSeeder extends Seeder
                     'room_type'             => $roomType === '1' ? ContractRoomType::ONE_BED : ContractRoomType::TWO_BED,
                     'limit'                 => $limit,
                     'signed_date'           => $signedDate ? date('Y-m-d', $signedDate) : null,
-                    'start_date'            => $startDate,
+                    'start_date'            => "$startDate-01-01",
                     'end_time'              => $endTime,
                     'year_cost'             => $yearCost,
                     'total_payment'         => str_replace(',', '', $totalPayment),
@@ -214,8 +214,9 @@ class ContractDataSeeder extends Seeder
                     'contract_id'     => $contractId,
                     'pay_time'        => $paytime,
                     'pay_date_real'   => $payDateReal,
+                    'pay_date'        => $payDateReal,
                     'payment_cost_id' => $paymentCost->id,
-                    'total_paid_real' => $totalPaidReal ? str_replace(',.', '', $totalPaidReal) : 0,
+                    'total_paid_real' => $totalPaidReal ? str_replace([',', '.'], '', $totalPaidReal) : 0,
                 ];
             }
             PaymentDetail::insert($paymentDetailDatas);
