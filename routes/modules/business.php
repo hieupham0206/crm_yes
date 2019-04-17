@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/leads/import/form', 'LeadsController@formImport')->name('leads.form_import');
+Route::get('/leads/export/excel', 'LeadsController@exportExcel')->name('leads.export_excel');
 Route::get('/leads/check-lead/new', 'LeadsController@checkAvailableNewLead')->name('leads.check_available_new');
 Route::post('/leads/import/', 'LeadsController@import')->name('leads.import');
 

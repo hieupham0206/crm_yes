@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Business;
 
 use App\Enums\Confirmation;
 use App\Enums\LeadState;
+use App\Exports\LeadExport;
 use App\Http\Controllers\Controller;
 use App\Mail\AppointmentConfirmation;
 use App\Models\Appointment;
@@ -891,5 +892,12 @@ class LeadsController extends Controller
         return response()->json([
             'message' => '',
         ]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $filters = $request->all();
+
+        return (new LeadExport($filters))->download('appointments_' . time() . '.xlsx');
     }
 }

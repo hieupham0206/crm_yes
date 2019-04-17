@@ -19,6 +19,14 @@ $breadcrumbs = ['breadcrumb' => 'leads.index'];
                     'btnClass' => 'btn-brand btn-form-import d-none d-sm-block',
                     'canDo' => can('create-lead'),
                 ],
+                [
+                    'route' => route('leads.export_excel'),
+                    'text'  => __('Export excel'),
+                    'icon'  => 'fa fa-file-excel',
+                    'btnClass' => 'btn-brand btn-export-excel d-none d-sm-block',
+                    'isLink' => true,
+                    'canDo' => false,
+                ],
             ]])
             <div class="m-portlet__body">
                 @include('layouts.partials.search', ['form' => view('business.leads._search')->with('lead', $lead)])
