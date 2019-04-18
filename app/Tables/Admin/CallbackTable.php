@@ -46,7 +46,7 @@ class CallbackTable extends DataTable
 //        $canDeleteCallback = can('delete-callBack');
 
         /** @var Callback[] $callBacks */
-        foreach ($callBacks as $callBack) {
+        foreach ($callBacks as $key => $callBack) {
             $btnEdit = $btnCall = $btnDelete = '';
 
 //            if ($canUpdateCallback) {
@@ -73,6 +73,7 @@ class CallbackTable extends DataTable
 //            }
 
             $dataArray[] = [
+                ++$key,
                 $callBack->lead->phone,
 //                "<a class='link-lead-name m-link m--font-brand' href='javascript:void(0)' data-lead-id='{$callBack->lead_id}'>{$callBack->lead->name}</a>",
                 $callBack->lead->name,

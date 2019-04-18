@@ -165,10 +165,11 @@
                                 </div>
                             </div>
                             <div class="m-portlet__body">
-                                <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="200" data-scrollbar-shown="true">
+                                <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="125" data-scrollbar-shown="true">
                                     <table class="table table-borderless table-hover" id="table_customer_history" width="100%">
                                         <thead>
                                         <tr>
+                                            <th>STT</th>
                                             <th width="25%">{{ $lead->label('created_at') }}</th>
                                             <th width="25%">{{ $lead->label('state') }}</th>
                                             <th width="50%">{{ $lead->label('comment') }}</th>
@@ -181,34 +182,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="m-portlet">
-                        <div class="m-portlet__head">
-                            <div class="m-portlet__head-caption">
-                                <div class="m-portlet__head-title">
-                                    <h3 class="m-portlet__head-text">History Call</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-portlet__body">
-                            <div class="m-dropdown__scrollable m-scrollable" data-scrollable="true" data-height="200" data-mobile-height="200">
-                                <table class="table table-borderless table-hover" id="table_history_calls" width="100%">
-                                    <thead>
-                                    <tr>
-                                        <th width="20%">{{ $lead->label('name') }}</th>
-                                        <th width="15%">Giờ</th>
-                                        <th width="15%">Ngày</th>
-                                        <th width="20%">{{ $lead->label('state') }}</th>
-                                        <th width="40%">{{ $lead->label('comment') }}</th>
-                                        <th width="5%">{{ __('Actions') }}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-12 work-section">
                     <div class="m-portlet m-portlet--brand m-portlet--head-solid-bg">
                         <div class="m-portlet__head">
                             <div class="m-portlet__head-caption">
@@ -222,12 +195,66 @@
                                 <table class="table table-borderless table-hover" id="table_callback" width="100%">
                                     <thead>
                                     <tr>
+                                        <th>STT</th>
                                         <th width="5%">{{ $lead->label('phone') }}</th>
                                         <th width="25%">{{ $lead->label('name') }}</th>
                                         <th width="15%">Giờ</th>
                                         <th width="15%">Ngày</th>
                                         <th width="40%">{{ $lead->label('comment') }}</th>
                                         <th width="15%">{{ $lead->label('actions') }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-12 work-section">
+{{--                    <div class="m-portlet">--}}
+{{--                        <div class="m-portlet__head">--}}
+{{--                            <div class="m-portlet__head-caption">--}}
+{{--                                <div class="m-portlet__head-title">--}}
+{{--                                    <h3 class="m-portlet__head-text">History Call</h3>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="m-portlet__body">--}}
+{{--                            <div class="m-dropdown__scrollable m-scrollable" data-scrollable="true" data-height="200" data-mobile-height="200">--}}
+{{--                                <table class="table table-borderless table-hover" id="table_history_calls" width="100%">--}}
+{{--                                    <thead>--}}
+{{--                                    <tr>--}}
+{{--                                        <th width="20%">{{ $lead->label('name') }}</th>--}}
+{{--                                        <th width="15%">Giờ</th>--}}
+{{--                                        <th width="15%">Ngày</th>--}}
+{{--                                        <th width="20%">{{ $lead->label('state') }}</th>--}}
+{{--                                        <th width="40%">{{ $lead->label('comment') }}</th>--}}
+{{--                                        <th width="5%">{{ __('Actions') }}</th>--}}
+{{--                                    </tr>--}}
+{{--                                    </thead>--}}
+{{--                                    <tbody></tbody>--}}
+{{--                                </table>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+                    <div class="m-portlet">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <h3 class="m-portlet__head-text">Customer data</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__body">
+                            <div class="m-dropdown__scrollable m-scrollable" data-scrollable="true" data-height="200" data-mobile-height="200">
+                                <table class="table table-borderless table-hover" id="table_leads" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>{{ $lead->label('name') }}</th>
+                                        <th>{{ $lead->label('phone') }}</th>
+                                        <th>{{ $lead->label('state') }}</th>
+                                        <th>{{ $lead->label('note') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -248,6 +275,7 @@
                                 <table class="table table-borderless table-hover" id="table_appointment" width="100%">
                                     <thead>
                                     <tr>
+                                        <th>STT</th>
                                         <th width="5%">{{ $lead->label('phone') }}</th>
                                         <th width="25%">{{ $lead->label('name') }}</th>
                                         <th width="15%">Giờ</th>

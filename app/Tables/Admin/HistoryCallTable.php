@@ -120,7 +120,7 @@ class HistoryCallTable extends DataTable
     {
         $dataArray = [];
         /** @var HistoryCall[] $historyCalls */
-        foreach ($historyCalls as $historyCall) {
+        foreach ($historyCalls as $key => $historyCall) {
 //            $btnDelete = '';
 //            if ($canDeleteHistoryCall) {
 //                $btnDelete = ' <button type="button" data-route="history_calls"  data-title="' . __('Delete') . ' ' . $modelName . ' ' . $historyCall->name . ' !!!" class="btn btn-sm btn-danger btn-delete m-btn m-btn--icon m-btn--icon-only m-btn--pill"
@@ -134,6 +134,7 @@ class HistoryCallTable extends DataTable
 //                </button>';
 
             $dataArray[] = [
+                ++$key,
                 $historyCall->created_at->format('d-m-Y H:i:s'),
                 $historyCall->state_text,
                 $historyCall->comment,

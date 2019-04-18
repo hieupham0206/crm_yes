@@ -39,8 +39,8 @@ class AppointmentTable extends DataTable
         $form = request()->get('form', 'tele_console');
         if ($form === 'tele_console') {
             $this->filters['not_qa_and_not_has_deal'] = true;
-            $appointments = $this->getModels();
-            $dataArray    = $this->initTableTeleConsole($appointments, $canUpdateAppointment, $canDeleteAppointment, $modelName);
+            $appointments                             = $this->getModels();
+            $dataArray                                = $this->initTableTeleConsole($appointments, $canUpdateAppointment, $canDeleteAppointment, $modelName);
         } elseif ($form === 'reception_console') {
 //            $this->filters['today']         = true;
             $this->filters['is_show_up']               = Confirmation::NO;
@@ -60,11 +60,11 @@ class AppointmentTable extends DataTable
     public function getModels($getAll = false)
     {
         $appointments = Appointment::query()->with(['lead', 'user'])
-                                            ->where('is_queue', '>', 1);
+                                   ->where('is_queue', '>', 1);
 
         if ( ! $getAll) {
             $appointments = $appointments->where('state', Confirmation::YES);
-        } elseif (! empty($this->filters['not_qa_and_not_has_deal'])) {
+        } elseif ( ! empty($this->filters['not_qa_and_not_has_deal'])) {
             $appointments = $appointments->doesntHave('event_datas');
         }
 
@@ -110,7 +110,7 @@ class AppointmentTable extends DataTable
     {
         $dataArray = [];
         /** @var Appointment[] $appointments */
-        foreach ($appointments as $appointment) {
+        foreach ($appointments as $key => $appointment) {
             $btnEdit = $btnDelete = $btnCall = '';
 
 //            if ($canUpdateAppointment) {
@@ -150,6 +150,7 @@ class AppointmentTable extends DataTable
             $lead        = $appointment->lead;
             $dataArray[] = [
 //                optional($lead)->title,
+                ++$key,
                 optional($lead)->phone,
                 optional($lead)->name,
                 optional($appointment->appointment_datetime)->format('H:i'),

@@ -35,5 +35,6 @@ Route::get('/appointments/form/change-appointment', 'AppointmentsController@form
 Route::post('/appointments/auto-cancel/', 'AppointmentsController@autoCancel')->name('appointments.auto_cancel');
 
 Route::post('/history_calls/tele-console/lists/table', 'HistoryCallsController@table')->name('history_calls.console.table');
+Route::post('/leads/tele-console/lists/table', 'LeadsController@table')->name('leads.console.table');
 Route::post('/appointments/tele-console/lists/table', 'AppointmentsController@table')->name('appointments.console.table');
 Route::post('/callbacks/tele-console/lists/table', 'CallbacksController@table')->name('callbacks.console.table');

@@ -408,7 +408,7 @@ $(function () {
 		tableAppointment.reload();
 		tableCallback.reload();
 		tableCustomerHistory.reload();
-		tableHistoryCall.reload();
+		// tableHistoryCall.reload()
 	}
 
 	function showFormChangeState(_ref) {
@@ -513,20 +513,34 @@ $(function () {
 		$('.work-section').hide();
 	}
 
-	var tableHistoryCall = $('#table_history_calls').DataTable({
+	// const tableHistoryCall = $('#table_history_calls').DataTable({
+	// 	'serverSide': true,
+	// 	'paging': false,
+	// 	'ajax': $.fn.dataTable.pipeline({
+	// 		url: route('history_calls.console.table'),
+	// 		data: function(q) {
+	// 			q.filters = JSON.stringify([{'name': 'user_id', 'value': userId}])
+	// 			q.table = 'history_call'
+	// 		},
+	// 	}),
+	// 	conditionalPaging: true,
+	// 	'columnDefs': [],
+	// 	sort: false,
+	// 	'iDisplayLength': 20,
+	// })
+	var tableLead = $('#table_leads').DataTable({
 		'serverSide': true,
-		'paging': false,
+		'paging': true,
 		'ajax': $.fn.dataTable.pipeline({
-			url: route('history_calls.console.table'),
+			url: route('leads.console.table'),
 			data: function data(q) {
-				q.filters = JSON.stringify([{ 'name': 'user_id', 'value': userId }]);
-				q.table = 'history_call';
+				q.filters = JSON.stringify([{ 'name': 'user_id', 'value': 162 }]);
 			}
 		}),
 		conditionalPaging: true,
 		'columnDefs': [],
 		sort: false,
-		'iDisplayLength': 20
+		'iDisplayLength': 1000
 	});
 	var tableCustomerHistory = $('#table_customer_history').DataTable({
 		'serverSide': true,
@@ -540,7 +554,8 @@ $(function () {
 		}),
 		conditionalPaging: true,
 		'columnDefs': [],
-		sort: false
+		sort: false,
+		iDisplayLength: 2
 	});
 	var tableCallback = $('#table_callback').DataTable({
 		'serverSide': true,
@@ -808,9 +823,9 @@ $(function () {
 				btnDelete: $(this)
 			});
 		} else if (route === 'history_calls') {
-			tableHistoryCall.actionDelete({
-				btnDelete: $(this)
-			});
+			// tableHistoryCall.actionDelete({
+			// 	btnDelete: $(this),
+			// })
 		}
 	});
 
