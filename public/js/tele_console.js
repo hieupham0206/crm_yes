@@ -534,7 +534,7 @@ $(function () {
 		'ajax': $.fn.dataTable.pipeline({
 			url: route('leads.console.table'),
 			data: function data(q) {
-				q.filters = JSON.stringify([{ 'name': 'user_id', 'value': 162 }]);
+				q.filters = JSON.stringify([{ 'name': 'user_id', 'value': userId }]);
 			}
 		}),
 		conditionalPaging: true,

@@ -68,11 +68,11 @@ class LeadTable extends DataTable
 
         $isLoadPrivateOnly = $user->isLoadPrivateOnly();
 
-//        if ($isLoadPrivateOnly) {
-//            $leads = $leads->where(['is_private' => 1]);
-//        } else {
-//            $leads = $leads->where(['is_private' => -1]);
-//        }
+        if ($isLoadPrivateOnly) {
+            $leads = $leads->where(['is_private' => 1]);
+        } else {
+            $leads = $leads->where(['is_private' => -1]);
+        }
 
         $this->totalFilteredRecords = $this->totalRecords = $leads->count();
 
