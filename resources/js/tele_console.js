@@ -312,10 +312,10 @@ $(function() {
 	}
 
 	function reloadTable() {
+		tableLead.reload()
 		tableAppointment.reload()
 		tableCallback.reload()
 		tableCustomerHistory.reload()
-		tableLead.reload()
 	}
 
 	function showFormChangeState({typeCall = 1, url, callId = '', table = '', modalId = '#modal_md', phone = ''}) {

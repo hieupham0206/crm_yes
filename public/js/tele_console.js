@@ -405,10 +405,10 @@ $(function () {
 	}
 
 	function reloadTable() {
+		tableLead.reload();
 		tableAppointment.reload();
 		tableCallback.reload();
 		tableCustomerHistory.reload();
-		tableLead.reload();
 	}
 
 	function showFormChangeState(_ref) {
