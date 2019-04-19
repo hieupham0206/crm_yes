@@ -408,6 +408,7 @@ $(function () {
 		tableAppointment.reload();
 		tableCallback.reload();
 		tableCustomerHistory.reload();
+		tableLead.reload();
 		// tableHistoryCall.reload()
 	}
 
