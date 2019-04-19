@@ -409,7 +409,6 @@ $(function () {
 		tableCallback.reload();
 		tableCustomerHistory.reload();
 		tableLead.reload();
-		// tableHistoryCall.reload()
 	}
 
 	function showFormChangeState(_ref) {
