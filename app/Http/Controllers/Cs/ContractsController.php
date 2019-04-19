@@ -55,11 +55,11 @@ class ContractsController extends Controller
     public function create()
     {
         $eventDataId = request()->get('eventDataId');
-        if ( ! $eventDataId) {
-            abort(404);
-        }
+//        if ( ! $eventDataId) {
+//            abort(404);
+//        }
 
-        $eventData   = EventData::find($eventDataId);
+        $eventData   = EventData::findOrNew($eventDataId);
         $appointment = $eventData->appointment;
         $lead        = $appointment->lead;
 
