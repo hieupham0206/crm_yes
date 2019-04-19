@@ -76,6 +76,8 @@ class LeadTable extends DataTable
 
         $this->totalFilteredRecords = $this->totalRecords = $leads->count();
 
+        $this->filters['user_id'] = $user->id;
+
         if ($this->isFilterNotEmpty) {
             $leads->filters($this->filters);
 
