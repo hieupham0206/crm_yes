@@ -61,6 +61,8 @@ class PaymentDetailTable extends DataTable
                 optional($paymentDetail->payment_cost)->cost,
 
                 $btnEdit,
+                $paymentDetail->updatedBy->causer->name,
+                $paymentDetail->updatedBy->created_at->format('d-m-Y'),
             ];
         }
 

@@ -97,6 +97,8 @@ class ContractTable extends DataTable
                 '<a href="' . route('contracts.show', $contract, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
 					<i class="fa fa-eye"></i>
 				</a>' . $htmlChangeStatus . $btnEdit . $btnDelete,
+                $contract->updatedBy->causer->name,
+                $contract->updatedBy->created_at->format('d-m-Y'),
             ];
         }
 

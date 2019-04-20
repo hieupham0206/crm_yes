@@ -39,6 +39,8 @@ $breadcrumbs = ['breadcrumb' => 'contracts.index'];
                             <th>{{ $contract->label('limit') }}</th>
                             <th>{{ $contract->label('state') }}</th>
                             <th>@lang('Actions')</th>
+                            <th>{{ $contract->label('update_by') }}</th>
+                            <th>{{ $contract->label('update_date') }}</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
