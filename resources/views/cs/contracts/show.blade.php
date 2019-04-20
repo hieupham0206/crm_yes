@@ -206,7 +206,7 @@ $breadcrumbs = ['breadcrumb' => 'contracts.show', 'model' => $contract];
                     <div class="form-group m-form__group row">
                         <div class="col-12 m-form__group-sub">
                             <label for="txt_comment">{{ $contract->label('comment') }}</label>
-                            <textarea name="comment" id="textarea_comment" cols="30" rows="5" disabled>{{ $contract->comment }}</textarea>
+                            <textarea name="comment" id="textarea_comment" cols="30" rows="5" disabled class="form-control">{{ $contract->comment }}</textarea>
                             <span class="m-form__help"></span>
                         </div>
                     </div>

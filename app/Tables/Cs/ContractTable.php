@@ -80,8 +80,9 @@ class ContractTable extends DataTable
 							<i class="fa fa-check"></i>
 						</button>';
 
-            $paid = $contract->payment_details()->sum('total_paid_real');
-            $debt = $contract->amount - $paid;
+            $paid        = $contract->payment_details()->sum('total_paid_real');
+            $debt        = $contract->amount - $paid;
+            $activityLog = $contract->updatedBy;
             $dataArray[] = [
 //                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $contract->id . '"><span></span></label>',
                 $contract->contract_no,
@@ -97,8 +98,8 @@ class ContractTable extends DataTable
                 '<a href="' . route('contracts.show', $contract, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('View') . '">
 					<i class="fa fa-eye"></i>
 				</a>' . $htmlChangeStatus . $btnEdit . $btnDelete,
-                $contract->updatedBy->causer->name,
-                $contract->updatedBy->created_at->format('d-m-Y'),
+                optional(optional($activityLog)->causer)->name,
+                optional(optional($activityLog)->created_at)->format('d-m-Y'),
             ];
         }
 

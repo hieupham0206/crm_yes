@@ -50,7 +50,7 @@ class PaymentDetailTable extends DataTable
 					<i class="fa fa-edit"></i>
 				</a>';
             }
-
+            $activityLog = $paymentDetail->updatedBy;
             $dataArray[] = [
 //				'<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="'.$paymentDetail->id.'"><span></span></label>',
                 optional($paymentDetail->contract)->contract_no,
@@ -61,8 +61,8 @@ class PaymentDetailTable extends DataTable
                 optional($paymentDetail->payment_cost)->cost,
 
                 $btnEdit,
-                $paymentDetail->updatedBy->causer->name,
-                $paymentDetail->updatedBy->created_at->format('d-m-Y'),
+                optional(optional($activityLog)->causer)->name,
+                optional(optional($activityLog)->created_at)->format('d-m-Y'),
             ];
         }
 

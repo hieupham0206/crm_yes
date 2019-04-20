@@ -340,7 +340,7 @@
         <div class="form-group m-form__group row">
             <div class="col-12 m-form__group-sub {{ $errors->has('comment') ? 'has-danger' : ''}}">
                 <label for="txt_comment">{{ $contract->label('comment') }}</label>
-                <textarea name="comment" id="textarea_comment" cols="30" rows="5">{{ $contract->comment ?? old('comment')}}</textarea>
+                <textarea name="comment" id="textarea_comment" cols="30" rows="5" class="form-control">{{ $contract->comment ?? old('comment')}}</textarea>
                 <span class="m-form__help"></span>
                 {!! $errors->first('comment', '<div class="form-control-feedback">:message</div>') !!}
             </div>
