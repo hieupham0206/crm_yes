@@ -111,7 +111,7 @@ class ContractTable extends DataTable
      */
     public function getModels()
     {
-        $contracts = Contract::query()->with(['member', 'payment_details']);
+        $contracts = Contract::query()->with(['member', 'payment_details', 'updatedBy']);
 
         $this->totalFilteredRecords = $this->totalRecords = $contracts->count();
 

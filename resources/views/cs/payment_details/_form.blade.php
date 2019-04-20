@@ -43,7 +43,6 @@
                 <span class="m-form__help"></span>
                 {!! $errors->first('bank_name', '<div class="form-control-feedback">:message</div>') !!}
             </div>
-
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_installment_id') ? 'has-danger' : ''}}">
                 <label for="select_payment_installment_id">{{ 'Trả góp' }}</label>
                 <select name="payment_installment_id" id="select_payment_installment_id" class="select">
@@ -67,11 +66,11 @@
                 <span class="m-form__help"></span>
                 {!! $errors->first('bank_name_installment', '<div class="form-control-feedback">:message</div>') !!}
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('cost') ? 'has-danger' : ''}}">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('payment_fee') ? 'has-danger' : ''}}">
                 <label for="txt_cost">{{ $paymentCost->label('cost') }}</label>
-                <input class="form-control" name="payment_fee" type="text" id="txt_cost" value="{{ $paymentDetail->payment_cost->cost ?? old('cost')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control" name="payment_fee" type="text" id="txt_cost" value="{{ $paymentDetail->payment_fee ?? old('payment_fee')}}" readonly placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
-                {!! $errors->first('cost', '<div class="form-control-feedback">:message</div>') !!}
+                {!! $errors->first('payment_fee', '<div class="form-control-feedback">:message</div>') !!}
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_no') ? 'has-danger' : ''}}">
                 <label for="txt_bank_no">{{ $paymentCost->label('bank_no') }}</label>

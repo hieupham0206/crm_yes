@@ -45,7 +45,7 @@ class PaymentDetailTable extends DataTable
         foreach ($paymentDetails as $paymentDetail) {
             $btnEdit = '';
 
-            if ($canUpdatePaymentDetail && ! $paymentDetail->pay_date_real) {
+            if ($canUpdatePaymentDetail) {
                 $btnEdit = ' <a href="' . route('payment_details.edit', $paymentDetail, false) . '" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--pill" title="' . __('Edit') . '">
 					<i class="fa fa-edit"></i>
 				</a>';
@@ -58,7 +58,8 @@ class PaymentDetailTable extends DataTable
                 number_format($paymentDetail->total_paid_deal),
                 optional($paymentDetail->pay_date_real)->format('d-m-Y'),
                 number_format($paymentDetail->total_paid_real),
-                optional($paymentDetail->payment_cost)->cost,
+//                optional($paymentDetail->payment_cost)->cost,
+                number_format($paymentDetail->payment_fee),
 
                 $btnEdit,
                 optional(optional($activityLog)->causer)->name,
@@ -74,7 +75,7 @@ class PaymentDetailTable extends DataTable
      */
     public function getModels()
     {
-        $paymentDetails = PaymentDetail::query()->with(['payment_cost', 'contract']);
+        $paymentDetails = PaymentDetail::query()->with(['payment_cost', 'contract', 'updatedBy']);
 
         $this->totalFilteredRecords = $this->totalRecords = $paymentDetails->count();
 
