@@ -76,8 +76,6 @@ module.exports = __webpack_require__(90);
 /***/ 90:
 /***/ (function(module, exports) {
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 $(function () {
 	var isConfirm = $('#contracts_form').data('confirm');
 
@@ -96,34 +94,62 @@ $(function () {
 				}
 			}
 		},
-		submitHandler: isConfirm ? function (form, e) {
+		submitHandler: function submitHandler(form, e) {
 			window.blockPage();
 			e.preventDefault();
 
-			var addVal = $('#txt_address').val();
-			var city = $('#select_address_city').select2('data')[0]['text'];
-			var county = $('#select_address_county').select2('data')[0]['county_name'];
-			var ward = $('#select_address_ward').select2('data')[0]['ward_name'];
-			$('#txt_hidden_address').val(addVal + ' ' + ward + ', ' + county + ', ' + city);
+			// let addVal = $('#txt_address').val()
+			// let city = $('#select_address_city').select2('data')[0]['text']
+			// let county = $('#select_address_county').select2('data')[0]['county_name']
+			// let ward = $('#select_address_ward').select2('data')[0]['ward_name']
+			// $('#txt_hidden_address').val(`${addVal} ${ward}, ${county}, ${city}`)
+			//
+			// let addTmpVal = $('#txt_temp_address').val()
+			// let cityTmp = $('#select_temp_address_city').select2('data')[0]['text']
+			// let countyTmp = $('#select_temp_address_county').select2('data')[0]['county_name']
+			// let wardTmp = $('#select_temp_address_ward').select2('data')[0]['ward_name']
+			// $('#txt_hidden_temp_address').val(`${addTmpVal} ${wardTmp}, ${countyTmp}, ${cityTmp}`)
 
-			var addTmpVal = $('#txt_temp_address').val();
-			var cityTmp = $('#select_temp_address_city').select2('data')[0]['text'];
-			var countyTmp = $('#select_temp_address_county').select2('data')[0]['county_name'];
-			var wardTmp = $('#select_temp_address_ward').select2('data')[0]['ward_name'];
-			$('#txt_hidden_temp_address').val(addTmpVal + ' ' + wardTmp + ', ' + countyTmp + ', ' + cityTmp);
-
-			$(form).confirmation(function (result) {
-				if (result && (typeof result === 'undefined' ? 'undefined' : _typeof(result)) === 'object' && result.value) {
-					var fd = new FormData(form);
-					fd.append('bank_name', $('#select_bank').select2('data')[0]['text']);
-					$(form).submitForm().then(function () {
-						location.href = route('contracts.index');
-					});
-				} else {
-					window.unblock();
-				}
+			// $(form).confirmation(result => {
+			// 	if (result && (typeof result === 'object' && result.value)) {
+			var fd = new FormData(form);
+			if ($('#select_bank').val()) {
+				fd.append('bank_name', $('#select_bank').select2('data')[0]['text']);
+			}
+			$(form).submitForm().then(function () {
+				location.href = route('contracts.index');
 			});
-		} : false
+			// } else {
+			// 	window.unblock()
+			// }
+			// })
+		}
+	});
+
+	$('body').on('change', '#txt_address, #select_address_city, #select_address_county, #select_address_ward', function () {
+		var addVal = $('#txt_address').val();
+		var city = $('#select_address_city').select2('data')[0]['text'];
+		var county = $('#select_address_county').select2('data')[0]['county_name'];
+		var ward = $('#select_address_ward').select2('data')[0]['ward_name'];
+
+		ward = ward === undefined ? '' : ward + ',';
+		county = county === undefined ? '' : county + ',';
+		city = city === '' ? '' : '' + city;
+
+		$('#txt_hidden_address').val(addVal + ' ' + ward + ' ' + county + ' ' + city);
+	});
+
+	$('body').on('change', '#txt_temp_address, #select_temp_address_city, #select_temp_address_county, #select_temp_address_ward', function () {
+		var addVal = $('#txt_temp_address').val();
+		var city = $('#select_temp_address_city').select2('data')[0]['text'];
+		var county = $('#select_temp_address_county').select2('data')[0]['county_name'];
+		var ward = $('#select_temp_address_ward').select2('data')[0]['ward_name'];
+
+		ward = ward === undefined ? '' : ward + ',';
+		county = county === undefined ? '' : county + ',';
+		city = city === '' ? '' : '' + city;
+
+		$('#txt_hidden_temp_address').val(addVal + ' ' + ward + ' ' + county + ' ' + city);
 	});
 
 	$('#select_province').select2Ajax({

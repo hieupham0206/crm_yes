@@ -329,6 +329,7 @@ class ContractsController extends Controller
         }
 
         $contract->update($requestData);
+        $contract->member->update($requestData);
 
         //note: update member
         $member = $contract->member;
@@ -343,7 +344,12 @@ class ContractsController extends Controller
             ]);
         }
 
-        return redirect(route('contracts.show', $contract))->with('message', __('Data edited successfully'));
+//        return redirect(route('contracts.show', $contract))->with('message', __('Data edited successfully'));
+
+        return $this->asJson([
+            'message' => __('Data edited successfully'),
+            'route'   => route('contracts.show', $contract),
+        ]);
     }
 
     /**
