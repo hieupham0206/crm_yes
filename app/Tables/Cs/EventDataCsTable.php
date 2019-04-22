@@ -88,17 +88,19 @@ class EventDataCsTable extends DataTable
      */
     public function getModels()
     {
-        $userId     = auth()->id();
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])->doesntHave('contracts')->where('state', EventDataState::DEAL)->where(function ($q) use ($userId) {
-            $q->whereNull('cs_id')->orWhere('cs_id', $userId);
-        });
+//        $userId     = auth()->id();
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])
+                                        ->doesntHave('contracts')->where('state', EventDataState::DEAL);
+//                               ->where(function ($q) use ($userId) {
+//                                   $q->whereNull('cs_id')->orWhere('cs_id', $userId);
+//                               });
 
         $this->totalFilteredRecords = $this->totalRecords = $eventDatas->count();
 
         if ($this->isFilterNotEmpty) {
             $eventDatas->filters($this->filters);
 
-            if (! empty($this->filters['phone'])) {
+            if ( ! empty($this->filters['phone'])) {
                 $eventDatas->whereHas('lead', function ($q) {
                     $q->andFilterWhere(['phone', 'like', $this->filters['phone']]);
                 });

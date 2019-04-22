@@ -27,9 +27,9 @@ $(function() {
 			$('#txt_hidden_address').val(`${addVal} ${ward}, ${county}, ${city}`)
 
 			let addTmpVal = $('#txt_temp_address').val()
-			let cityTmp = $('#select_tmp_address_city').select2('data')[0]['text']
-			let countyTmp = $('#select_tmp_address_county').select2('data')[0]['county_name']
-			let wardTmp = $('#select_tmp_address_ward').select2('data')[0]['ward_name']
+			let cityTmp = $('#select_temp_address_city').select2('data')[0]['text']
+			let countyTmp = $('#select_temp_address_county').select2('data')[0]['county_name']
+			let wardTmp = $('#select_temp_address_ward').select2('data')[0]['ward_name']
 			$('#txt_hidden_temp_address').val(`${addTmpVal} ${wardTmp}, ${countyTmp}, ${cityTmp}`)
 
 			$(form).confirmation(result => {
@@ -67,17 +67,17 @@ $(function() {
 		column: 'ward_name',
 	})
 
-	$('#select_tmp_address_county').select2Ajax({
+	$('#select_temp_address_county').select2Ajax({
 		data(q) {
-			q.cityCode = $('#select_tmp_address_city').val()
+			q.cityCode = $('#select_temp_address_city').val()
 		},
 		column: 'county_name',
 	})
 
-	$('#select_tmp_address_ward').select2Ajax({
+	$('#select_temp_address_ward').select2Ajax({
 		data(q) {
-			q.cityCode = $('#select_tmp_address_city').val()
-			q.countyCode = $('#select_tmp_address_county').val() ? $('#select_tmp_address_county').select2('data')[0]['county_code'] : 0
+			q.cityCode = $('#select_temp_address_city').val()
+			q.countyCode = $('#select_temp_address_county').val() ? $('#select_temp_address_county').select2('data')[0]['county_code'] : 0
 		},
 		column: 'ward_name',
 	})

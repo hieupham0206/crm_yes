@@ -107,9 +107,9 @@ $(function () {
 			$('#txt_hidden_address').val(addVal + ' ' + ward + ', ' + county + ', ' + city);
 
 			var addTmpVal = $('#txt_temp_address').val();
-			var cityTmp = $('#select_tmp_address_city').select2('data')[0]['text'];
-			var countyTmp = $('#select_tmp_address_county').select2('data')[0]['county_name'];
-			var wardTmp = $('#select_tmp_address_ward').select2('data')[0]['ward_name'];
+			var cityTmp = $('#select_temp_address_city').select2('data')[0]['text'];
+			var countyTmp = $('#select_temp_address_county').select2('data')[0]['county_name'];
+			var wardTmp = $('#select_temp_address_ward').select2('data')[0]['ward_name'];
 			$('#txt_hidden_temp_address').val(addTmpVal + ' ' + wardTmp + ', ' + countyTmp + ', ' + cityTmp);
 
 			$(form).confirmation(function (result) {
@@ -149,18 +149,18 @@ $(function () {
 		column: 'ward_name'
 	});
 
-	$('#select_tmp_address_county').select2Ajax({
+	$('#select_temp_address_county').select2Ajax({
 		data: function data(q) {
-			q.cityCode = $('#select_tmp_address_city').val();
+			q.cityCode = $('#select_temp_address_city').val();
 		},
 
 		column: 'county_name'
 	});
 
-	$('#select_tmp_address_ward').select2Ajax({
+	$('#select_temp_address_ward').select2Ajax({
 		data: function data(q) {
-			q.cityCode = $('#select_tmp_address_city').val();
-			q.countyCode = $('#select_tmp_address_county').val() ? $('#select_tmp_address_county').select2('data')[0]['county_code'] : 0;
+			q.cityCode = $('#select_temp_address_city').val();
+			q.countyCode = $('#select_temp_address_county').val() ? $('#select_temp_address_county').select2('data')[0]['county_code'] : 0;
 		},
 
 		column: 'ward_name'
