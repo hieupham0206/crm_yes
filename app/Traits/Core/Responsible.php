@@ -35,7 +35,7 @@ trait Responsible
                     ->with(['causer'])
                     ->where('subject_type', \get_class($this))
                     ->where('description', 'like', '%' . __(' has been updated by ') . '%')
-                    ->orderBy('id', 'desc')->limit(1);
+                    ->orderBy('id', 'desc');
     }
 
     /**

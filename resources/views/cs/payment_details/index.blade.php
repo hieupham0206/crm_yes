@@ -35,6 +35,7 @@ $breadcrumbs = ['breadcrumb' => 'payment_details.index'];
                             <th>{{ $paymentDetail->label('pay_date_real') }}</th>
                             <th>{{ $paymentDetail->label('amount') }}</th>
                             <th>{{ 'Phí' }}</th>
+                            <th>{{ 'Ghi chú' }}</th>
                             <th>@lang('Actions')</th>
                             <th>{{ $paymentDetail->label('update_by') }}</th>
                             <th>{{ $paymentDetail->label('update_date') }}</th>

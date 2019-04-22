@@ -61,6 +61,7 @@ class PaymentDetailTable extends DataTable
 //                optional($paymentDetail->payment_cost)->cost,
                 number_format($paymentDetail->payment_fee),
 
+                $paymentDetail->note,
                 $btnEdit,
                 optional(optional($activityLog)->causer)->name,
                 optional(optional($activityLog)->created_at)->format('d-m-Y'),

@@ -82,7 +82,7 @@
         <div class="form-group m-form__group row">
             <div class="col-12 m-form__group-sub {{ $errors->has('note') ? 'has-danger' : ''}}">
                 <label for="textarea_note">{{ $paymentDetail->label('note') }}</label>
-                <textarea name="note" id="textarea_note" cols="30" rows="5" class="form-control"></textarea>
+                <textarea name="note" id="textarea_note" cols="30" rows="5" class="form-control">{{ $paymentDetail->note ?? old('note') }}</textarea>
                 <span class="m-form__help"></span>
                 {!! $errors->first('note', '<div class="form-control-feedback">:message</div>') !!}
             </div>
