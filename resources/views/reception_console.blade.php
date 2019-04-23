@@ -46,6 +46,12 @@
                 </div>
             </div>
             <div class="col-xl-6 col-lg-12">
+            </div>
+            <div class="col-xl-6 col-lg-12">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
                 <div class="m-portlet m-portlet--info m-portlet--head-solid-bg">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
@@ -59,6 +65,7 @@
                             <table class="table table-borderless table-hover nowrap" id="table_appointment" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>{{ $lead->label('appointment_datetime') }}</th>
                                     <th>Chức vụ</th>
                                     <th>{{ $lead->label('name') }}</th>
@@ -73,37 +80,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="m-portlet m-portlet--primary m-portlet--head-solid-bg">
-                    <div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Event Data</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-portlet__body">
-                        <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="300" data-scrollbar-shown="true">
-                            <table class="table table-borderless table-hover nowrap" id="table_event_data" width="100%">
-                                <thead>
-                                <tr>
-                                    <th>{{ $lead->label('Stt') }}</th>
-                                    <th>{{ $lead->label('date') }}</th>
-                                    <th>{{ $lead->label('name') }}</th>
-                                    <th>{{ $lead->label('phone') }}</th>
-                                    <th>{{ $lead->label('voucher') }}</th>
-                                    <th>{{ $lead->label('note') }}</th>
-                                    <th>{{ $lead->label('TO') }}</th>
-                                    <th>{{ $lead->label('REP') }}</th>
-                                    {{--<th>@lang('Actions')</th>--}}
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class="col-xl-6 col-lg-12">
+            <div class="col-xl-6">
                 <div class="m-portlet ">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
@@ -211,6 +189,42 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-7">
+                <div class="m-portlet m-portlet--primary m-portlet--head-solid-bg">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h3 class="m-portlet__head-text">Event Data</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body">
+                        <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="300" data-scrollbar-shown="true">
+                            <table class="table table-borderless table-hover nowrap" id="table_event_data" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>{{ $lead->label('Stt') }}</th>
+                                    <th>{{ $lead->label('date') }}</th>
+                                    <th>{{ $lead->label('name') }}</th>
+                                    <th>{{ $lead->label('phone') }}</th>
+                                    <th>{{ $lead->label('voucher') }}</th>
+                                    <th>{{ $lead->label('note') }}</th>
+                                    <th>{{ $lead->label('TO') }}</th>
+                                    <th>{{ $lead->label('REP') }}</th>
+                                    {{--<th>@lang('Actions')</th>--}}
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-5">
                 <div class="m-portlet" id="event_data_section" style="display: none">
                     <div class="m-portlet__body">
                         <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="355" data-scrollbar-shown="true">

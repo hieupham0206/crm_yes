@@ -173,7 +173,7 @@ class AppointmentTable extends DataTable
     {
         $dataArray = [];
         /** @var Appointment[] $appointments */
-        foreach ($appointments as $appointment) {
+        foreach ($appointments as $key => $appointment) {
             $appointmentDateText = "<span class='span-datetime'>" . optional($appointment->appointment_datetime)->format('d-m-Y H:i') . '</span>';
             if ($appointment->appointment_datetime) {
                 $dateRemain = now()->diffInDays($appointment->appointment_datetime);
@@ -186,6 +186,7 @@ class AppointmentTable extends DataTable
             $lead        = $appointment->lead;
             $user        = $appointment->user;
             $dataArray[] = [
+                ++$key,
                 $appointmentDateText,
                 $user ? $user->roles[0]->name : '',
                 "<a class='link-lead-name m-link m--font-brand' href='javascript:void(0)' data-appointment-id='{$appointment->id}' data-lead-id='{$appointment->lead_id}'>{$lead->name}</a>",
