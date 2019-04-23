@@ -51,6 +51,8 @@
                 <div class="col-sm-12 col-md-6 m-form__group-sub">
                     <label for="select_time">{{ $lead->label('time') }}</label>
                     <select name="time" id="select_time">
+                        <option value="08:00">08 AM</option>
+                        <option value="09:00">09 AM</option>
                         <option value="10:00">10 AM</option>
                         <option value="11:00">11 AM</option>
                         <option value="12:00">12 AM</option>
@@ -61,6 +63,9 @@
                         <option value="17:00">5 PM</option>
                         <option value="18:00">6 PM</option>
                         <option value="19:00">7 PM</option>
+                        <option value="20:00">8 PM</option>
+                        <option value="21:00">9 PM</option>
+                        <option value="22:00">10 PM</option>
                     </select>
                 </div>
             </div>
