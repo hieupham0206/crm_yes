@@ -195,6 +195,29 @@ class ContractsController extends Controller
                     'pay_time'   => $payTime,
                     'created_at' => now()->toDateTimeString(),
                 ]);
+
+                $paymentCostAnual = \App\Models\PaymentCost::firstOrCreate([
+                    'name'           => 'Tiền mặt',
+                    'cost'           => 0,
+                    'payment_method' => \App\Enums\PaymentMethod::CASH,
+                ]);
+                //lịch thanh toán hằng năm
+                PaymentDetail::create([
+                    'pay_date'               => $payDate,
+                    'total_paid_deal'        => str_replace(',', '', $contract->year_cost),
+//                    'pay_date_real'          => $payDate,
+//                    'total_paid_real'        => str_replace(',', '', $contract->year_cost),
+                    'contract_id'            => $contract->id,
+                    'payment_cost_id'        => optional($paymentCostAnual)->id,
+                    'payment_installment_id' => null,
+                    'payment_fee'            => optional($paymentCostAnual)->cost,
+
+                    'bank_name'  => $paymentCostAnual->bank_name,
+                    'bank_no'    => '',
+                    'note'       => '',
+                    'pay_time'   => 2,
+                    'created_at' => now()->toDateTimeString(),
+                ]);
             }
 
             if ($request->has('PaymentDetail')) {
