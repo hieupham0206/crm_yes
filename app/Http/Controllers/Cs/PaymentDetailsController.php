@@ -50,6 +50,7 @@ class PaymentDetailsController extends Controller
     {
         return view('cs.payment_details.create', [
             'paymentDetail' => new PaymentDetail,
+            'paymentCost'   => new PaymentCost(),
             'action'        => route('payment_details.store'),
         ]);
     }
@@ -65,11 +66,23 @@ class PaymentDetailsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'total_paid_deal' => 'required',
+            'total_paid_real' => 'required',
         ]);
         $requestData                = $request->all();
         $requestData['payment_fee'] = str_replace(',', '', $requestData['payment_fee']);
-        $paymentDetail              = PaymentDetail::create($requestData);
+
+        $bankName      = $requestData['bank_name'];
+        $paymentMethod = $requestData['payment_method'];
+
+        $paymentCost = PaymentCost::where([
+            'bank_name'      => $bankName,
+            'payment_method' => $paymentMethod,
+        ])->first();
+
+        $requestData['payment_cost_id'] = $paymentCost->id;
+        $requestData['total_paid_real'] = str_replace(',', '', $requestData['total_paid_real']);
+
+        PaymentDetail::create($requestData);
 
         if ($request->wantsJson()) {
             return $this->asJson([
@@ -77,13 +90,13 @@ class PaymentDetailsController extends Controller
             ]);
         }
 
-        return redirect(route('payment_details.show', $paymentDetail))->with('message', __('Data created successfully'));
+        return redirect(route('payment_details.index'))->with('message', __('Data created successfully'));
     }
 
     /**
      * Trang xem chi tiết PaymentDetail.
      *
-     * @param  PaymentDetail $paymentDetail
+     * @param PaymentDetail $paymentDetail
      *
      * @return \Illuminate\View\View
      */
@@ -95,7 +108,7 @@ class PaymentDetailsController extends Controller
     /**
      * Trang cập nhật PaymentDetail.
      *
-     * @param  PaymentDetail $paymentDetail
+     * @param PaymentDetail $paymentDetail
      *
      * @return \Illuminate\View\View
      */
@@ -113,7 +126,7 @@ class PaymentDetailsController extends Controller
      * Cập nhật PaymentDetail tương ứng.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  PaymentDetail $paymentDetail
+     * @param PaymentDetail $paymentDetail
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Validation\ValidationException

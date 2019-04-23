@@ -13,7 +13,7 @@ $breadcrumbs = ['breadcrumb' => 'payment_details.index'];
 @section('content')
     <div class="m-content">
         <div class="m-portlet">
-            @include('layouts.partials.index_header', ['modelName' => $paymentDetail->classLabel(true), 'model' => 'payment_detail', 'createUrl' => '', 'buttons' => [
+            @include('layouts.partials.index_header', ['modelName' => $paymentDetail->classLabel(true), 'model' => 'payment_detail', 'createUrl' => route('payment_details.create'), 'buttons' => [
                 [
                     'route' => route('payment_details.export_excel'),
                     'text'  => __('Export excel'),

@@ -6,9 +6,20 @@
     @endisset
     <div class="m-portlet__body">
         <div class="form-group m-form__group row">
+            @if (! $paymentDetail->exists)
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('contract_id') ? 'has-danger' : ''}}">
+                    <label for="txt_contract_id">{{ $paymentDetail->label('contract') }}</label>
+                    <select name="contract_id" id="select_contract_id" class="select2-ajax" data-url="{{ route('contracts.list') }}" data-column="contract_no">
+                        <option></option>
+                    </select>
+                    <span class="m-form__help"></span>
+                    {!! $errors->first('contract_id', '<div class="form-control-feedback">:message</div>') !!}
+                </div>
+            @endif
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('total_paid_real') ? 'has-danger' : ''}}">
                 <label for="txt_total_paid_real">{{ $paymentDetail->label('total_paid_real') }}</label>
-                <input class="form-control numeric" name="total_paid_real" type="text" id="txt_total_paid_real" value="{{ $paymentDetail->total_paid_real ?? old('total_paid_real')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
+                <input class="form-control numeric" name="total_paid_real" type="text" id="txt_total_paid_real"
+                       value="{{ $paymentDetail->total_paid_real ?? old('total_paid_real')}}" required placeholder="{{ __('Enter value') }}" autocomplete="off">
                 <span class="m-form__help"></span>
                 {!! $errors->first('total_paid_real', '<div class="form-control-feedback">:message</div>') !!}
             </div>
@@ -34,7 +45,7 @@
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 m-form__group-sub {{ $errors->has('bank_name') ? 'has-danger' : ''}}">
                 <label for="select_bank">{{ $paymentCost->label('bank_name') }}</label>
                 <input type="hidden" name="bank_name" id="txt_bank_name" value="{{ optional($paymentDetail->payment_cost)->bank_name }}">
-                <select name="select_bank_name" id="select_bank" class="select" disabled>
+                <select id="select_bank" class="select" disabled>
                     <option></option>
                     <option value="{{ $paymentDetail->payment_cost_id }}" {{ $paymentDetail->payment_cost_id ? 'selected' : '' }}>
                         {{ optional($paymentDetail->payment_cost)->bank_name }}

@@ -407,10 +407,10 @@ class ContractsController extends Controller
         $page       = request()->get('page', 1);
         $excludeIds = request()->get('excludeIds', []);
         $offset     = ($page - 1) * 10;
-        $contracts  = Contract::query()->select(['id', 'name']);
+        $contracts  = Contract::query()->select(['id', 'contract_no']);
 
         $contracts->andFilterWhere([
-            ['name', 'like', $query],
+            ['contract_no', 'like', $query],
             ['id', '!=', $excludeIds],
         ]);
 
