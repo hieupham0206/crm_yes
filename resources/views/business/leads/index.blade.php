@@ -25,7 +25,7 @@ $breadcrumbs = ['breadcrumb' => 'leads.index'];
                     'icon'  => 'fa fa-file-excel',
                     'btnClass' => 'btn-brand btn-export-excel d-none d-sm-block',
                     'isLink' => true,
-                    'canDo' => false,
+                    'canDo' => true,
                 ],
             ]])
             <div class="m-portlet__body">

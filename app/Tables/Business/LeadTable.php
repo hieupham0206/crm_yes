@@ -4,6 +4,7 @@ namespace App\Tables\Business;
 
 use App\Models\Lead;
 use App\Tables\DataTable;
+use Illuminate\Support\Facades\Cache;
 
 class LeadTable extends DataTable
 {
@@ -109,6 +110,8 @@ class LeadTable extends DataTable
         $leads = Lead::query()->with(['province']);
 
         $this->totalFilteredRecords = $this->totalRecords = $leads->count();
+
+        Cache::put('leadIndexFilter', $this->filters, now()->addMinutes(10));
 
         if ($this->isFilterNotEmpty) {
             $leads->filters($this->filters);

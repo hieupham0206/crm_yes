@@ -25,6 +25,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -896,8 +897,8 @@ class LeadsController extends Controller
 
     public function exportExcel(Request $request)
     {
-        $filters = $request->all();
+        $filters = Cache::get('leadIndexFilter');
 
-        return (new LeadExport($filters))->download('appointments_' . time() . '.xlsx');
+        return (new LeadExport($filters))->download('leads_' . time() . '.xlsx');
     }
 }
