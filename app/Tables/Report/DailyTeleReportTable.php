@@ -100,10 +100,10 @@ class DailyTeleReportTable extends DataTable
 //                $totalCancel,//cancel (cxl)
                 $totalReAppointment,//re-app
                 $totalAppointments,//total-app
-                $rateApp,
+                number_format($rateApp, 2),
                 $totalQueue + $totalNotQueue,//sum(Q; NQ; No Rep; Overflow; CXL; Re-App; 3PM Event)
                 $totalDeal,//deal
-                $rateDeal,//rate: deal/Q
+                number_format($rateDeal, 2),//rate: deal/Q
             ];
         }
 
