@@ -26,7 +26,7 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily tele report'];
                 <table class="table table-borderless table-hover nowrap" id="table_daily_tele_report"  width="100%">
                     <thead>
                     <tr>
-                        <th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>
+{{--                        <th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
                         <th>{{ $user->label('name') }}</th>
                         <th>{{ $user->label('role') }}</th>
                         <th>{{ $user->label('queue') }}</th>

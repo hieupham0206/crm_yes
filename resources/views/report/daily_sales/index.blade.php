@@ -20,21 +20,15 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily sale report'];
                         {{--<th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
                         <th>Tele name</th>
                         <th>Tele</th>
-                        <th>Digital</th>
-                        <th>OPC</th>
+                        <th>Onpoint</th>
                         <th>Private</th>
-                        <th>SSRef</th>
                         <th>Ambassador</th>
                         <th>Total</th>
-                        {{--<th>{{ $user->label('no_rep') }}</th>--}}
                         <th>NQ</th>
                         <th>Q</th>
                         <th>TO</th>
-                        <th>TO Rate</th>
                         <th>{{ $user->label('deal') }}</th>
-                        {{--<th>{{ $user->label('cxl') }}</th>--}}
-                        <th>{{ $user->label('deal_rate') }}</th>
-                        <th>{{ $user->label('phone ss') }}</th>
+                        <th>Money in</th>
                         {{--<th>@lang('Actions')</th>--}}
                     </tr>
                     </thead>

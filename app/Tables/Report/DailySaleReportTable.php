@@ -10,6 +10,7 @@ namespace App\Tables\Report;
 
 use App\Enums\EventDataState;
 use App\Models\Appointment;
+use App\Models\Contract;
 use App\Models\EventData;
 use App\Models\User;
 use App\Tables\DataTable;
@@ -87,64 +88,73 @@ class DailySaleReportTable extends DataTable
             $appointments = $appointments->get();
             $eventDatas   = $eventDatas->get();
 
-            $totalAppointment = $user->appointments_count;
-            $totalEventData   = $eventDatas->count();
+//            $totalAppointment = $user->appointments_count;
+//            $totalEventData   = $eventDatas->count();
+
+            $eventDataWithRep = $eventDatas->filter(function (EventData $event) use ($currentUser) {
+                return $event->rep_id === $currentUser->id;
+            });
 
             $totalAppointmentTele    = $appointments->filter(function (Appointment $app) {
                 return $app->user->hasRole(['Tele Marketer', 'Tele Leader']);
             })->count();
+            $totalOnPoint            = $eventDataWithRep->filter(function (EventData $event) use ($currentUser) {
+                return $event->appointment->user->hasRole(['AGENT']);
+            })->count();
             $totalPrivateAppointment = $appointments->filter(function (Appointment $app) use ($currentUser) {
                 return $app->user_id === $currentUser->id;
             })->count();
-//            $totalAppointmentRep     = $appointments->filter(function (Appointment $app) {
-//                return $app->user->hasRole(['REP']);
-//            })->count();
 
-            $totalAppointmentNQ         = $appointments->filter(function (Appointment $app) use ($currentUser) {
+            $ambassador = $eventDataWithRep->filter(function (EventData $event) use ($currentUser) {
+                return $event->appointment->ambassador === $currentUser->id;
+            })->count();
+
+            $total = $totalAppointmentTele + $totalOnPoint + $totalPrivateAppointment;
+
+            $totalAppointmentNQ    = $appointments->filter(function (Appointment $app) use ($currentUser) {
                 return $app->is_queue == 0 &&
-                       ($app->user_id === $currentUser->id ||
-                        $app->event_datas()->get()->filter(function ($event) use ($currentUser) {
-                            return $event->rep_id === $currentUser->id;
-                        })->isNotEmpty()
-                       );
+                       ($app->user_id === $currentUser->id
+//                        ||
+//                        $app->event_datas()->get()->filter(function ($event) use ($currentUser) {
+//                            return $event->rep_id === $currentUser->id;
+//                        })->isNotEmpty()
+                    );
             })->count();
-            $totalAppointmentQueue      = $appointments->filter(function (Appointment $app) use ($currentUser) {
+            $totalAppointmentQueue = $appointments->filter(function (Appointment $app) use ($currentUser) {
                 return $app->is_queue == 1 &&
-                       ($app->user_id === $currentUser->id ||
-                        $app->event_datas()->get()->filter(function ($event) use ($currentUser) {
-                            return $event->rep_id === $currentUser->id;
-                        })->isNotEmpty()
-                       );
+                       ($app->user_id === $currentUser->id
+//                        ||
+//                        $app->event_datas()->get()->filter(function ($event) use ($currentUser) {
+//                            return $event->rep_id === $currentUser->id;
+//                        })->isNotEmpty()
+                    );
             })->count();
-            $totalEventDataRep          = $eventDatas->filter(function (EventData $event) use ($currentUser) {
-                return $event->rep_id === $currentUser->id;
+            $totalAppointmentTo    = $eventDataWithRep->filter(function (EventData $event) use ($currentUser) {
+                return $event->to_id;
             })->count();
-            $totalAppointmentTo = $eventDatas->filter(function (EventData $event) use ($currentUser) {
-                return $event->rep_id === $currentUser->id && $event->to_id === null;
+            $totalEventDataDeal    = $eventDatas->filter(function (EventData $event) use ($currentUser) {
+                return $event->state == EventDataState::DEAL;
+//                       && $event->rep_id === $currentUser->id
             })->count();
-            $toRate                     = $totalEventDataRep ? ($totalAppointmentTo / $totalEventDataRep) * 100 : 0;
-            $totalEventDataDeal         = $eventDatas->filter(function (EventData $event) use ($currentUser) {
-                return $event->state == EventDataState::DEAL && $event->rep_id === $currentUser->id;
-            })->count();
-            $dealRate                   = $totalEventData ? ($totalEventDataDeal / $totalEventData) * 100 : 0;
-            $ambassador                 = property_exists($users, 'ambassadors_count') ? $users->ambassadors_count : 0;//Tổng APP của từng nhan viên
+
+            $moneyIn = $eventDataWithRep->sum(function (EventData $event) {
+                return $event->contracts->sum(function(Contract $contract) {
+                    return $contract->payment_details[0]->total_paid_real;
+                });
+            });
 
             $datas[] = [
                 $user->name,
                 $totalAppointmentTele,
-                'digital',
-                'opc',
+                $totalOnPoint,
                 $totalPrivateAppointment,
-                'ssref',
                 $ambassador,
-                $totalAppointment,
+                $total,
                 $totalAppointmentNQ,
                 $totalAppointmentQueue,
                 $totalAppointmentTo,
-                $toRate,
                 $totalEventDataDeal,
-                $dealRate,
-                'phone SS',
+                $moneyIn,
             ];
         }
 

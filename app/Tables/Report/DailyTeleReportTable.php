@@ -49,40 +49,46 @@ class DailyTeleReportTable extends DataTable
         /** @var User[] $users */
         foreach ($users as $user) {
 
-            $appointments       = $user->appointments;
-            $totalAppointments  = $user->appointments_count;
-            $totalQueue         = $appointments->filter(function (Appointment $app) {
+            $appointments      = $user->appointments;
+            $totalAppointments = $user->appointments_count;
+            $totalQueue        = $appointments->filter(function (Appointment $app) {
                 return $app->is_queue == 1;
             })->count();
             $totalShow         = $appointments->filter(function (Appointment $app) {
                 return $app->is_show_up == 1;
             })->count();
-            $totalNotQueue      = $appointments->filter(function (Appointment $app) {
+            $totalNotQueue     = $appointments->filter(function (Appointment $app) {
                 return $app->is_queue == 0;
             })->count();
-            $totalNoRep         = $appointments->sum(function (Appointment $app) {
+            $totalNoRep        = $appointments->sum(function (Appointment $app) {
                 return $app->noRepEvents->count();
             });
-            $totalOverflow      = $appointments->sum(function (Appointment $app) {
+            $totalOverflow     = $appointments->sum(function (Appointment $app) {
                 return $app->overflowEvents->count();
             });
-            $totalCancel        = $appointments->filter(function (Appointment $app) {
-                return $app->state == -1;
-            })->count();
+//            $totalCancel        = $appointments->filter(function (Appointment $app) {
+//                return $app->state == -1;
+//            })->count();
             $totalReAppointment = $appointments->sum(function (Appointment $app) {
                 return $app->busyEvents->count();
             });
             $total3pmEvent      = $appointments->filter(function (Appointment $app) {
-                return $app->appointment_datetime->isSameHour(Carbon::createFromTime(13, 0, 0));
+//                return $app->appointment_datetime->isSameHour(Carbon::createFromTime(13, 0, 0));
+
+                $time    = Carbon::now();
+                $morning = Carbon::create($time->year, $time->month, $time->day, 14, 30, 0); //set time to 08:00
+                $evening = Carbon::create($time->year, $time->month, $time->day, 16, 0, 0); //set time to 18:00
+
+                return $app->appointment_datetime->between($morning, $evening);
             })->count();
             $totalDeal          = $appointments->sum(function (Appointment $app) {
                 return $app->dealEvents->count();
             });
 //            $rate               = $totalQueue > 0 ? $totalDeal / $totalQueue * 0.1 : 0;
-            $rateDeal        = $totalAppointments > 0 ? $totalQueue / $totalAppointments * 0.1 : 0;
-            $rateApp        = $totalAppointments > 0 ? $totalShow / $totalAppointments * 0.1 : 0;
+            $rateDeal    = $totalAppointments > 0 ? $totalQueue / $totalAppointments * 0.1 : 0;
+            $rateApp     = $totalAppointments > 0 ? $totalShow / $totalAppointments * 0.1 : 0;
             $dataArray[] = [
-                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $user->id . '"><span></span></label>',
+//                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $user->id . '"><span></span></label>',
                 $user->name,
                 optional($user->roles[0])->name,
 //                optional($user->first_day_work)->format('d-m-Y'),
@@ -95,7 +101,7 @@ class DailyTeleReportTable extends DataTable
                 $totalReAppointment,//re-app
                 $totalAppointments,//total-app
                 $rateApp,
-                $totalQueue + $totalNotQueue + $totalNoRep + $totalOverflow + $totalCancel + $totalReAppointment + $total3pmEvent,//sum(Q; NQ; No Rep; Overflow; CXL; Re-App; 3PM Event)
+                $totalQueue + $totalNotQueue,//sum(Q; NQ; No Rep; Overflow; CXL; Re-App; 3PM Event)
                 $totalDeal,//deal
                 $rateDeal,//rate: deal/Q
             ];
