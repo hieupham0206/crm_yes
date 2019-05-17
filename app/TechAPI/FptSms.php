@@ -135,14 +135,14 @@ class FptSms
 
         //0912136032
         $appDatetime = optional($appointment->appointment_datetime)->format('d-m-Y H:i:s');
-        $code = Appointment::generateCode();
+//        $code = Appointment::generateCode();
 
         // Khởi tạo các tham số của tin nhắn.
-        $message = "Tran trong kinh mời GD {$lead->title}. {$lead->name} tham dự Su Kien Du Lich luc {$appDatetime} tai: 
-        - Hồ Chí Minh: Toa Indochina, 4 Nguyen Dinh Chieu, P.DaKao, Q1 (Tang 13, Khu A).
-        - Hà Nội: Tầng 3 tòa nhà Kinh Đô, 93 Lò Đúc, Q.Hai Bà Trưng, TP.Hà Nội
+        $message = "Trân trọng kính mời gia đình anh/chị {$lead->name} tham dự Sự Kiện Du Lịch lúc {$appDatetime} tại: 
+        - Hồ Chí Minh : Tầng 13, khu A, số 04 Nguyễn Đình Chiểu, P.Dakao, Q1. Hoặc
+        - Hà Nội: Tầng 3 tòa nhà Kinh Đô, 93 Lò Đúc, Q.Hai Bà Trưng, TP.Hà Nội. Hoặc
+        - Hải Phòng : Tầng 4, tòa nhà Thành Đạt 1, số 03 Lê Thánh Tông, quận Ngô Quyền
 Xin vui long mang theo CNMD de hoan thanh thu tuc dang ky.
-Dua ma so sau cho le tan de xac nhan: {$code}
 
 Xin cam on,
 Hotline: 02367109609";
@@ -180,12 +180,14 @@ Hotline: 02367109609";
 //            'BrandName' => 'FTI',
             'BrandName' => 'YesVacation',
             'Phone'     => $phone,
-            'Message'   => "Tran trong kinh mời GD {$lead->title}. {$lead->name} tham dự Su Kien Du Lich luc {$appDatetime} tai Toa Indochina, 4 Nguyen Dinh Chieu, P.DaKao, Q1 (Tang 13, Khu A).
+            'Message'   => "Trân trọng kính mời gia đình anh/chị {$lead->name} tham dự Sự Kiện Du Lịch lúc {$appDatetime} tại: 
+        - Hồ Chí Minh : Tầng 13, khu A, số 04 Nguyễn Đình Chiểu, P.Dakao, Q1. Hoặc
+        - Hà Nội: Tầng 3 tòa nhà Kinh Đô, 93 Lò Đúc, Q.Hai Bà Trưng, TP.Hà Nội. Hoặc
+        - Hải Phòng : Tầng 4, tòa nhà Thành Đạt 1, số 03 Lê Thánh Tông, quận Ngô Quyền
 Xin vui long mang theo CNMD de hoan thanh thu tuc dang ky.
-Dua ma so sau cho le tan de xac nhan: {$code}
 
 Xin cam on,
-Hotline: 02873000887",
+Hotline: 02367109609",
         ];
 
         // Khởi tạo đối tượng API với các tham số phía trên.
