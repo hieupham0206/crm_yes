@@ -138,7 +138,9 @@ class FptSms
         $code = Appointment::generateCode();
 
         // Khởi tạo các tham số của tin nhắn.
-        $message = "Tran trong kinh mời GD {$lead->title}. {$lead->name} tham dự Su Kien Du Lich luc {$appDatetime} tai Toa Indochina, 4 Nguyen Dinh Chieu, P.DaKao, Q1 (Tang 13, Khu A).
+        $message = "Tran trong kinh mời GD {$lead->title}. {$lead->name} tham dự Su Kien Du Lich luc {$appDatetime} tai: 
+        - Hồ Chí Minh: Toa Indochina, 4 Nguyen Dinh Chieu, P.DaKao, Q1 (Tang 13, Khu A).
+        - Hà Nội: Tầng 3 tòa nhà Kinh Đô, 93 Lò Đúc, Q.Hai Bà Trưng, TP.Hà Nội
 Xin vui long mang theo CNMD de hoan thanh thu tuc dang ky.
 Dua ma so sau cho le tan de xac nhan: {$code}
 
