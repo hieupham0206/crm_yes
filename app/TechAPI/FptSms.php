@@ -145,7 +145,7 @@ Xin vui long mang theo CNMD de hoan thanh thu tuc dang ky.
 Dua ma so sau cho le tan de xac nhan: {$code}
 
 Xin cam on,
-Hotline: 02873000887";
+Hotline: 02367109609";
 
         return $this->sendBrandNameSms($message, $phone);
 
