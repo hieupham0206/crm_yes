@@ -56,6 +56,12 @@ class DailySaleReportTable extends DataTable
     {
         $users = User::where('username', '<>', 'admin')->whereKeyNot(auth()->id())
                      ->with([
+                         'appointments' => function ($q) {
+                             $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
+                         },
+                         'appointments.user' => function ($q) {
+                             $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
+                         },
                          'appointments.user.roles' => function ($q) {
                              $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
                          },

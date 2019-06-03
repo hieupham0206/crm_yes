@@ -46,8 +46,8 @@ class DailyTeleReportTable extends DataTable
         $users        = $this->getModels();
         $dataArray    = [];
 
-//        $fromDate = $this->filters['from_date'];
-//        $toDate   = $this->filters['to_date'];
+        $fromDate = $this->filters['from_date'];
+        $toDate   = $this->filters['to_date'];
 //
 //        if ($fromDate) {
 //            $fromDate = date('d', strtotime($this->filters['from_date']));
@@ -66,6 +66,10 @@ class DailyTeleReportTable extends DataTable
 
         $historyCalls = \DB::table('history_calls')
                            ->select(\DB::raw('SUM(time_of_call) as total_call, user_id'))
+                           ->whereBetween('created_at', [
+                               date('Y-m-d 00:00:00', strtotime($fromDate)),
+                               date('Y-m-d 23:59:59', strtotime($toDate)),
+                           ])
                            ->groupBy(\DB::raw('user_id'))
                            ->get();
         /** @var User[] $users */
@@ -173,7 +177,15 @@ class DailyTeleReportTable extends DataTable
                          },
                          'roles',
 
-                     ])->withCount(['appointments', 'history_calls'])->role(['Tele Marketer', 'Tele Leader', 'REP', 'TO']);
+                     ])->withCount([
+
+                'history_calls' => function ($q) {
+                    $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
+                },
+                'appointments'  => function ($q) {
+                    $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
+                },
+            ])->role(['Tele Marketer', 'Tele Leader', 'REP', 'TO']);
 
         $this->totalFilteredRecords = $this->totalRecords = $users->count();
 
