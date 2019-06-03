@@ -116,7 +116,7 @@ $(function () {
 			if ($('#select_bank').val()) {
 				fd.append('bank_name', $('#select_bank').select2('data')[0]['text']);
 			}
-			$(form).submitForm().then(function () {
+			$(form).submitForm({ formData: fd }).then(function () {
 				location.href = route('contracts.index');
 			});
 			// } else {

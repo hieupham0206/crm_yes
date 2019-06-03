@@ -103,7 +103,9 @@ class LeadsController extends Controller
             if ($currentLead->isNotEmpty()) {
                 $lead = $currentLead->first();
             } else {
-                $lead = Lead::create($requestData);
+                $leadData = $requestData;
+                $leadData['state'] = LeadState::APPOINTMENT;
+                $lead = Lead::create($leadData);
             }
 
             if (isset($requestData['form']) && $requestData['form'] === 'reception') {

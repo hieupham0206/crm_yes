@@ -9,6 +9,7 @@
 namespace App\Tables\Report;
 
 use App\Models\Appointment;
+use App\Models\EventData;
 use App\Models\User;
 use App\Tables\DataTable;
 use Carbon\Carbon;
@@ -46,6 +47,21 @@ class DailyTeleReportTable extends DataTable
         $users        = $this->getModels();
         $dataArray    = [];
 
+        $fromDate = $this->filters['from_date'];
+        $toDate   = $this->filters['to_date'];
+
+        if ($fromDate) {
+            $fromDate = date('d', strtotime($this->filters['from_date']));
+        } else {
+            $fromDate = 1;
+        }
+
+        if ($toDate) {
+            $toDate = date('d', strtotime($this->filters['to_date']));
+        } else {
+            $toDate = (new Carbon('last day of last month'))->endOfMonth()->day;
+        }
+
         /** @var User[] $users */
         foreach ($users as $user) {
 
@@ -72,17 +88,17 @@ class DailyTeleReportTable extends DataTable
             $totalReAppointment = $appointments->sum(function (Appointment $app) {
                 return $app->busyEvents->count();
             });
-            $total3pmEvent      = $appointments->filter(function (Appointment $app) {
-//                return $app->appointment_datetime->isSameHour(Carbon::createFromTime(13, 0, 0));
-
+            $total3pmEvent      = $appointments->filter(function (Appointment $app) use ($fromDate, $toDate) {
                 $time    = Carbon::now();
-                $morning = Carbon::create($time->year, $time->month, $time->day, 14, 30, 0); //set time to 08:00
-                $evening = Carbon::create($time->year, $time->month, $time->day, 16, 0, 0); //set time to 18:00
+                $morning = Carbon::create($time->year, 1, $fromDate, 14, 30, 0);
+                $evening = Carbon::create($time->year, $time->month, $toDate, 16, 0, 0);
 
                 return $app->appointment_datetime->between($morning, $evening);
             })->count();
-            $totalDeal          = $appointments->sum(function (Appointment $app) {
-                return $app->dealEvents->count();
+            $totalDeal          = $appointments->sum(function (Appointment $app) use ($user) {
+                return $app->dealEvents->filter(function (EventData $event) use ($user) {
+                    return $event->rep_id === $user->id;
+                })->count();
             });
 //            $rate               = $totalQueue > 0 ? $totalDeal / $totalQueue * 0.1 : 0;
             $rateDeal    = $totalAppointments > 0 ? $totalQueue / $totalAppointments * 0.1 : 0;

@@ -38,7 +38,7 @@ $(function() {
 					if ($('#select_bank').val()) {
 						fd.append('bank_name', $('#select_bank').select2('data')[0]['text'])
 					}
-					$(form).submitForm().then(() => {
+					$(form).submitForm({formData: fd}).then(() => {
 						location.href = route('contracts.index')
 					})
 				// } else {
