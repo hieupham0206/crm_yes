@@ -23,7 +23,9 @@ class CallbackExport implements FromView
 
     public function __construct($filters)
     {
-        $this->filters = $filters;
+//        $this->filters = $filters
+
+        $this->filters = \Cache::get('callback_filter', []);
     }
 
     /**
@@ -33,11 +35,15 @@ class CallbackExport implements FromView
     {
         $callbacks = Callback::query()->filters($this->filters)->with(['user', 'lead']);
 
-        if ( ! empty($this->filters['phone'])) {
-            $phone = $this->filters['phone'];
-            $callbacks->whereHas('lead', function ($q) use ($phone) {
-                $q->where('phone', $phone);
-            });
+        if ($this->filters) {
+            $callbacks->filters($this->filters)->dateBetween([$this->filters['from_date'], $this->filters['to_date']], 'callback_datetime');
+
+            if ( ! empty($this->filters['phone'])) {
+                $phone = $this->filters['phone'];
+                $callbacks->whereHas('lead', function ($q) use ($phone) {
+                    $q->where('phone', $phone);
+                });
+            }
         }
 
         return view('business.callbacks._template_export', [

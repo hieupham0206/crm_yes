@@ -24,7 +24,9 @@ class HistoryCallExport implements FromView
 
     public function __construct($filters)
     {
-        $this->filters = $filters;
+//        $this->filters = $filters;
+
+        $this->filters = \Cache::get('history_call_filter', []);
     }
 
     /**

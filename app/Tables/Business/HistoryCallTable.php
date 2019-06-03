@@ -104,6 +104,8 @@ class HistoryCallTable extends DataTable
             $this->totalFilteredRecords = $historyCalls->count();
         }
 
+        \Cache::put('history_call_filter', $this->filters, now()->addMinutes(10));
+
         return $historyCalls->limit($this->length)->offset($this->start)
                             ->orderBy($this->column, $this->direction)->get();
     }

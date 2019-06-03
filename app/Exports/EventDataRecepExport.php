@@ -24,7 +24,9 @@ class EventDataRecepExport implements FromView
 
     public function __construct($filters)
     {
-        $this->filters = $filters;
+//        $this->filters = $filters;
+
+        $this->filters = \Cache::get('event_data_recep_filter', []);
     }
 
     /**
@@ -34,10 +36,22 @@ class EventDataRecepExport implements FromView
     {
         $eventDatas = EventData::query()->with(['lead', 'to', 'rep', 'appointment'])->doesntHave('contracts');
 
-        if (! empty($this->filters['phone'])) {
-            $eventDatas->whereHas('lead', function ($q) {
-                $q->andFilterWhere(['phone', 'like', $this->filters['phone']]);
-            });
+        if ($this->filters) {
+            $eventDatas->filters($this->filters);
+
+            if ( ! empty($this->filters['phone'])) {
+                $eventDatas->whereHas('lead', function ($q) {
+                    $q->andFilterWhere(['phone', 'like', $this->filters['phone']]);
+                });
+            }
+
+            if ( ! empty($this->filters['is_queue'])) {
+                $isQueue = $this->filters['is_queue'];
+
+                $eventDatas->whereHas('appointment', static function ($q) use ($isQueue) {
+                    $q->where('is_queue', $isQueue);
+                });
+            }
         }
 
         return view('business.event_datas._template_export', [

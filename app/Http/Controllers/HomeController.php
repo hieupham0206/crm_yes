@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
-use App\Models\PaymentDetail;
 use App\Models\TimeBreak;
 use App\Models\User;
-use App\TechAPI\FptSms;
 use Illuminate\Support\Carbon;
 
 class HomeController extends Controller

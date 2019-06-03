@@ -133,8 +133,7 @@ class DailySaleReportTable extends DataTable
                 return $event->to_id;
             })->count();
             $totalEventDataDeal    = $eventDatas->filter(function (EventData $event) use ($currentUser) {
-                return $event->state == EventDataState::DEAL;
-//                       && $event->rep_id === $currentUser->id
+                return $event->state == EventDataState::DEAL && $event->rep_id == $currentUser->id;
             })->count();
 
             $moneyIn = $eventDataWithRep->sum(function (EventData $event) {

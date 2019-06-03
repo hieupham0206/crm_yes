@@ -117,6 +117,8 @@ class AppointmentTable extends DataTable
             $this->totalFilteredRecords = $appointments->count();
         }
 
+        \Cache::put('appointment_filter', $this->filters, now()->addMinutes(10));
+
         return $appointments->limit($this->length)->offset($this->start)
                             ->orderBy($this->column, $this->direction)->get();
     }

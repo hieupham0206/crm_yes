@@ -102,6 +102,8 @@ class CallbackTable extends DataTable
             $this->totalFilteredRecords = $callbacks->count();
         }
 
+        \Cache::put('callback_filter', $this->filters, now()->addMinutes(10));
+
         return $callbacks->limit($this->length)->offset($this->start)
                          ->orderBy($this->column, $this->direction)->get();
     }

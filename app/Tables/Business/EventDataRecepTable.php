@@ -115,6 +115,8 @@ class EventDataRecepTable extends DataTable
             $this->totalFilteredRecords = $eventDatas->count();
         }
 
+        \Cache::put('event_data_recep_filter', $this->filters, now()->addMinutes(10));
+
         return $eventDatas->limit($this->length)->offset($this->start)
                           ->orderBy($this->column, $this->direction)->get();
     }

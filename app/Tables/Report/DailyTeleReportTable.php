@@ -12,7 +12,6 @@ use App\Models\Appointment;
 use App\Models\EventData;
 use App\Models\User;
 use App\Tables\DataTable;
-use Carbon\Carbon;
 
 class DailyTeleReportTable extends DataTable
 {
@@ -47,20 +46,23 @@ class DailyTeleReportTable extends DataTable
         $users        = $this->getModels();
         $dataArray    = [];
 
-        $fromDate = $this->filters['from_date'];
-        $toDate   = $this->filters['to_date'];
+//        $fromDate = $this->filters['from_date'];
+//        $toDate   = $this->filters['to_date'];
+//
+//        if ($fromDate) {
+//            $fromDate = date('d', strtotime($this->filters['from_date']));
+//        } else {
+//            $fromDate = 1;
+//        }
+//
+//        if ($toDate) {
+//            $toDate = date('d', strtotime($this->filters['to_date']));
+//        } else {
+//            $toDate = (new Carbon('last day of last month'))->endOfMonth()->day;
+//        }
 
-        if ($fromDate) {
-            $fromDate = date('d', strtotime($this->filters['from_date']));
-        } else {
-            $fromDate = 1;
-        }
-
-        if ($toDate) {
-            $toDate = date('d', strtotime($this->filters['to_date']));
-        } else {
-            $toDate = (new Carbon('last day of last month'))->endOfMonth()->day;
-        }
+        $twoAndHalfHour = strtotime('14:30:00');
+        $fourHour       = strtotime('16:00:00');
 
         /** @var User[] $users */
         foreach ($users as $user) {
@@ -88,12 +90,16 @@ class DailyTeleReportTable extends DataTable
             $totalReAppointment = $appointments->sum(function (Appointment $app) {
                 return $app->busyEvents->count();
             });
-            $total3pmEvent      = $appointments->filter(function (Appointment $app) use ($fromDate, $toDate) {
-                $time    = Carbon::now();
-                $morning = Carbon::create($time->year, 1, $fromDate, 14, 30, 0);
-                $evening = Carbon::create($time->year, $time->month, $toDate, 16, 0, 0);
+            $total3pmEvent      = $appointments->filter(function (Appointment $app) use ($twoAndHalfHour, $fourHour) {
+//                $time    = Carbon::now();
+//                $morning = Carbon::create($time->year, 1, $fromDate, 14, 30, 0);
+//                $evening = Carbon::create($time->year, $time->month, $toDate, 16, 0, 0);
+//
+//                return $app->appointment_datetime->between($morning, $evening);
 
-                return $app->appointment_datetime->between($morning, $evening);
+                $time = strtotime($app->appointment_datetime->format('H:i:s'));
+
+                return $time >= $twoAndHalfHour && $time <= $fourHour;
             })->count();
             $totalDeal          = $appointments->sum(function (Appointment $app) use ($user) {
                 return $app->dealEvents->filter(function (EventData $event) use ($user) {
@@ -152,6 +158,8 @@ class DailyTeleReportTable extends DataTable
                      ])->withCount(['appointments'])->role(['Tele Marketer', 'Tele Leader', 'REP', 'TO']);
 
         $this->totalFilteredRecords = $this->totalRecords = $users->count();
+
+        \Cache::put('daily_tele_filter', $this->filters, now()->addMinutes(10));
 
         if ($this->isFilterNotEmpty) {
             $users->filters($this->filters);

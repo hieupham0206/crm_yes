@@ -24,7 +24,9 @@ class EventDataCsExport implements FromView
 
     public function __construct($filters)
     {
-        $this->filters = $filters;
+//        $this->filters = $filters;
+
+        $this->filters = \Cache::get('event_data_cs_filter', []);
     }
 
     /**
@@ -32,16 +34,21 @@ class EventDataCsExport implements FromView
      */
     public function view(): View
     {
-        $userId = auth()->id();
+//        $userId = auth()->id();
 
-        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])->doesntHave('contracts')->where('state', EventDataState::DEAL)->where(function ($q) use ($userId) {
-            $q->whereNull('cs_id')->orWhere('cs_id', $userId);
-        });
+        $eventDatas = EventData::query()->with(['lead', 'to', 'rep'])->doesntHave('contracts')->where('state', EventDataState::DEAL);
+//                               ->where(function ($q) use ($userId) {
+//                                   $q->whereNull('cs_id')->orWhere('cs_id', $userId);
+//                               });
 
-        if (! empty($this->filters['phone'])) {
-            $eventDatas->whereHas('lead', function ($q) {
-                $q->andFilterWhere(['phone', 'like', $this->filters['phone']]);
-            });
+        if ($this->filters) {
+            $eventDatas->filters($this->filters);
+
+            if ( ! empty($this->filters['phone'])) {
+                $eventDatas->whereHas('lead', function ($q) {
+                    $q->andFilterWhere(['phone', 'like', $this->filters['phone']]);
+                });
+            }
         }
 
         return view('cs.event_datas._template_export', [
