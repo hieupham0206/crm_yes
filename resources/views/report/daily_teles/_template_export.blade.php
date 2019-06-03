@@ -23,6 +23,8 @@
     <tr>
         <th>{{ $user->label('name') }}</th>
         <th>{{ $user->label('role') }}</th>
+        <th>Tổng số cuộc gọi</th>
+        <th>Tổng thời gian gọi</th>
         <th>{{ $user->label('queue') }}</th>
         <th>{{ $user->label('not_queue') }}</th>
         <th>{{ $user->label('no_rep') }}</th>
@@ -39,7 +41,7 @@
     <tbody>
     @foreach($users as $user)
         @php
-            $appointments       = $user->appointments;
+                $appointments       = $user->appointments;
                 $totalAppointments  = $user->appointments_count;
                 $totalQueue         = $appointments->filter(function (App\Models\Appointment $app) {
                     return $app->is_queue == 1;
@@ -81,12 +83,27 @@
                 $totalApp += $totalAppointments;
                 $totalShow += $totalQueue + $totalNotQueue + $totalNoRep + $totalOverflow + $totalCancel + $totalReAppointment + $total3pmEvent;
                 $totalFinalDeal += $totalDeal;
+
+                $historyCall = $historyCalls->filter(function ($arr) use ($user) {
+                    return $arr->user_id === $user->id;
+                })->first();
+                $totalSecond  = $historyCall ? $historyCall->total_call : 0;
+                $formatedTime = 0;
+                if ($totalSecond > 0) {
+                    $hours   = floor($totalSecond / 3600);
+                    $minutes = floor(($totalSecond / 60) % 60);
+                    $seconds = $totalSecond % 60;
+
+                    $formatedTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+                }
         @endphp
 
         <tr>
             <td>{{ $user->name }}</td>
             <td>{{ optional($user->roles[0])->name }}</td>
             <td>{{ $totalQueue }}</td>
+            <th>{{ $user->history_calls_count }}</th>
+            <th>{{ $formatedTime }}</th>
             <td>{{ $totalNotQueue }}</td>
             <td>{{ $totalNoRep }}</td>
             <td>{{ $totalOverflow }}</td>

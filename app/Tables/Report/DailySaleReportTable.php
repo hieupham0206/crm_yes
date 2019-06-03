@@ -80,14 +80,13 @@ class DailySaleReportTable extends DataTable
             });
 //
             $totalAppointmentTele = $appointments->filter(function (Appointment $app) {
-                return $app->user->hasRole(['Tele Marketer', 'Tele Leader']);
+                return $app->user->hasRole(['Tele Marketer', 'Tele Leader']) && ! $app->user_id !== 193;
             })->count();
 
             $totalOnPoint            = $eventDataWithRep->filter(function (EventData $event) {
                 $appointment = $event->appointment;
 
-                return $appointment->user
-                       && $appointment->user->hasRole(['AGENT']);
+                return $appointment->user && $appointment->user_id === 193;
             })->count();
             $totalPrivateAppointment = $appointments->filter(function (Appointment $app) use ($user) {
                 return $app->user_id === $user->id;

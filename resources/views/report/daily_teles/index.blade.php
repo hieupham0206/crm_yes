@@ -29,6 +29,9 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Daily tele report'];
 {{--                        <th width="5%"><label class="m-checkbox m-checkbox--all m-checkbox--solid m-checkbox--brand"><input type="checkbox"><span></span></label></th>--}}
                         <th>{{ $user->label('name') }}</th>
                         <th>{{ $user->label('role') }}</th>
+                        <th>Tổng số cuộc gọi</th>
+                        <th>Tổng thời gian gọi</th>
+
                         <th>{{ $user->label('queue') }}</th>
                         <th>{{ $user->label('not_queue') }}</th>
                         <th>{{ $user->label('no_rep') }}</th>

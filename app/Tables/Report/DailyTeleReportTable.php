@@ -64,9 +64,12 @@ class DailyTeleReportTable extends DataTable
         $twoAndHalfHour = strtotime('14:30:00');
         $fourHour       = strtotime('16:00:00');
 
+        $historyCalls = \DB::table('history_calls')
+                           ->select(\DB::raw('SUM(time_of_call) as total_call, user_id'))
+                           ->groupBy(\DB::raw('user_id'))
+                           ->get();
         /** @var User[] $users */
         foreach ($users as $user) {
-
             $appointments      = $user->appointments;
             $totalAppointments = $user->appointments_count;
             $totalQueue        = $appointments->filter(function (Appointment $app) {
@@ -107,19 +110,33 @@ class DailyTeleReportTable extends DataTable
                 })->count();
             });
 //            $rate               = $totalQueue > 0 ? $totalDeal / $totalQueue * 0.1 : 0;
-            $rateDeal    = $totalAppointments > 0 ? $totalQueue / $totalAppointments * 0.1 : 0;
-            $rateApp     = $totalAppointments > 0 ? $totalShow / $totalAppointments * 0.1 : 0;
+            $rateDeal = $totalAppointments > 0 ? $totalQueue / $totalAppointments * 0.1 : 0;
+            $rateApp  = $totalAppointments > 0 ? $totalShow / $totalAppointments * 0.1 : 0;
+
+            $historyCall = $historyCalls->filter(function ($arr) use ($user) {
+                return $arr->user_id === $user->id;
+            })->first();
+
+            $totalSecond  = $historyCall ? $historyCall->total_call : 0;
+            $formatedTime = 0;
+            if ($totalSecond > 0) {
+                $hours   = floor($totalSecond / 3600);
+                $minutes = floor(($totalSecond / 60) % 60);
+                $seconds = $totalSecond % 60;
+
+                $formatedTime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+            }
+
             $dataArray[] = [
-//                '<label class="m-checkbox m-checkbox--single m-checkbox--solid m-checkbox--brand"><input type="checkbox" value="' . $user->id . '"><span></span></label>',
                 $user->name,
                 optional($user->roles[0])->name,
-//                optional($user->first_day_work)->format('d-m-Y'),
+                $user->history_calls_count,
+                $formatedTime,
                 $totalQueue,//queue
                 $totalNotQueue,//not queue
                 $totalNoRep,//queue nhung k co ten rep
                 $totalOverflow,//overflow+
                 $total3pmEvent,//3pm app
-//                $totalCancel,//cancel (cxl)
                 $totalReAppointment,//re-app
                 $totalAppointments,//total-app
                 number_format($rateApp, 2),
@@ -155,7 +172,8 @@ class DailyTeleReportTable extends DataTable
                              $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
                          },
                          'roles',
-                     ])->withCount(['appointments'])->role(['Tele Marketer', 'Tele Leader', 'REP', 'TO']);
+
+                     ])->withCount(['appointments', 'history_calls'])->role(['Tele Marketer', 'Tele Leader', 'REP', 'TO']);
 
         $this->totalFilteredRecords = $this->totalRecords = $users->count();
 
