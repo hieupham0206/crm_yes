@@ -56,106 +56,86 @@ class DailySaleReportTable extends DataTable
     {
         $users = User::where('username', '<>', 'admin')->whereKeyNot(auth()->id())
                      ->with([
-                         'appointments'                => function ($q) {
-                             $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
-                         },
-                         'appointments.dealEvents'     => function ($q) {
-                             $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
-                         },
-                         'appointments.busyEvents'     => function ($q) {
-                             $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
-                         },
-                         'appointments.overflowEvents' => function ($q) {
-                             $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
-                         },
-                         'appointments.noRepEvents'    => function ($q) {
+                         'appointments.user.roles' => function ($q) {
                              $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
                          },
                          'roles',
-                     ])->withCount(['appointments', 'ambassadors'])->role(['REP'])->filters($this->filters)->get();
+                     ])->role(['REP'])->filters($this->filters)->get();
+        $datas = [];
 
-        $datas       = [];
-        $currentUser = auth()->user();
+        $eventDatas = EventData::query()->with(['appointment.user.roles', 'contracts.payment_details']);
 
+        if ($this->isFilterNotEmpty) {
+            $eventDatas->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
+        }
+        $eventDatas = $eventDatas->get();
         foreach ($users as $user) {
-            $appointments = $user->appointments();
-            $eventDatas   = EventData::query();
-
-            if ($this->isFilterNotEmpty) {
-                $appointments->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
-                $eventDatas->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
-            }
-            $appointments = $appointments->get();
-            $eventDatas   = $eventDatas->get();
+            $appointments = $user->appointments;
 
 //            $totalAppointment = $user->appointments_count;
 //            $totalEventData   = $eventDatas->count();
 
-            $eventDataWithRep = $eventDatas->filter(function (EventData $event) use ($currentUser) {
-                return $event->rep_id === $currentUser->id;
+            $eventDataWithRep = $eventDatas->filter(function (EventData $event) use ($user) {
+                return $event->rep_id === $user->id;
             });
-
-            $totalAppointmentTele    = $appointments->filter(function (Appointment $app) {
+//
+            $totalAppointmentTele = $appointments->filter(function (Appointment $app) {
                 return $app->user->hasRole(['Tele Marketer', 'Tele Leader']);
             })->count();
-            $totalOnPoint            = $eventDataWithRep->filter(function (EventData $event) use ($currentUser) {
-                return $event->appointment->user->hasRole(['AGENT']);
-            })->count();
-            $totalPrivateAppointment = $appointments->filter(function (Appointment $app) use ($currentUser) {
-                return $app->user_id === $currentUser->id;
-            })->count();
 
-            $ambassador = $eventDataWithRep->filter(function (EventData $event) use ($currentUser) {
-                return $event->appointment->ambassador === $currentUser->id;
+            $totalOnPoint            = $eventDataWithRep->filter(function (EventData $event) {
+                $appointment = $event->appointment;
+
+                return $appointment->user
+                       && $appointment->user->hasRole(['AGENT']);
+            })->count();
+            $totalPrivateAppointment = $appointments->filter(function (Appointment $app) use ($user) {
+                return $app->user_id === $user->id;
+            })->count();
+//
+            $ambassador = $eventDataWithRep->filter(function (EventData $event) use ($user) {
+                return $event->appointment->ambassador === $user->id;
             })->count();
 
             $total = $totalAppointmentTele + $totalOnPoint + $totalPrivateAppointment;
-
-            $totalAppointmentNQ    = $appointments->filter(function (Appointment $app) use ($currentUser) {
-                return $app->is_queue == 0 &&
-                       ($app->user_id === $currentUser->id
-//                        ||
-//                        $app->event_datas()->get()->filter(function ($event) use ($currentUser) {
-//                            return $event->rep_id === $currentUser->id;
-//                        })->isNotEmpty()
-                    );
+//
+            $totalAppointmentNQ    = $appointments->filter(function (Appointment $app) use ($user) {
+                return $app->is_queue == 0 && ($app->user_id === $user->id);
             })->count();
-            $totalAppointmentQueue = $appointments->filter(function (Appointment $app) use ($currentUser) {
-                return $app->is_queue == 1 &&
-                       ($app->user_id === $currentUser->id
-//                        ||
-//                        $app->event_datas()->get()->filter(function ($event) use ($currentUser) {
-//                            return $event->rep_id === $currentUser->id;
-//                        })->isNotEmpty()
-                    );
+            $totalAppointmentQueue = $appointments->filter(function (Appointment $app) use ($user) {
+                return $app->is_queue == 1 && ($app->user_id === $user->id);
             })->count();
-            $totalAppointmentTo    = $eventDataWithRep->filter(function (EventData $event) use ($currentUser) {
+            $totalAppointmentTo    = $eventDataWithRep->filter(function (EventData $event) {
                 return $event->to_id;
             })->count();
-            $totalEventDataDeal    = $eventDatas->filter(function (EventData $event) use ($currentUser) {
-                return $event->state == EventDataState::DEAL && $event->rep_id == $currentUser->id;
+            $totalEventDataDeal    = $eventDatas->filter(function (EventData $event) use ($user) {
+                return $event->state == EventDataState::DEAL && $event->rep_id == $user->id;
             })->count();
-
+//
             $moneyIn = $eventDataWithRep->sum(function (EventData $event) {
-                return $event->contracts->sum(function(Contract $contract) {
-                    return $contract->payment_details[0]->total_paid_real;
+                return $event->contracts->sum(function (Contract $contract) {
+                    $paymentDetails = $contract->payment_details;
+
+                    return isset($paymentDetails[0]) ? $paymentDetails[0]->total_paid_real : 0;
                 });
             });
 
             $datas[] = [
                 $user->name,
-                $totalAppointmentTele,
-                $totalOnPoint,
-                $totalPrivateAppointment,
-                $ambassador,
-                $total,
-                $totalAppointmentNQ,
-                $totalAppointmentQueue,
-                $totalAppointmentTo,
-                $totalEventDataDeal,
-                $moneyIn,
+                $totalAppointmentTele ?? 0,
+                $totalOnPoint ?? 0,
+                $totalPrivateAppointment ?? 0,
+                $ambassador ?? 0,
+                $total ?? 0,
+                $totalAppointmentNQ ?? 0,
+                $totalAppointmentQueue ?? 0,
+                $totalAppointmentTo ?? 0,
+                $totalEventDataDeal ?? 0,
+                $moneyIn ? number_format($moneyIn) : 0,
             ];
         }
+
+        $this->totalRecords = $this->totalFilteredRecords = count($datas);
 
         return $datas;
     }
