@@ -56,6 +56,11 @@
         "parent": "",
         "route": "daily_sales.index"
       },
+      "sale_kpis": {
+        "icon": "fa fa-chart-bar",
+        "parent": "",
+        "route": "sale_kpis.index"
+      },
       "commission_users": {
         "icon": "fa fa-chart-bar",
         "parent": "",

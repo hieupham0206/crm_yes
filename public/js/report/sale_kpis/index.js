@@ -60,51 +60,51 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 111);
+/******/ 	return __webpack_require__(__webpack_require__.s = 109);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 111:
+/***/ 109:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(112);
+module.exports = __webpack_require__(110);
 
 
 /***/ }),
 
-/***/ 112:
+/***/ 110:
 /***/ (function(module, exports) {
 
 $(function () {
-	var tableCommissionUser = $('#table_commission_user_report').DataTable({
+	var tableSaleKpi = $('#table_sale_kpi_report').DataTable({
 		'serverSide': true,
 		'paging': true,
 		'ajax': $.fn.dataTable.pipeline({
-			url: route('commission_users.table'),
+			url: route('sale_kpis.table'),
 			data: function data(q) {
-				q.filters = JSON.stringify($('#commission_user_report_search_form').serializeArray());
+				q.filters = JSON.stringify($('#sale_kpi_report_search_form').serializeArray());
 			}
 		}),
 		conditionalPaging: true,
 		info: true,
 		lengthChange: true
 	});
-	$('#commission_user_report_search_form').on('submit', function () {
-		tableCommissionUser.reload();
+	$('#sale_kpi_report_search_form').on('submit', function () {
+		tableSaleKpi.reload();
 		return false;
 	});
 	$('#btn_reset_filter').on('click', function () {
-		$('#commission_user_report_search_form').resetForm();
-		tableCommissionUser.reload();
+		$('#sale_kpi_report_search_form').resetForm();
+		tableSaleKpi.reload();
 	});
 
 	//Export tools
 	$('#btn_export_excel').on('click', function () {
-		tableCommissionUser.exportExcel();
+		tableSaleKpi.exportExcel();
 	});
 	$('#btn_export_pdf').on('click', function () {
-		tableCommissionUser.exportPdf();
+		tableSaleKpi.exportPdf();
 	});
 });
 

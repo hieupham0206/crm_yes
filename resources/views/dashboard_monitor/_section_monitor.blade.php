@@ -6,8 +6,9 @@
                     $callCache = $user->getCallCache()
                 @endphp
                 <h4 class="text-center">
-                    <a href="javascript:void(0)" class="m-link link-form-detail" data-url="{{ route('monitor_sale.form_detail', $user) }}">{!! $user->getShortName()!!} ({{ $user->private_stills->count() }})</a>
+                    <a href="javascript:void(0)" class="m-link link-form-detail" data-url="{{ route('monitor_sale.form_detail', $user) }}">{!! $user->getShortName()!!}</a>
                 </h4>
+                <h4 class="text-center">({{ $user->private_stills->count() }})</h4>
                 {{--<h5 class="m-widget24__title text-center">--}}
                     {{--<span class="span-login-time" data-time-in-second="{{ $user->login_time_in_second }}" data-is-online="{{ $user->isOnline() ? 'true' : 'false' }}">--}}
                         {{--{{ $user->isOnline() ? $user->login_time_string : '00:00:00' }}--}}

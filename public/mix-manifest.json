@@ -4,6 +4,7 @@
     "/css/login.css": "/css/login.css",
     "/js/app.js": "/js/app.js",
     "/js/tele_console.js": "/js/tele_console.js",
+    "/js/report/sale_kpis/index.js": "/js/report/sale_kpis/index.js",
     "/js/report/daily_teles/index.js": "/js/report/daily_teles/index.js",
     "/js/report/daily_sales/index.js": "/js/report/daily_sales/index.js",
     "/js/report/commission_users/index.js": "/js/report/commission_users/index.js",

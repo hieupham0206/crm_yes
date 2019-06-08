@@ -552,7 +552,7 @@ $(function () {
 		});
 	}
 
-	setInterval(autoCancelAppointment, 60000);
+	// setInterval(autoCancelAppointment, 60000)
 });
 
 /***/ }),

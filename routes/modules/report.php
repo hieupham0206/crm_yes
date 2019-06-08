@@ -6,3 +6,7 @@ Route::get('/daily-teles/export/excel', 'DailyTeleReportsController@exportExcel'
 
 Route::get('/daily-sales/', 'DailySaleReportsController@index')->name('daily_sales.index');
 Route::post('/daily-sales/lists/table', 'DailySaleReportsController@table')->name('daily_sales.table');
+
+Route::get('/sale-kpis/', 'SaleKpiReportsController@index')->name('sale_kpis.index');
+Route::post('/sale-kpis/lists/table', 'SaleKpiReportsController@table')->name('sale_kpis.table');
+Route::get('/sale-kpis/export/excel', 'SaleKpiReportsController@exportExcel')->name('sale_kpis.export_excel');

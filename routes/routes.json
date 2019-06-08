@@ -23,6 +23,7 @@
   "report": [
     "daily_teles",
     "daily_sales",
+    "sale_kpis",
     "commission_users",
     "commission_details"
   ],

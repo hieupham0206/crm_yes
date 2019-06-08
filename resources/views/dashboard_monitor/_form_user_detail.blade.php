@@ -19,12 +19,12 @@
                             <a href="javascript:void(0)" class="m-link">{!! $user->name ?: $user->username  !!}</a>
                         </h3>
                         <h4 class="m-widget24__title">
-                            Trực: <span class="span-login-time-modal" data-time-in-second="{{ $user->login_time_in_second }}" data-is-online="{{ $user->isOnline() ? 'true' : 'false' }}">
+                            Log time: <span class="span-login-time-modal" data-time-in-second="{{ $user->login_time_in_second }}" data-is-online="{{ $user->isOnline() ? 'true' : 'false' }}">
                                 {{ $user->isOnline() ? $user->login_time_string : '00:00:00' }}
                             </span>
                         </h4>
                         <h4 class="m-widget24__title float-right">
-                            Số lượng: {{ $callCache['totalCall'] }}
+                            Total call: {{ $callCache['totalCall'] }}
                         </h4>
                         <br>
                         <span class="m-widget24__stats m--font-danger float-none" style="margin-left: 1.8rem">
@@ -37,7 +37,7 @@
                             Private: {{ $user->privates->count() }}
                         </h4>
                         <h4 class="m-widget24__title float-right">
-                            Still: {{ $user->private_stills->count() }}
+                            Datas: {{ $user->private_stills->count() }}
                         </h4>
                         <div class="m--space-10"></div>
                         <br>

@@ -324,8 +324,9 @@ class User extends Authenticatable
 
     public function privates()
     {
-        return $this->hasMany(Lead::class)
-                    ->where('is_private', 1);
+//        return $this->hasMany(Lead::class)->where('is_private', 1);
+
+        return $this->hasMany(EventData::class, 'id', 'rep_id');
     }
 
     public function private_stills()
