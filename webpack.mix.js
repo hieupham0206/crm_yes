@@ -75,13 +75,13 @@ for (let namespace of Object.keys(routesObj)) {
 	}
 }
 
-// mix.browserSync({
-// 	proxy: 'http://127.0.0.1:8002',
-// 	host: '192.168.68.26',
-// 	open: 'external',
-// 	browser: [],
-// 	reloadDelay: 2000,
-// 	injectChanges: false, // Don't try to inject, just do a page refresh
-// 	ghostMode: true,
-// 	notify: false,
-// })
+mix.browserSync({
+	proxy: 'http://127.0.0.1:8002',
+	host: '192.168.1.2',
+	open: 'external',
+	browser: [],
+	reloadDelay: 2000,
+	injectChanges: false, // Don't try to inject, just do a page refresh
+	ghostMode: true,
+	notify: false,
+})
