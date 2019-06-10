@@ -34,8 +34,9 @@ class SaleKpiExport implements FromView
     {
         $fromDate = $this->filters['from_date'];
         $toDate   = $this->filters['to_date'];
+        $userId   = $this->filters['user_id'];
 
-        $whereDateCondition = $whereDateCondition1 = '';
+        $whereUserCondition = $whereDateCondition = $whereDateCondition1 = '';
         if ($fromDate && $toDate) {
             $fromDate            = date('Y-m-d', strtotime($fromDate)) . ' 00:00:00';
             $toDate              = date('Y-m-d', strtotime($toDate)) . ' 23:59:59';
@@ -43,8 +44,12 @@ class SaleKpiExport implements FromView
             $whereDateCondition1 = "where e.created_at between '$fromDate' and '$toDate'";
         }
 
+        if ($userId) {
+            $whereUserCondition = " and u.id = $userId";
+        }
+
         $sql = "select 
-       u.username,
+       u.name,
        u.id as user_id,
        date(hc.created_at)                      as created_at,
        r.name                                   as role_name,
@@ -60,7 +65,7 @@ from history_calls as hc
          left join model_has_roles as mhr on mhr.model_id = u.id
          left join roles as r on r.id = mhr.role_id
 where u.deleted_at is null
-  $whereDateCondition
+  $whereDateCondition $whereUserCondition
 group by user_id, DATE(hc.created_at)";
 
         $results = \DB::select(\DB::raw($sql));
@@ -68,7 +73,7 @@ group by user_id, DATE(hc.created_at)";
         $sql1     = "select u.id, date(e.created_at) as created_at, count(e.id) as total_show
 from users as u
          left join event_datas as e on e.rep_id = u.id
-$whereDateCondition1
+$whereDateCondition1 $whereUserCondition
 group by u.id;";
         $result1s = \DB::select(\DB::raw($sql1));
 
@@ -76,7 +81,7 @@ group by u.id;";
 from users as u
          left join appointments as a on a.user_id = u.id
          left join event_datas as e on e.rep_id = u.id and e.appointment_id = a.id
-$whereDateCondition1
+$whereDateCondition1 $whereUserCondition
 group by u.id;";
         $result2s = \DB::select(\DB::raw($sql2));
 
@@ -111,7 +116,7 @@ group by u.id;";
             }
 
             $dataArray[] = [
-                $result->username,
+                $result->name,
                 $result->role_name,
                 date('d-m-Y', strtotime($createdAt)),
                 date('H:i:s', strtotime($result->login_time)),

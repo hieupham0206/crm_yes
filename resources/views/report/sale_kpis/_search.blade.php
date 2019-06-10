@@ -1,8 +1,12 @@
 <form id="sale_kpi_report_search_form">
     <div class="form-group m-form__group row">
         <div class="col-12 col-md-3 m-form__group-sub">
-            <label for="txt_name">{{ $user->label('name') }}</label>
-            <input class="form-control" name="name" id="txt_name">
+            <div class="form-group">
+                <label for="select_user_id">{{ $user->label('user') }}</label>
+                <select name="user_id" id="select_user_id" data-url="{{ route('users.list') }}" class="select2-ajax" data-column="name">
+                    <option></option>
+                </select>
+            </div>
         </div>
         <div class="col-12 col-md-3 m-form__group-sub">
             <div class="form-group">

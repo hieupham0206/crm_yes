@@ -6,7 +6,7 @@ $breadcrumbs = ['breadcrumb' => 'users.index', 'label' => 'Sale KPI report'];
     <script src="{{ asset('js/report/sale_kpis/index.js') }}"></script>
 @endpush
 
-@section('title', 'Daily sale report')
+@section('title', 'Daily sale kpi report')
 
 @section('content')
     <div class="m-content">

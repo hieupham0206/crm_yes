@@ -11,6 +11,7 @@ $(function() {
 		conditionalPaging: true,
 		info: true,
 		lengthChange: true,
+		iDisplayLength: 50
 	})
 	$('#sale_kpi_report_search_form').on('submit', function() {
 		tableSaleKpi.reload()
