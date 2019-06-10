@@ -31,7 +31,7 @@
                         {!! $user->current_state !!}
                         </span>
                         <h4 class="m-widget24__title float-right">
-                            Appointment: {{ $user->appointments_count }}
+                            Apps: {{ $user->appointments_count }}
                         </h4>
                         <h4 class="m-widget24__title float-right">
                             Private: {{ $user->privates->count() }}
