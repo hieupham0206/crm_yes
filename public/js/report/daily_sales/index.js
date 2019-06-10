@@ -88,7 +88,8 @@ $(function () {
 		}),
 		conditionalPaging: true,
 		info: true,
-		lengthChange: true
+		lengthChange: true,
+		iDisplayLength: 50
 	});
 	$('#daily_sale_report_search_form').on('submit', function () {
 		tableDailySale.reload();
