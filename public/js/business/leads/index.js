@@ -148,7 +148,7 @@ $(function () {
 
 		$('#select_user_id').select2Ajax({
 			data: function data(q) {
-				q.roleId = [5, 6];
+				q.roleId = [5, 6, 9];
 			}
 		});
 		$('#select_state_modal').select2();
