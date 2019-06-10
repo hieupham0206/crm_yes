@@ -9,4 +9,4 @@ Route::post('/daily-sales/lists/table', 'DailySaleReportsController@table')->nam
 
 Route::get('/sale-kpis/', 'SaleKpiReportsController@index')->name('sale_kpis.index');
 Route::post('/sale-kpis/lists/table', 'SaleKpiReportsController@table')->name('sale_kpis.table');
-Route::get('/sale-kpis/export/excel', 'SaleKpiReportsController@exportExcel')->name('sale_kpis.export_excel');
+Route::get('/sale-kpis/export/data/excel/', 'SaleKpiReportsController@exportExcel')->name('sale_kpis.export_excel');
