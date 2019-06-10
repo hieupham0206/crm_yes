@@ -298,7 +298,7 @@ class UsersController extends Controller
         $restrict   = request()->get('restrict');
         $excludeIds = request()->get('excludeIds', []);
         $offset     = ($page - 1) * 10;
-        $users      = User::query()->select(['id', 'username', 'name']);
+        $users      = User::query()->whereKeyNot(1)->select(['id', 'username', 'name']);
 
         $users->orFilterWhere([
 //            ['id', '!=', $excludeIds],
