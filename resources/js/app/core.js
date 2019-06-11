@@ -260,7 +260,7 @@ let cloudTeamCore = (function($, lang) {
 				],
 				'dom': 'rt<"bottom"flip>',
 				'order': [],
-				'iDisplayLength': 10,
+				'iDisplayLength': 50,
 				'autoWidth': true,
 				'processing': false,
 				'paging': false,
