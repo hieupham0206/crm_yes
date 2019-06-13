@@ -109,6 +109,16 @@
           "view"
         ]
       },
+      "daily-sale-report": {
+        "actions": [
+          "view"
+        ]
+      },
+      "sale-kpi-report": {
+        "actions": [
+          "view"
+        ]
+      },
       "commissionUser": {
         "actions": [
           "view"

@@ -21,7 +21,7 @@ class SaleKpiReportsController extends Controller
      * Tên dùng để phần quyền
      * @var string
      */
-    protected $name = 'daily-sale-report';
+    protected $name = 'sale-kpi-report';
 
     public function index()
     {
