@@ -185,7 +185,7 @@ class DailyTeleReportTable extends DataTable
                 'appointments'  => function ($q) {
                     $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
                 },
-            ])->role(['Tele Marketer', 'Tele Leader', 'REP', 'TO']);
+            ])->role(['Tele Marketer', 'Tele Leader', 'REP', 'TO', 'CEO MANAGER DIRECTOR']);
 
         $this->totalFilteredRecords = $this->totalRecords = $users->count();
 

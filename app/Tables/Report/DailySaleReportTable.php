@@ -66,7 +66,7 @@ class DailySaleReportTable extends DataTable
                              $q->dateBetween([$this->filters['from_date'], $this->filters['to_date']]);
                          },
                          'roles',
-                     ])->role(['REP'])->filters($this->filters)->get();
+                     ])->role(['REP', 'CEO MANAGER DIRECTOR'])->filters($this->filters)->get();
         $datas = [];
 
         $eventDatas = EventData::query()->with(['appointment.user.roles', 'contracts.payment_details']);

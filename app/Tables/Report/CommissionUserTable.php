@@ -37,7 +37,7 @@ class CommissionUserTable extends DataTable
         $this->column = $this->getColumn();
         $users        = $this->getModels();
         $dataArray    = [];
-        $contracts    = Contract::with(['member'])->dateBetween([$this->filters['from_date'], $this->filters['to_date']])->get();
+        $contracts    = Contract::with(['member', 'event_data.appointment'])->dateBetween([$this->filters['from_date'], $this->filters['to_date']])->get();
 //        $modelName    = (new Contract)->classLabel(true);
 //
 //        $canUpdateContract = can('update-contract');
@@ -53,7 +53,11 @@ class CommissionUserTable extends DataTable
                 $eventData = $contract->event_data;
                 $user1     = $eventData->appointment->user;
 
-                return $user1->roles[0] === 'TELE MARKETER' && $eventData->rep_id === $user->id;
+                if ($user1) {
+                    return $user1->roles[0] === 'TELE MARKETER' && $eventData->rep_id === $user->id;
+                }
+
+                return true;
             })->count();
             $totalContractOfTele       = $contracts->filter(function ($contract) use ($user) {
                 return $contract->event_data->appointment->user_id === $user->id;
