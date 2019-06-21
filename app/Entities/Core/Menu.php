@@ -91,6 +91,12 @@ class Menu
             if ($menuModule === 'daily_teles') {
                 $module = 'daily-tele-report';
             }
+            if ($menuModule === 'daily_sales') {
+                $module = 'daily-sale-report';
+            }
+            if ($menuModule === 'sale_kpis') {
+                $module = 'sale-kpi-report';
+            }
             if ($menuModule === 'tele_marketer_console') {
                 $module = 'tele-marketer-console';
             }
