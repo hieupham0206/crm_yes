@@ -74,7 +74,7 @@ class SaleKpiReportTable extends DataTable
        sum(time_of_call)                        as total_duration,
        sum(IF(hc.state not in (2, 5, 3), 1, 0)) as total_connection,
        sum(IF(hc.state in (2, 5, 3), 1, 0))     as total_no_answer,
-       sum(IF(hc.state in (2, 5, 3), 1, 0))     as total_appointment,
+       sum(IF(hc.state in (8), 1, 0))     as total_appointment,
        max(hc.created_at)                       as logout_time,
        min(hc.created_at)                       as login_time
 from history_calls as hc
