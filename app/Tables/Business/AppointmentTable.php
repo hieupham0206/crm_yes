@@ -86,9 +86,7 @@ class AppointmentTable extends DataTable
      */
     public function getModels()
     {
-        $appointments = Appointment::query()->with(['user', 'lead'])->withCount(['history_calls'])
-//                                                                    ->where('state', Confirmation::YES)
-                                                                    ->authorize();
+        $appointments = Appointment::query()->with(['user', 'lead'])->authorize();
 
         $this->totalFilteredRecords = $this->totalRecords = $appointments->count();
 
